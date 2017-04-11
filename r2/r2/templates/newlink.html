@@ -1,0 +1,264 @@
+## The contents of this file are subject to the Common Public Attribution
+## License Version 1.0. (the "License"); you may not use this file except in
+## compliance with the License. You may obtain a copy of the License at
+## http://code.reddit.com/LICENSE. The License is based on the Mozilla Public
+## License Version 1.1, but Sections 14 and 15 have been added to cover use of
+## software over a computer network and provide for limited attribution for the
+## Original Developer. In addition, Exhibit A has been modified to be
+## consistent with Exhibit B.
+##
+## Software distributed under the License is distributed on an "AS IS" basis,
+## WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License for
+## the specific language governing rights and limitations under the License.
+##
+## The Original Code is reddit.
+##
+## The Original Developer is the Initial Developer.  The Initial Developer of
+## the Original Code is reddit Inc.
+##
+## All portions of the code written by reddit are Copyright (c) 2006-2015
+## reddit Inc. All Rights Reserved.
+###############################################################################
+
+<%!
+   from r2.lib.strings import strings
+   from r2.lib.pages import SubredditSelector, UserText
+   from r2.lib.template_helpers import add_sr, _wsf, format_html
+   from r2.lib.filters import safemarkdown
+%>
+
+<%namespace file="utils.html" import="error_field, submit_form, _a_buffered, text_with_links"/>
+<%namespace name="utils" file="utils.html"/>
+
+<%
+  if thing.default_sr:
+    sr = format_html("&#32;%s", unsafe(_a_buffered(thing.default_sr.name, href=thing.default_sr.path)))
+  else:
+    sr = "Blockpath"
+%>
+
+<h1>${_wsf("submit to %(sr)s", sr=sr)}</h1>
+
+%if (thing.show_link or thing.analysis) and thing.show_self:
+${thing.formtabs_menu}
+%endif
+<div class="form-content">
+	<div id="submit-analysis-header" style="display:none">
+		Select Bitcoin Data
+	</div>
+	<div id="submit-analysis-guide" style="display:none">
+		<div id="submit-analysis-search">
+			<br>
+			<br>
+			<h1>Start by searcing for an address or transaction: </h1>
+			<br>
+			<form action="/search/tx" role="search" class="searchBarForm fader">
+				<input type="text" onclick=""  id="searchInputField" name="q" placeholder="Search the Blockchain" tabindex="20" class="">
+				<button class="search-submit-button c-btn c-btn-primary txsearchbutton" type='submit' aria-label="${_("Search")}">
+					<span class="search-icon"> GO </span>
+				</button>
+			</form>
+			<br>	<br>
+			<span> Add additional addresses or transactions using the address selector field in the summary area on the search results page </span>
+			<br><br>
+			<span> Submit your post by clicking the "Create Post" tab on the search results page. </span>
+		</div>
+		<div id="submit-analysis-divider-vert">
+			<div id="lineVert"></div>
+			<div id="wordwrapperVert">
+				<div id="wordVert">OR</div>
+			</div>
+		</div>
+		<div id="submit-analysis-divider-horiz">
+			<div id="lineHoriz"></div>
+			<div id="wordwrapperHoriz">
+				<div id="wordHoriz">OR</div>
+			</div>
+		</div>
+		<div id="submit-analysis-upload">
+			<button class="btn btn-primary" type="button" onclick="uploadNotReady()">
+				<svg width="60" height="60" viewBox="0 0 24 24"><path d="M17 22v2H7v-2h10zm0-4H7v2h10v-2zM7 11v5h10v-5h6L12 0 1 11h6z"/></svg>
+				<div class="uploadAnalysisText"> Upload Transaction History </div>
+			</button>
+			<script>
+				function uploadNotReady(){
+					$("#submit-analysis-upload .uploadAnalysisText").html("Sorry, the transaction upload <br> feature is not ready :(");
+				}
+			</script>
+		</div>
+	</div>
+<%utils:submit_form onsubmit="return post_form(this, 'submit', linkstatus, null, true)"
+                    action=${add_sr("/submit")},
+                    _class="submit content warn-on-unload",
+                    _id="newlink">
+
+<div class="formtabs-content new-link-fromtabs" id='formtabs-content'>
+
+<div class="spacer">
+    %if thing.show_link:
+        <div id="link-desc" class="infobar">${strings.submit_link}</div>
+    %endif
+    %if thing.show_self:
+        <div id="text-desc" class="infobar">${strings.submit_text}</div>
+    %endif
+</div>
+
+<div class="spacer">
+  <%utils:round_field title="${_('title')}" id="title-field" long_description="This will be the title of your post">
+    <textarea name="title" rows="2" maxlength="200" required>${thing.title}</textarea>
+    ${error_field("NO_TEXT", "title", "div")}
+    ${error_field("TOO_LONG", "title", "div")}
+  </%utils:round_field>
+</div>
+
+%if thing.show_link:
+<div class="spacer">
+  <%utils:round_field title="${_('url')}" id="url-field">
+    <input name="kind" value="link" type="hidden"/>
+    <input id="url" name="url" type="url" value="${thing.url}" required>
+    ${error_field("NO_URL", "url", "div")}
+    ${error_field("BAD_URL", "url", "div")}
+    ${error_field("DOMAIN_BANNED", "url", "div")}
+    ${error_field("ALREADY_SUB", "url", "div")}
+    ${error_field("NO_LINKS", "sr")}
+    ${error_field("NO_SELFS", "sr")}
+
+    <div id="suggest-title">
+      <span class="title-status"></span>
+      <button type="button" tabindex="100" onclick="fetch_title()">${_("suggest title")}</button>
+    </div>
+  </%utils:round_field>
+</div>
+%endif
+
+%if thing.show_self:
+<div class="spacer">
+  <%utils:round_field title="${_('text')}", description="${_('(optional)')}" id="text-field" long_description="This is the text content of your post. If you are posting bitcoin data, describe the transactions you are posting">
+    <input name="kind" value="self" type="hidden"/>
+
+    ${UserText(None, text = thing.text, have_form = False, creating = True, textarea_class='md')}
+
+    ${error_field("NO_SELFS", "sr")}
+  </%utils:round_field>
+</div>
+%endif
+
+<div class="spacer">
+  <%utils:round_field title="Choose a Page" description="" id="reddit-field"  long_description="Choose the page that you want to submit your post to">
+  ${SubredditSelector(thing.default_sr, extra_subreddits=thing.extra_subreddits, required=True)}
+  </%utils:round_field>
+</div>
+
+<div class="spacer">
+    <div class="submit_text roundfield">
+        <h1>${_wsf('submitting to %(sr)s', sr=unsafe('/r/<span class="sr"></span>'))}</h1>
+        <span class="content md-container">
+            %if thing.default_sr and thing.default_sr.submit_text:
+                ${unsafe(safemarkdown(thing.default_sr.submit_text))}
+            %endif
+        </span>
+    </div>
+</div>
+
+<div class="spacer" id="radioButtons" style="display: none" >
+          <%utils:round_field title="${_('Select Analysis Data to Include')}">
+            <input checked="checked" value="filterData" type="radio" name="loadData" id="filterData" />
+            <label for="filterData">
+                ${_("Filtered Data")}
+            </label>  
+	  <input style="margin-left: 8vw;" type="radio" value="rawData" name="loadData" id="rawData"/>
+            <label for="rawData">
+                ${_("Raw Data")}
+            </label>
+          </%utils:round_field>
+</div>
+
+<div class="general-summary link-summary" style="display: none" id="summaryData">
+    <div class="span12 box  box-main shadow1 summary-bg" style="width: 91%; text-align: center;">
+        <table class="address-table" style="width: 82%; display:table; margin: 6px auto;">
+            <tbody>
+            <tr>
+                <th colspan="2">Addresses</th>
+            </tr>
+            <tr>
+                <td class="colInfo" style="width:180px;">No. of Addresses:</td>
+                <td class="colData opacityFadeIn" id="numAddressesTotalCreate"></td>
+             </tr>
+            <tr>
+                <td class="colInfo">No. of Input Addresses:</td>
+                <td class="colData opacityFadeIn" id="numAddressesInputCreate"></td>
+             </tr>
+            <tr>
+                <td class="colInfo">No. of Output Addresses:</td>
+                <td class="colData opacityFadeIn" id="numAddressesOutputCreate"></td>
+            </tr>
+            </tbody>
+        </table>
+
+        <table class="address-table" style="width: 82%; display:table; margin: 6px auto;">
+            <tbody>
+            <tr>
+                <th colspan="2">Transactions</th>
+            </tr>
+            <tr>
+            <td class="colInfo" style="width:180px;" >No. Transactions:</td>
+            <td class="colData opacityFadeIn" id="numTransactionsCreate"></td>
+            </tr>
+            <tr>
+            <td class="colInfo">Total Sent:</td>
+            <td class="colData opacityFadeIn" style="font-size:15px;" id="totalSentCreate"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<div class="spacer">
+  <%utils:round_field title="${_('options')}">
+    <input class="nomargin" type="checkbox" checked="checked" name="sendreplies" id="sendreplies" data-send-checked="true"/>
+    <label for="sendreplies">
+      ${_("send replies to my inbox")}
+    </label>
+  </%utils:round_field>
+</div>
+
+${thing.captcha}
+    
+
+
+<div class="roundfield info-notice" title="${_('why a brick? read to the bottom of the rules page to find out!')}">
+  ${text_with_links("please be mindful of Blockpath's %(few_rules)s",
+      few_rules=dict(
+        link_text=_("few rules"),
+        path="/rules",
+        target="_blank")
+  )}
+</div>
+
+<input name="resubmit" value="${thing.resubmit}" type="hidden"/>
+<div class="roundfield linkSubmitDiv">
+<div class="spacer">
+  <button id="btnSubmit" class="btn btn-info linkSubmitBtn advance-search-btn" name="submit" value="form" type="submit">${_("submit")} &nbsp;<i class="fa fa-angle-double-right fa-lg"></i></button>
+  <span class="status"></span>
+  ${error_field("RATELIMIT", "ratelimit")}
+  ${error_field("INVALID_OPTION", "sr")}
+  ${error_field("IN_TIMEOUT", "sr")}
+</div>
+</div>
+
+</div>
+</%utils:submit_form>
+
+%if thing.show_self and (thing.show_link or thing.analysis):
+<script type="text/javascript">
+  $(function() {
+  var form = $("#submitULTypeSlider");
+  if(form.length) {
+    var default_menu = form.find(".${thing.default_tab}-button:first");
+    default_menu.click();
+    }
+  });
+</script>
+%endif
+</div>
