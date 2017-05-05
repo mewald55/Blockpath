@@ -20,12 +20,14 @@
 ## reddit Inc. All Rights Reserved.
 ###############################################################################
 
-your username is:
+Hello ${thing.user.name},
 
-    ${thing.user.name}
-
-visit this link to verify your email address:
+Visit this link to verify your email address with Blockpath.com:
 
     ${thing.emaillink}
+    
+If you did not recently make changes to your email address on Blockpath.com, do not click the link.
 
-thanks for using the site!
+Thanks for using Blockpath!
+
+-Matt

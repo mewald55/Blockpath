@@ -371,15 +371,15 @@ def make_map(config):
 
     mc('/api', controller='redirect', action='redirect', dest='/dev/api')
     mc('/api/distinguish/:how', controller='api', action="distinguish")
-    mc('/api/spendcreddits', controller='ipn', action="spendcreddits")
+    #mc('/api/spendcreddits', controller='ipn', action="spendcreddits")
     #mc('/api/stripecharge/gold', controller='stripe', action='goldcharge')
     mc('/api/modify_subscription', controller='stripe',
        action='modify_subscription')
     mc('/api/cancel_subscription', controller='stripe',
        action='cancel_subscription')
-   # mc('/api/stripewebhook/gold/:secret', controller='stripe', action='goldwebhook')
-    mc('/api/coinbasewebhook/gold/:secret', controller='coinbase',
-       action='goldwebhook')
+    #mc('/api/stripewebhook/gold/:secret', controller='stripe', action='goldwebhook')
+    mc('/api/blockpathpay/gold/:secret', controller='blockpathpay', action='goldwebhook')
+    #mc('/api/coinbasewebhook/gold/:secret', controller='coinbase', action='goldwebhook')
     mc('/api/rgwebhook/gold/:secret', controller='redditgifts',
        action='goldwebhook')
     mc('/api/ipn/:secret', controller='ipn', action='ipn')

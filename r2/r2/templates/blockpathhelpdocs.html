@@ -2,145 +2,199 @@
 from r2.lib.template_helpers import static
 %>
 <div style="position: relative;margin: 0 auto;padding-left: 100px;padding-bottom: 82px;width: 67em;font-size: 11pt;background: antiquewhite; box-shadow: 0px 30px 40px rgba(0,0,0,.5);">
-	<div class="privacySection">
-		<div style="font-size:25px; font-weight:700;">Blockpath Help Documents: </div>
-		<div style="font-size: 20px;">Updated:  February 10, 2016</div>
-		
-	</div>
-	<div class="privacySection">
-		This document is still a work in progress.
-	</div>
-	<div class="privacySection">
-		<h2> Example h2 </h2>
-		<h3> Example h3</h3>
-		Inside example div privacy section
-		<div class="privacyBullet">
-				Inside example div privacybullet
-				<h3> Example h3 inside privacbullet</h3>
-				<ul>
-					<li>list row 1</li>
-					<li>list row 2</li>
-				</ul>
-		</div>
-	</div>
-	<div class="privacySection">
-		<h2> Using the Graph Tool </h2>
-			<h3> Graph Modes </h3>
-			<div class="privacyBullet">
-				Address Mode (default)
-				<ul>
-					<li>addresses explanation</li>
-					<li></li>
-					<li></li>
-				</ul>
-				
-				Transaction Mode
-				<ul>
-					<li>tx mode explanation</li>
-					<li></li>
-					<li></li>
-				</ul>
-			</div>
-			
-			<h3> Adding/Removing Data </h3>
-			<div class="privacyBullet">
-				Ways to add data:
-				<ul>
-					<li>Paste a TX or Address into the text field in the summary section of the table tab.</li>
-					<li> On the graph page, right click on a node and select the first option to load all transactions for that node.</li>
-					<li>Or you can start a new analysis by searching for a new TX or address using the search bar at the top of the page.</li>
-				</ul>
-			</div>
-			<div class="privacyBullet">
-				How to remove data:
-				<ul>
-					<li>On the table page, click the trashcan inside each transaction you want to delete.</li>
-					<li> On the graph page, right click on a node and choose one of the delete options to remove the data you no longer want.</li>
-				</ul>
-			</div>
-			
-			<h3> Finding Data </h3>
-			<div class="privacyBullet">
-				How can I find an address or TX on the graph?
-				<ul>
-					<li> You can find an address you are interested on the graph by hovering your mouse over the options within the filter bar. </li>
-					<li> If you cannot find the address you are looking for in the filter bar, chances are this address is currently clustered on the graph. 
-						At this point, we've made a choice to not include clustered addresses in the filter bar to improve performance of the app.</li>
-					<li> If you are looking for a TX on the graph, we currently do not have functionality to help with this. Sorry.</li>
-				</ul>
-				How can I find an address or TX in the table that I see on the graph?  
-				<ul>
-					<li>If you are in address mode, hover your mouse over the address node on the graph and all transactions that contain that address will be highlighted in yellow. </li>
-					<li> If you are in transaction mode, click the transaction node on the graph and the table will automatically scroll to the transaction you are clicking. 
-						Note, this only works for transaction nodes, not for inputs or outputs, because those input and output transactions have not been loaded into the analysis tool yet.</li>
-				</ul>
-			</div>
-			<h3> What are the options in the graph settings menu for? </h3>
-			<div class="privacyBullet">
-				The horizontal setting bars control the force layout characteristics of the graph. 
-				You can tune these, depending on the data you are looking at, to help arrange it in a more useful way.
-			</div>
-			<h3> Other </h3>
-			<div class="privacyBullet">
-				What do the colors represent on a graph color overlay?
-				<ul>
-					<li><b>Balance Mode:</b> </li>
-					<li><b>First Tx Mode:</b></li>
-					more.....
-				</ul>
-			</div>
-			<div class="privacyBullet">
-				What is static graph mode?
-			</div>
-	</div>
-	<div class="privacySection">
-		<h2> Using the Table </h2>
-		
-		<div class="privacyBullet">
-			<h3>Labelling transactions</h3>
-			<ul>
-				<li>Tags are added to transactions by you or the community to label transactions for discussion. You can select some of the example tags we have suggested for you, or you can make your own by typing in the box.</li>
-				<li> If you are viewing a link where the author has added tags, they will be shown on the right-side of each transaction.</li>
-				<li> Editing tags will not change them for other users until a new post is created with this data.</li>
-			</ul>
-		</div>
-		<div class="privacyBullet">
-			<h3>Filter Bar</h3>
-			The filter bar only shows transactions that meet your criteria. 
-			If multiple filters are selected, they operate using "AND" logic only. (Ex: Input Addr: 123 AND Value 0-1BTC)
-			<ul>
-				<li> <b>Input Address Filter: </b> Only shows transactions that have that address as an input to the transaction.</li>
-				<li> <b>Output Address Filter: </b> Only shows transactions that have that address as an output to the transaction.</li>
-				<li> <b>Value Filter: </b>Only shows transactions where the total value of bitcoin transferred in the transaction is within the range you specify.</li>
-				<li> <b>Tag Filter: </b>Only shows transactions that are labelled with the tag filter you choose. Tag filters are added to transactions by you or the community to label transactions for discussion.</li>
-				<li> <b>General Search: </b> Search for any data in the table by typing and hitting enter.</li>
-			</ul>
-			You can also create your own address/value/tag filter by typing in the same format as an existing selected option. For example, for a custom value filter type this in the filter bar: "Value: 120mBTC - 19.855BTC"
-		</div>
-		
-	</div>
-	
-	<div class="privacySection">
-		<h2> Summary Section </h2>
-		<h3> What does the summary show?:</h3>
-		The summary is the section at the top of the table tab that displays statistics about the analysis you are viewing. 
-		<ul>
-			<li>The left side is a general summary of all the transactions currently displayed. 
-				This summary will update when tranactions are added, deleted, or filtered. 
-				The number of addresses statistic shows the total number of inputs and outputs of all transactions, 
-				while the unique addresses is after removing all duplicate addresses.
-			</li>
-			<li>
-				The right side is the address summary. This shows life-long statistics about particular addresses you are interested in. 
-				The address summary may include transactions that are not actively loaded in your analysis. 
-				The "number of transactions" row shows the life-long number of transactions this address is in, and also shows how many of these transactions are loaded in your analysis. 
-				Blockpath is currently limited to 50 transactions per address while we are in Beta stage.
-			</li>
-		</ul>
-	</div>
-	<div class="privacySection">
-		<h2> Discussion Pages </h2>
-		<h3> What are Pages?</h3>
-		Similar to reddit's "subreddit", a page is an area to discuss and share data around a certain topic or theme. 
-	</div>
+    <div class="privacySection">
+        <div style="font-size:25px; font-weight:700;">Blockpath Help Documents: </div>
+        <div style="font-size: 20px;">Updated:  February 10, 2016</div>
+        
+    </div>
+    <div class="privacySection">
+        This document is still a work in progress.
+    </div>
+    <div class="privacySection">
+        <h2> Example h2 </h2>
+        <h3> Example h3</h3>
+        Inside example div privacy section
+        <div class="privacyBullet">
+                Inside example div privacybullet
+                <h3> Example h3 inside privacbullet</h3>
+                <ul>
+                    <li>list row 1</li>
+                    <li>list row 2</li>
+                </ul>
+        </div>
+    </div>
+    <div class="privacySection">
+        <h2> Using the Graph Tool </h2>
+            <h3> Graph Modes </h3>
+            <div class="privacyBullet">
+                Address Mode (default)
+                <ul>
+                    <li>addresses explanation</li>
+                    <li></li>
+                    <li></li>
+                </ul>
+                
+                Transaction Mode
+                <ul>
+                    <li>tx mode explanation</li>
+                    <li></li>
+                    <li></li>
+                </ul>
+            </div>
+            
+            <h3> Adding/Removing Data </h3>
+            <div class="privacyBullet">
+                Ways to add data:
+                <ul>
+                    <li>Paste a TX or Address into the text field in the summary section of the table tab.</li>
+                    <li> On the graph page, right click on a node and select the first option to load all transactions for that node.</li>
+                    <li>Or you can start a new analysis by searching for a new TX or address using the search bar at the top of the page.</li>
+                </ul>
+            </div>
+            <div class="privacyBullet">
+                How to remove data:
+                <ul>
+                    <li>On the table page, click the trashcan inside each transaction you want to delete.</li>
+                    <li> On the graph page, right click on a node and choose one of the delete options to remove the data you no longer want.</li>
+                </ul>
+            </div>
+            
+            <h3> Finding Data </h3>
+            <div class="privacyBullet">
+                How can I find an address or TX on the graph?
+                <ul>
+                    <li> You can find an address you are interested on the graph by hovering your mouse over the options within the filter bar. </li>
+                    <li> If you cannot find the address you are looking for in the filter bar, chances are this address is currently clustered on the graph. 
+                        At this point, we've made a choice to not include clustered addresses in the filter bar to improve performance of the app.</li>
+                    <li> If you are looking for a TX on the graph, we currently do not have functionality to help with this. Sorry.</li>
+                </ul>
+                How can I find an address or TX in the table that I see on the graph?  
+                <ul>
+                    <li>If you are in address mode, hover your mouse over the address node on the graph and all transactions that contain that address will be highlighted in yellow. </li>
+                    <li> If you are in transaction mode, click the transaction node on the graph and the table will automatically scroll to the transaction you are clicking. 
+                        Note, this only works for transaction nodes, not for inputs or outputs, because those input and output transactions have not been loaded into the analysis tool yet.</li>
+                </ul>
+            </div>
+            <h3> What are the options in the graph settings menu for? </h3>
+            <div class="privacyBullet">
+                The horizontal setting bars control the force layout characteristics of the graph. 
+                You can tune these, depending on the data you are looking at, to help arrange it in a more useful way.
+            </div>
+            <h3> Other </h3>
+            <div class="privacyBullet">
+                What do the colors represent on a graph color overlay?
+                <ul>
+                    <li><b>Balance Mode:</b> </li>
+                    <li><b>First Tx Mode:</b></li>
+                    more.....
+                </ul>
+            </div>
+            <div class="privacyBullet">
+                What is static graph mode?
+            </div>
+    </div>
+    <div class="privacySection">
+        <h2> Using the Table </h2>
+        
+        <div class="privacyBullet">
+            <h3>Labelling transactions</h3>
+            <ul>
+                <li>Tags are added to transactions by you or the community to label transactions for discussion. You can select some of the example tags we have suggested for you, or you can make your own by typing in the box.</li>
+                <li> If you are viewing a link where the author has added tags, they will be shown on the right-side of each transaction.</li>
+                <li> Editing tags will not change them for other users until a new post is created with this data.</li>
+            </ul>
+        </div>
+        <div class="privacyBullet">
+            <h3>Filter Bar</h3>
+            The filter bar only shows transactions that meet your criteria. 
+            If multiple filters are selected, they operate using "AND" logic only. (Ex: Input Addr: 123 AND Value 0-1BTC)
+            <ul>
+                <li> <b>Input Address Filter: </b> Only shows transactions that have that address as an input to the transaction.</li>
+                <li> <b>Output Address Filter: </b> Only shows transactions that have that address as an output to the transaction.</li>
+                <li> <b>Value Filter: </b>Only shows transactions where the total value of bitcoin transferred in the transaction is within the range you specify.</li>
+                <li> <b>Tag Filter: </b>Only shows transactions that are labelled with the tag filter you choose. Tag filters are added to transactions by you or the community to label transactions for discussion.</li>
+                <li> <b>General Search: </b> Search for any data in the table by typing and hitting enter.</li>
+            </ul>
+            You can also create your own address/value/tag filter by typing in the same format as an existing selected option. For example, for a custom value filter type this in the filter bar: "Value: 120mBTC - 19.855BTC"
+        </div>
+        
+    </div>
+    
+    <div class="privacySection">
+        <h2> Summary Section </h2>
+        <h3> What does the summary show?:</h3>
+        The summary is the section at the top of the table tab that displays statistics about the analysis you are viewing. 
+        <ul>
+            <li>The left side is a general summary of all the transactions currently displayed. 
+                This summary will update when tranactions are added, deleted, or filtered. 
+                The number of addresses statistic shows the total number of inputs and outputs of all transactions, 
+                while the unique addresses is after removing all duplicate addresses.
+            </li>
+            <li>
+                The right side is the address summary. This shows life-long statistics about particular addresses you are interested in. 
+                The address summary may include transactions that are not actively loaded in your analysis. 
+                The "number of transactions" row shows the life-long number of transactions this address is in, and also shows how many of these transactions are loaded in your analysis. 
+                Blockpath is currently limited to 50 transactions per address while we are in Beta stage.
+            </li>
+        </ul>
+    </div>
+    <div class="privacySection">
+        <h2> Discussion Pages </h2>
+        <h3> What are Pages?</h3>
+        Similar to reddit's "subreddit", a page is an area to discuss and share data around a certain topic or theme. 
+    </div>
+    <div class="privacySection">
+        <h2> Blockpath Pro </h2>
+        <h3> How to use date range selector</h3>
+        The date range selector allows you to view the life-time history of various values of each address you have loaded.
+        Data Types:
+        <ul>
+            <li> <b> Balance: </b> The balance of the address over time. </li>
+            <li> <b> Value Received: </b> The BTC value that this address has received over time. Does not include "change" that the address sends to itself. </li>
+            <li> <b> Value Sent: </b> The BTC value that this address has sent over time. Does not include "change" that the address sends to itself. </li>
+            <li> <b> Transaction Count: </b> The number of transactions involving this address over time. </li>
+        </ul>
+        <br>
+        The top chart is an aggregrate sum of all the address's you are viewing. It is created by summing together the integrals of each address's data over time.
+        This chart helps you understand the activity of all address's you are viewing over a time period, and select the time range that you are most interested in.
+        Slide the vertical bars in this chart left or right to select the time period you are interested in viewing. 
+        
+        <h3> How to Upgrade </h3>
+        To upgrade, sign in and click the upgrade button in the user dropdown menu at the top right of page.
+        In the pop-up dialog, click the blurred QR code to generate a new payment address. Send bitcoin to the address that appears by scanning the QR code with your wallet,
+        or by manually copy+pasting the address text into your wallet.
+        <br>
+        <h3> Payment Details </h3>
+        Blockpath will monitor the bitcoin address we present to you for 20 minutes. We recommend sending payment within 15 minutes so your payment will be detected.
+        A minimum of 1 month must be paid in a single transaction for our service to credit your account.
+        Single payments greater than the 3 month cost will give you the discount rate applied to your order.
+        
+        Additional amounts greater than the 1 month or 3 months cost will prorated as additional days credited to your account. 
+        As an example, you can send any amount between 30-90 days cost, and you will received that number of days priced at the 1 month rate.
+        Or you can send any amount greater than 90 days cost, and you will receive that number of days priced at the 3 month rate.
+        
+        <b> Mining Fees: </b> We will immediately accept a payment with 0 confirmations if a sufficient fee is attached to your transaction. 
+        This fee amount is displayed to you on the payment page as Satoshis/Byte. The actual fee necessary is dependant on the size of your transaction. (sorry this is confusing...)
+        The fee rate is slightly less than the "1 Hour" suggested value from https://bitcoinfees.21.co/
+        If your transaction has less than the suggested mining fee, it will simply be accepted after 1 confirmation.
+        If your transaction does not have 3 confirmations after 48 hours, we may reverse the payment and deduct the credits from your account.
+        <br>
+        Problems with your payment? Our apologies, we are still tuning our payments system... Go to the "Contact Us" page and send us a message, we will get it fixed for you.
+    </div>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 </div>

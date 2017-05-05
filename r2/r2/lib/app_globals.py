@@ -35,6 +35,7 @@ import site
 import socket
 import subprocess
 import sys
+import time
 
 from sqlalchemy import engine, event
 from baseplate import Baseplate, config as baseplate_config
@@ -317,6 +318,7 @@ class Globals(object):
             'events_collector_url',
             'events_collector_test_url',
             'search_provider',
+            'blockchain_db_url',
         ],
 
         ConfigValue.choice(ONE=CL_ONE, QUORUM=CL_QUORUM): [
@@ -336,6 +338,7 @@ class Globals(object):
 
         config_gold_price: [
             'gold_month_price',
+            'gold_3month_price',
             'gold_year_price',
             'cpm_selfserve',
             'cpm_selfserve_geotarget_metro',
@@ -677,7 +680,7 @@ class Globals(object):
         self.user_agent_ratelimit_regexes = user_agent_ratelimit_regexes
 
         self.startup_timer.intermediate("configuration")
-
+        
         ################# ZOOKEEPER
         zk_hosts = self.config["zookeeper_connection_string"]
         zk_username = self.config["zookeeper_username"]
@@ -777,26 +780,32 @@ class Globals(object):
         self.startup_timer.intermediate("thrift")
 
         ################# CASSANDRA
-        keyspace = "reddit"
-        self.cassandra_pools = {
-            "main":
-                StatsCollectingConnectionPool(
-                    keyspace,
-                    stats=self.stats,
-                    logging_name="main",
-                    server_list=self.cassandra_seeds,
-                    pool_size=self.cassandra_pool_size,
-                    timeout=4,
-                    max_retries=3,
-                    prefill=False
-                ),
-        }
-
-        permacache_cf = Permacache._setup_column_family(
-            'permacache',
-            self.cassandra_pools[self.cassandra_default_pool],
-        )
-
+        cassandraReady = False
+        while not cassandraReady:
+            try:
+                keyspace = "reddit"
+                self.cassandra_pools = {
+                    "main":
+                        StatsCollectingConnectionPool(
+                            keyspace,
+                            stats=self.stats,
+                            logging_name="main",
+                            server_list=self.cassandra_seeds,
+                            pool_size=self.cassandra_pool_size,
+                            timeout=4,
+                            max_retries=3,
+                            prefill=False
+                        ),
+                }
+                permacache_cf = Permacache._setup_column_family(
+                    'permacache',
+                    self.cassandra_pools[self.cassandra_default_pool],
+                )
+                cassandraReady = True
+            except:
+                self.log.error("cassandra not ready, waiting 5 seconds")
+                time.sleep(5)
+        
         self.startup_timer.intermediate("cassandra")
 
         ################# POSTGRES

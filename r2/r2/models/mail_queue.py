@@ -321,33 +321,33 @@ class Email(object):
 
     # Do not remove anything from this dictionary!  See above comment.
     subjects = {
-        Kind.SHARE : _("[reddit] %(user)s has shared a link with you"),
+        Kind.SHARE : _("[Blockpath] %(user)s has shared a link with you"),
         Kind.FEEDBACK : _("[feedback] feedback from '%(user)s'"),
         Kind.ADVERTISE :  _("[advertising] feedback from '%(user)s'"),
-        Kind.OPTOUT : _("[reddit] email removal notice"),
-        Kind.OPTIN  : _("[reddit] email addition notice"),
-        Kind.RESET_PASSWORD : _("[reddit] reset your password"),
-        Kind.VERIFY_EMAIL : _("[reddit] verify your email address"),
-        Kind.BID_PROMO : _("[reddit] your budget has been accepted"),
-        Kind.ACCEPT_PROMO : _("[reddit] your promotion has been accepted"),
-        Kind.REJECT_PROMO : _("[reddit] your promotion has been rejected"),
-        Kind.QUEUED_PROMO : _("[reddit] your promotion has been charged"),
-        Kind.LIVE_PROMO   : _("[reddit] your promotion is now live"),
-        Kind.FINISHED_PROMO : _("[reddit] your promotion has finished"),
-        Kind.NEW_PROMO : _("[reddit] your promotion has been created"),
-        Kind.EDITED_LIVE_PROMO : _("[reddit] your promotion edit is being approved"),
-        Kind.NERDMAIL : _("[reddit] hey, nerd!"),
-        Kind.GOLDMAIL : _("[reddit] reddit gold activation link"),
-        Kind.PASSWORD_CHANGE : _("[reddit] your password has been changed"),
-        Kind.EMAIL_CHANGE : _("[reddit] your email address has been changed"),
-        Kind.REFUNDED_PROMO: _("[reddit] your campaign didn't get enough impressions"),
-        Kind.VOID_PAYMENT: _("[reddit] your payment has been voided"),
-        Kind.GOLD_GIFT_CODE: _("[reddit] your reddit gold gift code"),
+        Kind.OPTOUT : _("[Blockpath] email removal notice"),
+        Kind.OPTIN  : _("[Blockpath] email addition notice"),
+        Kind.RESET_PASSWORD : _("[Blockpath] reset your password"),
+        Kind.VERIFY_EMAIL : _("[Blockpath] verify your email address"),
+        Kind.BID_PROMO : _("[Blockpath] your budget has been accepted"),
+        Kind.ACCEPT_PROMO : _("[Blockpath] your promotion has been accepted"),
+        Kind.REJECT_PROMO : _("[Blockpath] your promotion has been rejected"),
+        Kind.QUEUED_PROMO : _("[Blockpath] your promotion has been charged"),
+        Kind.LIVE_PROMO   : _("[Blockpath] your promotion is now live"),
+        Kind.FINISHED_PROMO : _("[Blockpath] your promotion has finished"),
+        Kind.NEW_PROMO : _("[Blockpath] your promotion has been created"),
+        Kind.EDITED_LIVE_PROMO : _("[Blockpath] your promotion edit is being approved"),
+        Kind.NERDMAIL : _("[Blockpath] hey, nerd!"),
+        Kind.GOLDMAIL : _("[Blockpath] Blockpath gold activation link"),
+        Kind.PASSWORD_CHANGE : _("[Blockpath] your password has been changed"),
+        Kind.EMAIL_CHANGE : _("[Blockpath] your email address has been changed"),
+        Kind.REFUNDED_PROMO: _("[Blockpath] your campaign didn't get enough impressions"),
+        Kind.VOID_PAYMENT: _("[Blockpath] your payment has been voided"),
+        Kind.GOLD_GIFT_CODE: _("[Blockpath] your Blockpath gold gift code"),
         Kind.SUSPICIOUS_PAYMENT: _("[selfserve] suspicious payment alert"),
         Kind.FRAUD_ALERT: _("[selfserve] fraud alert"),
         Kind.USER_FRAUD: _("[selfserve] a user has committed fraud"),
-        Kind.MESSAGE_NOTIFICATION: _("[reddit] message notification"),
-        Kind.ADS_ALERT: _("[reddit] Ads Alert"),
+        Kind.MESSAGE_NOTIFICATION: _("[Blockpath] message notification"),
+        Kind.ADS_ALERT: _("[Blockpath] Ads Alert"),
         }
 
     def __init__(self, user, thing, email, from_name, date, ip,
@@ -440,8 +440,8 @@ class Email(object):
             timestamp = time.mktime(self.date.timetuple())
             msg['Date'] = utf8(email.utils.formatdate(timestamp))
             if self.user:
-                msg['X-Reddit-username'] = utf8(self.user.name)
-            msg['X-Reddit-ID'] = self.msg_hash
+                msg['X-Blockpath-username'] = utf8(self.user.name)
+            msg['X-Blockpath-ID'] = self.msg_hash
             if self.reply_to:
                 msg['Reply-To'] = utf8(self.reply_to)
             return msg

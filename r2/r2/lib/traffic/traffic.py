@@ -221,6 +221,7 @@ def _report_interval(interval):
                 Session.merge(r)
                 Session.commit()
             except DataError:
+                print 'Traffic.py signalling for DB rollback!'
                 Session.rollback()
                 continue
 

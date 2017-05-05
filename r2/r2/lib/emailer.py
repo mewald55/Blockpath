@@ -258,6 +258,7 @@ def send_queued_mail(test = False):
         session = smtplib.SMTP(g.smtp_server)
     def sendmail(email):
         try:
+            g.log.info("Trying to send email to : " + email.to_addr)
             mimetext = email.to_MIMEText()
             if mimetext is None:
                 print ("Got None mimetext for email from %r and to %r"

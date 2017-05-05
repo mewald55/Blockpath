@@ -96,6 +96,7 @@ def load_controllers():
     from redirect import RedirectController
     from robots import RobotsController
     from ipn import IpnController
+    from ipn import BlockpathpayController
     from ipn import StripeController
     from ipn import CoinbaseController
     from ipn import RedditGiftsController

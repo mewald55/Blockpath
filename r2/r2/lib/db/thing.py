@@ -64,6 +64,7 @@ class TdbTransactionContext(object):
 
     def __exit__(self, exc_type, exc_value, traceback):
         if exc_type:
+            g.log.warning("lib/db/thing.py line 67 causing DB rollback")
             tdb.transactions.rollback()
             raise
         else:

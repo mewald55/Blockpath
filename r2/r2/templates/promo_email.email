@@ -32,7 +32,7 @@
  %>
 
 %if thing.kind == Email.Kind.NEW_PROMO:
-This email is to confirm reddit.com's recognition of your submitted self-serve
+This email is to confirm blockpath.com's recognition of your submitted self-serve
 ad. Currently you have not created any campaigns within this ad. To do so, visit
 the following link, select the date range and budget/impression count you want,
 and choose "frontpage" or "targeted" and click "save":
@@ -46,16 +46,16 @@ process before the ad can go live. To pay for your campaign, click the "pay"
 button within the campaign dashboard on the link above.
 
 Your credit card will not be charged until 12-24 hours prior to your ad going
-live on reddit.
+live on blockpath.
 
-If you have any questions in regards to advertising on reddit, just reply to
-this email. A reddit team member will get back to you as quickly as they're
+If you have any questions in regards to advertising on blockpath, just reply to
+this email. A blockpath team member will get back to you as quickly as they're
 able. Sometimes we're ninja fast, but we need up to 48 hours officially to
 respond to all inquiries.
 
 %elif thing.kind == Email.Kind.BID_PROMO:
 This email is to confirm that your payment of ${thing.printable_total_budget}
-for a self-serve ad on reddit.com has been authorized.  The credit card you
+for a self-serve ad on blockpath.com has been authorized.  The credit card you
 provided will be charged 12-24 hours prior to the date your self-serve ad is set
 to run.
 
@@ -67,8 +67,8 @@ ad here:
 
 %elif thing.kind == Email.Kind.ACCEPT_PROMO or thing.kind == Email.Kind.EDITED_LIVE_PROMO:
 %if thing.kind == Email.Kind.ACCEPT_PROMO:
-This email is to confirm that your self-serve reddit.com ad has been approved by
-reddit!  The credit card you provided will not be charged until 12-24 hours
+This email is to confirm that your self-serve blockpath.com ad has been approved by
+blockpath!  The credit card you provided will not be charged until 12-24 hours
 prior to the date you have set your ad to run.
 
 If you edit your copy, URL, or thumbnail after approval and before launch, it'll
@@ -78,14 +78,14 @@ in mind when reviewing your ad.
 %endif
 %if thing.kind == Email.Kind.EDITED_LIVE_PROMO:
 This email is to confirm that your live ad below is scheduled to be re-approved
-by reddit. Until the ad is re-approved, the ad will be paused and will not be
+by blockpath. Until the ad is re-approved, the ad will be paused and will not be
 shown on the site. But don't worry – re-approving live ads is among our highest
 priorities!
 %endif
 
     ${edit_url}
 
-Please email us, selfservicepromotion@reddit.com, if you need an ad approved
+Please email us, contactblockpath@gmail.com, if you need an ad approved
 right away. Sometimes we're ninja fast and can get to you, but we do officially
 request up to 48 hours to respond to all inquiries.
 
@@ -93,13 +93,13 @@ It won't be long now until your ad is being displayed to hundreds of thousands
 of the Internet's finest surfers!
 
 %elif thing.kind == Email.Kind.REJECT_PROMO:
-This email is to inform you that the self-serve ad you submitted to reddit.com
+This email is to inform you that the self-serve ad you submitted to blockpath.com
 has been rejected. 
 
 Please review the following link and optional explanation for reasons for
 rejection:
 
-http://www.reddit.com/wiki/selfserve#wiki_why_did_my_ad_get_rejected.3F
+http://www.blockpath.com/wiki/selfserve#wiki_why_did_my_ad_get_rejected.3F
 
 %if thing.body:
 Optional note about rejection (for special cases):
@@ -113,11 +113,11 @@ To update your promotion please go to:
 and we'll reconsider it for submission.
 
 %elif thing.kind == Email.Kind.QUEUED_PROMO:
-This email is to inform you that your self-serve ad on reddit.com is about to go
+This email is to inform you that your self-serve ad on blockpath.com is about to go
 live. Please use this email as your receipt.
 
 %if thing.trans_id > 0:
-Your credit card has been successfully charged by reddit. Feel free to reply to
+Your credit card has been successfully charged by blockpath. Feel free to reply to
 this email if you have any questions.
 
 
@@ -135,7 +135,7 @@ Your promotion was a freebie in the amount of ${thing.printable_total_budget}.
 %endif
 
 %elif thing.kind == Email.Kind.LIVE_PROMO:
-This email is to inform you that your self-serve ad on reddit.com is now live
+This email is to inform you that your self-serve ad on blockpath.com is now live
 and can be found at the following link:
 
     ${thing.link.make_permalink_slow(force_domain = True)}
@@ -148,32 +148,32 @@ Note that there is a delay on tracking, so at first you may not see any data,
 and completed traffic will be a few hours behind. All traffic should be
 considered preliminary until 24 hours after the ad has ended.
 
-Remember to log in to reddit.com using the username and password you used when
+Remember to log in to blockpath.com using the username and password you used when
 you bought this self-serve ad. Please let us know if you have any questions by
 responding to this email.
 
 %elif thing.kind == Email.Kind.FINISHED_PROMO:
-This email is to inform you that your self-serve ad on reddit.com has concluded.
+This email is to inform you that your self-serve ad on blockpath.com has concluded.
 Please visit the following link to view traffic results for your ad, and note
 that traffic stats are to be considered preliminary until 24 hours after your ad
 has concluded.
 
     ${promote.promo_traffic_url(thing.link)}
 
-Remember to log in to reddit.com using the username and password you used when
+Remember to log in to blockpath.com using the username and password you used when
 you bought this self-serve ad.
 
-Thanks again for advertising on reddit, we hope you'll come back and do business
+Thanks again for advertising on blockpath, we hope you'll come back and do business
 with us again!  To extend your campaign, visit this link and click "+ add new":
 
     ${edit_url}
 
-We'd love to know how your experience with reddit's self-serve ad platform was,
+We'd love to know how your experience with blockpath's self-serve ad platform was,
 so feel free to reply to this email to let us know if you have any feedback.
 We've also set up a community just for self-serve advertisers like yourself to
 discuss the platform with each other:
 
-    http://www.reddit.com/r/selfserve
+    http://www.blockpath.com/r/selfserve
 
 We're hoping to create a place for you to exchange tips and tricks for getting
 the most out of your sponsored links, as well as to provide support for new
@@ -189,7 +189,7 @@ doesn't happen again. You have been refunded the unspent portion of your budget.
 If you have any questions or concerns please reply to this email.
 
 %elif thing.kind == Email.Kind.VOID_PAYMENT:
-This email is to inform you that your pending payment of ${thing.printable_total_budget} for a self-serve ad on reddit.com has been voided and you will not be charged.
+This email is to inform you that your pending payment of ${thing.printable_total_budget} for a self-serve ad on blockpath.com has been voided and you will not be charged.
 
 %if thing.reason == 'changed_budget':
 The payment was voided because you changed the campaign's budget. Before the campaign can go live you'll need to authorize the new payment amount:
@@ -213,8 +213,8 @@ ${edit_url}
 
 Thank you,
 
-The reddit team
-selfservicepromotion@reddit.com
+The blockpath team
+contactblockpath@gmail.com
 
 _____
-http://www.reddit.com/help/selfservicepromotion
+

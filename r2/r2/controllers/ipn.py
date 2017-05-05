@@ -87,9 +87,7 @@ stripe.api_key = g.secrets['stripe_secret_key']
 
 def generate_blob(data):
     passthrough = generate_token(15)
-
-    g.hardcache.set("payment_blob-" + passthrough,
-                    data, BLOB_TTL)
+    g.hardcache.set("payment_blob-" + passthrough, data, BLOB_TTL)
     g.log.info("just set payment_blob-%s", passthrough)
     return passthrough
 
@@ -227,15 +225,21 @@ def existing_subscription(subscr_id, paying_id, custom):
 def months_and_days_from_pennies(pennies, discount=False):
     if discount:
         year_pennies = get_discounted_price(g.gold_year_price).pennies
+        threemonth_pennies = get_discounted_price(g.gold_3month_price).pennies
         month_pennies = get_discounted_price(g.gold_month_price).pennies
     else:
         year_pennies = g.gold_year_price.pennies
+        threemonth_pennies = g.gold_3month_price.pennies
         month_pennies = g.gold_month_price.pennies
 
-    if pennies >= year_pennies:
+    #add 20 cent offset to avoid edge cases
+    if (pennies+20) >= year_pennies:
         years = pennies / year_pennies
         months = 12 * years
         days  = 366 * years
+    elif (pennies+20) >= threemonth_pennies:
+        months = pennies / threemonth_pennies
+        days   = 31 * months
     else:
         months = pennies / month_pennies
         days   = 31 * months
@@ -691,23 +695,25 @@ class GoldPaymentController(RedditController):
     def POST_goldwebhook(self, secret):
         self.validate_secret(secret)
         status, webhook = self.process_response()
-
+        if not status:
+            self.abort403()
         try:
             event_type = self.event_type_mappings[status]
         except KeyError:
-            g.log.error('%s %s: unknown status %s' % (self.name,
-                                                      webhook,
-                                                      status))
+            g.log.error('%s %s: unknown status %s' % (self.name, webhook, status))
             if self.abort_on_error:
                 self.abort403()
             else:
                 return
         self.process_webhook(event_type, webhook)
+        return "OK" #tell blockpathpay we received message.
 
     def validate_secret(self, secret):
+        if not self.webhook_secret:
+            g.log.error('%s: We dont have a secret key for this payment method. %s' % (self.name, request.ip))
+            self.abort403()
         if not constant_time_compare(secret, self.webhook_secret):
-            g.log.error('%s: invalid webhook secret from %s' % (self.name,
-                                                                request.ip))
+            g.log.error('%s: invalid webhook secret from %s' % (self.name, request.ip))
             self.abort403() 
 
     @classmethod
@@ -745,7 +751,6 @@ class GoldPaymentController(RedditController):
                     existing.status in ('processed', 'unclaimed', 'claimed')):
                 g.log.info('POST_goldwebhook skipping %s' % webhook.transaction_id)
                 return
-
             self.complete_gold_purchase(webhook)
         elif event_type == 'failed':
             subject = _('reddit gold payment failed')
@@ -833,11 +838,12 @@ class GoldPaymentController(RedditController):
             if goldtype in ('onetime', 'autorenew'):
                 admintools.adjust_gold_expiration(buyer, days=days)
                 if goldtype == 'onetime':
-                    subject = "thanks for buying reddit gold!"
+                    subject = "thanks for buying blockpath pro!"
                     if g.lounge_reddit:
                         message = strings.lounge_msg
                     else:
-                        message = ":)"
+                        message = """You can now use all of the features through the usual blockchain analysis tool. 
+                                  Please send any feedback you have to us, no matter how small, we want to make this app perfect for you. Thank you"""
                 else:
                     if has_prev_subscr_payments(subscr_id):
                         secret = None
@@ -855,7 +861,7 @@ class GoldPaymentController(RedditController):
             elif goldtype == 'gift':
                 send_gift(buyer, recipient, months, days, signed, giftmessage,
                           thing)
-                subject = "thanks for giving reddit gold!"
+                subject = "thanks for giving blockpath gold!"
                 message = "Your gift to %s has been delivered." % recipient.name
 
             try:
@@ -874,13 +880,73 @@ class GoldPaymentController(RedditController):
                 g.log.error('complete_gold_purchase: send_system_message error')
 
 
+"""
+Response Format: 
+{
+    'op': 'paymentResponse',
+    'responseText': 'Payment Accepted!',
+    'secretSig': 12345678,
+    'id': 'a1586a5b52df7adff220g252f235ce9c166770d5330e51e57uhn298h315d93b02429j2',
+    'account_id': 273634,
+    'code': 200,
+    'USD_BTC_EXCHANGE_RATE': 1450,
+    'valueBTC': 0.00551724,
+    'valueUSD': 8,
+    'cents': 800,
+    'timestamp':34852484
+}
+"""
+class BlockpathpayController(GoldPaymentController):
+    name = 'blockpathpay'
+    webhook_secret = g.secrets['blockpathpay_webhook']
+    
+    event_type_mappings = {
+        'completed': 'succeeded',
+        'cancelled': 'noop',
+        'mispaid': 'noop',
+        'expired': 'noop'
+    }
+    abort_on_error = False
+
+    @classmethod
+    def process_response(cls):
+        event_dict = request.POST
+        # handle non-payment events we can ignore
+        #if 'payout' in event_dict:
+        #    return 'payout', None
+
+        #an additional secret for blockpathpay... #todo: maybe make this more secretive
+        if event_dict['secretSig'] != g.secrets['blockpathpay_secret']:
+            g.log.error("input: %s,  internalSecret: %s" % (event_dict['secretSig'], g.secrets['blockpathpay_secret']) )
+            g.log.error('blockpathpay: Warning! Wrong 2nd layer key for accepting payments, from: %s' % request.ip)
+            return None, None
+        transaction_id = 'B%s' % event_dict['id'] #literally the bitcoin transaction id
+        payer_id = int(event_dict['account_id'])
+        try:
+            buyer = Account._byID(payer_id, data=True)
+        except:
+            return None, None
+        
+        if int(event_dict['code']) == 200:
+            status = 'completed'
+        else:
+            g.log.error('blockpathpay: unknown code: %s, from: %s' % (event_dict['code'], request.ip) )
+            return None, None
+
+        pennies = int(event_dict['cents'])
+        months, days = months_and_days_from_pennies(pennies, discount=False)
+        passthrough = None #a reference to a payment code created before reddit sends request to coinbase, but doesn't exist for blockpathpay
+        webhook = Webhook(passthrough=passthrough, transaction_id=transaction_id, pennies=pennies, payer_id=payer_id,
+                        goldtype="onetime", months=months, buyer=buyer)
+        return status, webhook
+
+
 def handle_stripe_error(fn):
     def wrapper(cls, form, *a, **kw):
         try:
             return fn(cls, form, *a, **kw)
         except stripe.CardError as e:
-            form.set_text('.status',
-                          _('error: %(error)s') % {'error': e.message})
+            form.set_text('.status', _('error: %(error)s') % {'error': e.message})
         except stripe.InvalidRequestError as e:
             form.set_text('.status', _('invalid request'))
         except stripe.APIConnectionError as e:
@@ -1277,15 +1343,16 @@ def validate_blob(custom):
     if not payment_blob:
         raise GoldException('no payment_blob')
 
-    if 'account_id' in payment_blob and 'account_name' in payment_blob:
+    if 'account_id' in payment_blob: # and 'account_name' in payment_blob:
         try:
             buyer = Account._byID(payment_blob['account_id'], data=True)
             ret['buyer'] = buyer
         except NotFound:
             raise GoldException('bad account_id')
-
+        """
         if not buyer.name.lower() == payment_blob['account_name'].lower():
             raise GoldException('buyer mismatch')
+        """
     elif 'email' in payment_blob:
         ret['email'] = payment_blob['email']
     else:
