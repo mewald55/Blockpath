@@ -431,7 +431,7 @@ class ApiController(RedditController):
 
     @require_oauth2_scope("submit")
     @validatedForm(
-        VUser(),
+        VUserBP(),
         VModhash(),
         VCaptcha(),
         VRatelimit(rate_user=True, rate_ip=True, prefix="rate_submit_"),
@@ -439,7 +439,7 @@ class ApiController(RedditController):
         sr=VSubmitSR('sr', 'kind'),
         url=VUrl('url'),
         title=VTitle('title'),
-	analysisDataSimple = VMarkdown('analysisDataSimple'),
+        analysisDataSimple = VMarkdown('analysisDataSimple'),
         sendreplies=VBoolean('sendreplies'),
         selftext=VMarkdown('text'),
         kind=VOneOf('kind', ['link', 'self']),
@@ -509,12 +509,12 @@ class ApiController(RedditController):
             if form.has_errors('ratelimit', errors.RATELIMIT):
                 return
 
-	if analysisDataSimple:
-		try:
-			analysisDataSimple = websafe_json(analysisDataSimple)
-		except:
-			return
-		
+        if analysisDataSimple:
+            try:
+                analysisDataSimple = websafe_json(analysisDataSimple)
+            except:
+                return
+            
         if not is_self:
             if form.has_errors("url", errors.NO_URL, errors.BAD_URL):
                 return
@@ -556,7 +556,7 @@ class ApiController(RedditController):
             is_self=is_self,
             title=cleaned_title,
             content=selftext if is_self else url,
-	    analysisDataSimple = analysisDataSimple,
+            analysisDataSimple = analysisDataSimple,
             author=c.user,
             sr=sr,
             ip=request.ip,
@@ -573,11 +573,10 @@ class ApiController(RedditController):
             VRatelimit.ratelimit(rate_user=True, rate_ip = True,
                                  prefix = "rate_submit_")
         queries.new_link(l)
-	pluginQueueExists = hooks.get_hook('linksubmit').call(inputName=l._fullname) #pass the link to any plugin queues for additional processing
-	if not pluginQueueExists:
-		g.log.warning("Info: No plugin queue found to perform additional link processing")
-	else:
-		g.log.warning("Blockpath Temp: added to queue!")
+        pluginQueueExists = hooks.get_hook('linksubmit').call(inputName=l._fullname) #pass the link to any plugin queues for additional processing
+        if not pluginQueueExists:
+            g.log.warning("Info: No plugin queue found to perform additional link processing")
+        
         l.update_search_index()
         g.events.submit_event(l, request=request, context=c)
         path = add_sr(l.make_permalink_slow())
@@ -1225,7 +1224,7 @@ class ApiController(RedditController):
         c.site.add_rel_note(type[:-4], user, note)
 
     @require_oauth2_scope("modself")
-    @validatedForm(VUser(),
+    @validatedForm(VUserBP(),
                    VModhash())
     @api_doc(api_section.moderation, uses_site=True)
     def POST_accept_moderator_invite(self, form, jquery):
@@ -1966,7 +1965,7 @@ class ApiController(RedditController):
         VModhash(),
         item=VByNameIfAuthor('thing_id'),
         text=VMarkdown('text'),
-	analysisDataSimple=VMarkdown('analysisDataSimple'),
+        analysisDataSimple=VMarkdown('analysisDataSimple'),
     )
     @api_doc(api_section.links_and_comments)
     def POST_editusertext(self, form, jquery, item, text, analysisDataSimple):
@@ -2007,15 +2006,15 @@ class ApiController(RedditController):
             item.body = text
         elif isinstance(item, Link):
             kind = 'link'
-	    if not getattr(item, "is_self", False):
-		return abort(403, "forbidden")
-	    item.selftext = text
-	    if analysisDataSimple:
-		try:
-			item.analysisDataSimple = websafe_json(analysisDataSimple)
-		except:
-			g.log.warning("Blockpath: %s tried to edit %r with bad data", c.user, item)
-		return
+            if not getattr(item, "is_self", False):
+                return abort(403, "forbidden")
+            item.selftext = text
+            if analysisDataSimple:
+                try:
+                    item.analysisDataSimple = websafe_json(analysisDataSimple)
+                except:
+                    g.log.warning("Blockpath: %s tried to edit %r with bad data", c.user, item)
+                    return
         else:
             g.log.warning("%s tried to edit usertext on %r", c.user, item)
             return
@@ -2034,13 +2033,13 @@ class ApiController(RedditController):
         if hasattr(item, "editted"):
             queries.edit(item)
 
-	item.update_search_index()
-	g.log.warning("Blockpath: Edit started")
-	if kind == "link":
-		pluginQueueExists = hooks.get_hook('linkedit').call(inputName = item._fullname) #pass the link to any plugin queues for additional processing
-		if not pluginQueueExists:
-			g.log.warning("Info: No plugin queue found to perform additional link processing during link edit")
-	amqp.add_item('%s_text_edited' % kind, item._fullname)
+        item.update_search_index()
+        g.log.warning("Blockpath: Edit started")
+        if kind == "link":
+            pluginQueueExists = hooks.get_hook('linkedit').call(inputName = item._fullname) #pass the link to any plugin queues for additional processing
+            if not pluginQueueExists:
+                g.log.warning("Info: No plugin queue found to perform additional link processing during link edit")
+        amqp.add_item('%s_text_edited' % kind, item._fullname)
 
         hooks.get_hook("thing.edit").call(
             thing=item, original_text=original_text)
@@ -2058,7 +2057,7 @@ class ApiController(RedditController):
 
     @allow_oauth2_access
     @validatedForm(
-        VUser(),
+        VUserBP(),
         VModhash(),
         VRatelimit(rate_user=True, rate_ip=True, prefix="rate_comment_"),
         parent=VSubmitParent(['thing_id', 'parent']),
@@ -2315,7 +2314,7 @@ class ApiController(RedditController):
         VShareRatelimit.ratelimit()
 
     @require_oauth2_scope("vote")
-    @noresponse(VUser(),
+    @noresponse(VUserBP(),
                 VModhash(),
                 direction=VInt("dir", min=-1, max=1,
                     docs={"dir": "vote direction. one of (1, 0, -1)"}
@@ -2729,7 +2728,7 @@ class ApiController(RedditController):
                                  errors=errors, form_id=form_id).render()
 
     @require_oauth2_scope("modconfig")
-    @validatedForm(VUser(),
+    @validatedForm(VUserBP(),
                    VCaptcha(),
                    VModhash(),
                    VRatelimit(rate_user = True,

@@ -976,6 +976,13 @@ class VUser(Validator):
         if not c.user_is_loggedin:
             raise UserRequiredException
 
+class VUserBP(VUser):
+    def run(self):
+        VUser.run(self)
+        if config['verifyemailrequired']:
+            if not c.user.email_verified:
+                raise VerifiedUserRequiredException
+
 
 class VNotInTimeout(Validator):
     def run(self, target_fullname=None, fatal=True, action_name=None,

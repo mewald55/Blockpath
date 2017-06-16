@@ -648,7 +648,7 @@ if [ ! -f /etc/cron.d/reddit ]; then
 0    * * * * root /sbin/start --quiet reddit-job-trylater
 
 # liveupdate
-*    * * * * root /sbin/start --quiet reddit-job-liveupdate_activity
+#*    * * * * root /sbin/start --quiet reddit-job-liveupdate_activity
 
 # jobs that recalculate time-limited listings (e.g. top this year)
 PGPASSWORD=password
@@ -657,7 +657,7 @@ PGPASSWORD=password
 
 # disabled by default, uncomment if you need these jobs. (Blockpath enabled email job)
 *    * * * * root /sbin/start --quiet reddit-job-email
-#0    0 * * * root /sbin/start --quiet reddit-job-update_gold_users
+0    0 * * * root /sbin/start --quiet reddit-job-update_gold_users
 CRON
 fi
 

@@ -103,11 +103,11 @@ function form_error(form) {
         if (req == 'ratelimit') {
             msg = r._('please wait a few seconds and try again.')
         }
-	else if(req.status === 413){
-		//blockpath added this.
-		msg = "Error: The file size of your data was too big for our servers, sorry.";
-	}
-	else {
+        else if(req.status === 413){
+            //blockpath added this.
+            msg = "Error: The file size of your data was too big for our servers, sorry.";
+        }
+        else {
             msg = r._('an error occurred (status: %(status)s)').format({status: req.status})
         }
         $(form).find('.status').text(msg)
@@ -1004,18 +1004,25 @@ $(function() {
           }
           $(this).addClass("selected");
         });
-	
-	//blockpath donate QR code
-	if (!!document.getElementById("donationQR")) {
-		new QRCode(document.getElementById("donationQR"), {
-		    text: "15H4aWsTUTKDgUXGz57RT6qY8NrCa5qgmq",
-		    width: 126,
-		    height: 126,
-		    colorDark: "#000000",
-		    colorLight: "#ffffff",
-		    correctLevel: QRCode.CorrectLevel.H
-		});
-	}
+        
+        //blockpath donate QR code
+        if (!!document.getElementById("donationQR")) {
+            new QRCode(document.getElementById("donationQR"), {
+                text: "15H4aWsTUTKDgUXGz57RT6qY8NrCa5qgmq",
+                width: 126,
+                height: 126,
+                colorDark: "#000000",
+                colorLight: "#ffffff",
+                correctLevel: QRCode.CorrectLevel.H
+            });
+        }
+        
+        //blockpath requires a verified email:
+        if(!!r.config.logged && !r.config.email_verified){
+            Notify("Verify your email to post/comment/vote", function(){
+                window.location.href = "https://blockpath.com/verify";
+            }, null, "warning");
+        }
 
         /* ajax ynbutton */
         function toggleThis() { return toggle(this); }

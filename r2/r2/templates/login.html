@@ -72,12 +72,12 @@
         <input value="${user}" name="user" id="user_${op}" class="c-form-control"
                type="text" maxlength="20" tabindex="${tabindex}"
                %if register:
-                placeholder="${_('choose a username')}"
+                placeholder="Choose a Username"
                 data-validate-url="/api/check_username.json"
                 data-validate-min="3"
                 autocomplete="off"
                %else:
-                placeholder="${_('username')}"
+                placeholder="Username"
                 %if autofocus:
                   autofocus
                 %endif
@@ -87,7 +87,7 @@
       <%call expr="form_group('passwd', 'BAD_PASSWORD', 'WRONG_PASSWORD', show_errors=True)">
         <label for="passwd_${op}" class="screenreader-only">${_('password')}:</label>
         <input id="passwd_${op}" class="c-form-control" name="passwd" type="password"
-               tabindex="${tabindex}" placeholder="${_('password')}"
+               tabindex="${tabindex}" placeholder="Password"
                ${"data-validate-url='/api/check_password.json'" if register else ''}>
       </%call>
       %if register:
@@ -95,7 +95,7 @@
           <label for="passwd2_${op}" class="screenreader-only">${_('verify password')}:</label>
           <input name="passwd2" id="passwd2_${op}" class="c-form-control"
                  type="password" tabindex="${tabindex}"
-                 placeholder="${_('verify password')}">
+                 placeholder="Verify Password">
         </%call>
         <%call expr="form_group('email', 'BAD_EMAIL', show_errors=register)">
           <label for="email_${op}" class="screenreader-only">
@@ -103,7 +103,7 @@
           </i></label>
           <input value="" name="email" id="email_${op}" class="c-form-control"
                  type="text" tabindex="${tabindex}"
-                 placeholder="${_('email (optional)')}"
+                 placeholder="Email (required)"
                  data-validate-url="/api/check_email.json"
                  data-validate-on="change blur">
         </%call>

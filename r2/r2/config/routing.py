@@ -167,7 +167,7 @@ def make_map(config):
        connect('/:sort', controller='browse', sort='top',
           action='listing', requirements=dict(sort='top|controversial'))
        connect('/:controller', action='listing',
-          requirements=dict(controller="hot|new|rising|randomrising|ads"))
+          requirements=dict(controller="hot|new|rising|randomrising")) #blockpath removed ads here
 
     mc('/user/:username/:where/:show', controller='user', action='listing')
     

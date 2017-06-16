@@ -137,7 +137,13 @@ def handle_register(
     elif (not g.disable_captcha and
             responder.has_errors('captcha', errors.BAD_CAPTCHA)):
         _event(error='BAD_CAPTCHA')
-
+    
+    #Blockpath may require email
+    elif not email and g.config.get('verifyemailrequired', ()):
+        c.errors.add(errors.NO_EMAIL, field="email")
+        form.has_errors("email", errors.NO_EMAIL)
+        _event(error='NO_EMAIL') #might already be set by ValidEmail validator??
+        
     elif newsletter_subscribe and not email:
         c.errors.add(errors.NEWSLETTER_NO_EMAIL, field="email")
         form.has_errors("email", errors.NEWSLETTER_NO_EMAIL)
