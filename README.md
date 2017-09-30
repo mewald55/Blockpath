@@ -1,9 +1,13 @@
 # Blockpath
 
-This is the code that runs [blockpath.com](http://www.blockpath.com).
+[Blockpath](https://www.blockpath.com) is a website for exploring and sharing the Bitcoin blockchain.
 
-Submit active issues here on github. 
-If you have suggestions for improvement, please go through our [Contact Us](http://blockpath.com/contact/) for now.
+The code in this git is the social discussion portion of the Larger Work that is Blockpath.
+This git does not include the blockchain explorer+accounting app, which is a separate codebase within Blockpath.
+
+Submit active issues related to the social discussion functions here on github.
+If you have other suggestions for improvement, please go through our [Contact Us](https://blockpath.com/contact/), 
+or post on the [feedback page](https://blockpath.com/pages/Feedback/) of Blockpath.
 
 ###Attributions
 The base code used to run the social/sharing backbone is the open-sourced [Reddit code](http://www.github.com/reddit/reddit)

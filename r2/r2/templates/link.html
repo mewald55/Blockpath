@@ -44,38 +44,50 @@
 </%def>
 
 <%def name="makeAnalysisSummaryPreview()">
-  %if thing.analysisSummary:
-		<li class="listDivider"></li>
-		<li title="Number of Transactions in post">
-			<svg style="margin-right:3px;" width="27" height="27" viewBox="0 0 24 24">
-				<path fill="grey" d="M14 20l-4-4v3H7c-1.103 0-2-.897-2-2V6.816A2.99 2.99 0 0 0 7 4a3 3 0 0 0-6 0 2.99 2.99 0 0 0 2 2.816V17c0 2.206 1.794 4 4 4h3v3l4-4zM2.2 4c0-.993.807-1.8 1.8-1.8s1.8.807 1.8 1.8S4.993 5.8 4 5.8 2.2 4.993 2.2 4zM10 4l4 4V5h3c1.103 0 2 .897 2 2v10.184A2.99 2.99 0 0 0 17 20a3 3 0 0 0 6 0 2.99 2.99 0 0 0-2-2.816V7c0-2.206-1.794-4-4-4h-3V0l-4 4zm11.8 16c0 .993-.807 1.8-1.8 1.8s-1.8-.807-1.8-1.8.807-1.8 1.8-1.8 1.8.807 1.8 1.8z"/>
-			</svg>
-			${thing.analysisSummary['numOfTXs']}
-		</li>
-		<li title="Number of Addresses in post">
-			<svg  width="27" height="27" viewBox="0 0 1024 1024">
-			<path fill="grey" d="M512 0c-176.732 0-320 143.268-320 320 0 320 320 704 320 704s320-384 320-704c0-176.732-143.27-320-320-320zM512 512c-106.040 0-192-85.96-192-192s85.96-192 192-192 192 85.96 192 192-85.96 192-192 192z"></path>
-			</svg>
-			${thing.analysisSummary['numOfAddresses']}
-		</li>
-		<li title="Total # of bitcoins transacted in post">
-			<svg  width="27" height="27" viewBox="30 50 110 110">
-			<path fill="grey" d="M107.786,104.991c1.433-9.582-5.863-14.731-15.838-18.167l3.235-12.978l-7.899-1.969l-3.151,12.636  c-2.079-0.518-4.21-1.006-6.331-1.489l3.171-12.72l-7.894-1.969L69.84,81.311c-1.719-0.392-3.406-0.778-5.045-1.186        l0.008-0.04l-10.894-2.72l-2.102,8.437c0,0,5.861,1.343,5.737,1.427c3.2,0.799,3.777,2.916,3.681,4.594l-3.685,14.785        c0.22,0.057,0.505,0.136,0.821,0.264c-0.264-0.066-0.545-0.137-0.834-0.207l-5.166,20.71        c-0.392,0.972-1.385,2.431-3.621,1.877c0.079,0.114-5.745-1.433-5.745-1.433l-3.92,9.041l10.28,2.563        c1.911,0.479,3.788,0.979,5.632,1.453l-3.267,13.127l7.891,1.969l3.237-12.987c2.158,0.584,4.25,1.125,6.298,1.634        l-3.226,12.926l7.9,1.969l3.27-13.102c13.473,2.548,23.604,1.52,27.866-10.663c3.437-9.81-0.17-15.469-7.258-19.16        C102.859,115.399,106.749,112.003,107.786,104.991z M89.737,130.302c-2.444,9.811-18.96,4.507-24.318,3.176l4.338-17.389        C75.112,117.424,92.287,120.07,89.737,130.302z M92.177,104.85c-2.226,8.924-15.975,4.389-20.435,3.277l3.932-15.772        C80.133,93.467,94.498,95.542,92.177,104.85z"></path>
-			</svg>
-			<%
-			numBitcoins = thing.analysisSummary['totalValue']
-			%>
-			${round(numBitcoins, 4) if isinstance(numBitcoins, float) else '??'}
-		</li>
-		<li class="dateSummaryPreview">
-			<div style="display:inline-block;" title="Date of first transaction in post">
-				${thing.analysisSummary['startDate']}&nbsp-&nbsp
-			</div>
-			<div style="display:inline-block;" title="Date of last transaction in post">
-				${thing.analysisSummary['endDate']}
-			</div>
-		</li>
+  %if thing.analysisSummary and "postType" in thing.analysisSummary:
+    %if thing.analysisSummary["postType"] == "txs":
+        <li class="listDivider"></li>
+        <li title="Number of Transactions in post">
+            <svg style="margin-right:3px;" width="27" height="27" viewBox="0 0 24 24">
+                <path fill="grey" d="M14 20l-4-4v3H7c-1.103 0-2-.897-2-2V6.816A2.99 2.99 0 0 0 7 4a3 3 0 0 0-6 0 2.99 2.99 0 0 0 2 2.816V17c0 2.206 1.794 4 4 4h3v3l4-4zM2.2 4c0-.993.807-1.8 1.8-1.8s1.8.807 1.8 1.8S4.993 5.8 4 5.8 2.2 4.993 2.2 4zM10 4l4 4V5h3c1.103 0 2 .897 2 2v10.184A2.99 2.99 0 0 0 17 20a3 3 0 0 0 6 0 2.99 2.99 0 0 0-2-2.816V7c0-2.206-1.794-4-4-4h-3V0l-4 4zm11.8 16c0 .993-.807 1.8-1.8 1.8s-1.8-.807-1.8-1.8.807-1.8 1.8-1.8 1.8.807 1.8 1.8z"/>
+            </svg>
+            ${thing.analysisSummary["numOfTXs"]}
+        </li>
+        <li title="Number of Addresses in post">
+            <svg  width="27" height="27" viewBox="0 0 1024 1024">
+                <path fill="grey" d="M512 0c-176.732 0-320 143.268-320 320 0 320 320 704 320 704s320-384 320-704c0-176.732-143.27-320-320-320zM512 512c-106.040 0-192-85.96-192-192s85.96-192 192-192 192 85.96 192 192-85.96 192-192 192z"></path>
+            </svg>
+            ${thing.analysisSummary["numOfAddresses"]}
+        </li>
+        <li title="Total # of bitcoins transacted in post">
+            <svg  width="27" height="27" viewBox="30 50 110 110">
+                <path fill="grey" d="M107.786,104.991c1.433-9.582-5.863-14.731-15.838-18.167l3.235-12.978l-7.899-1.969l-3.151,12.636  c-2.079-0.518-4.21-1.006-6.331-1.489l3.171-12.72l-7.894-1.969L69.84,81.311c-1.719-0.392-3.406-0.778-5.045-1.186        l0.008-0.04l-10.894-2.72l-2.102,8.437c0,0,5.861,1.343,5.737,1.427c3.2,0.799,3.777,2.916,3.681,4.594l-3.685,14.785        c0.22,0.057,0.505,0.136,0.821,0.264c-0.264-0.066-0.545-0.137-0.834-0.207l-5.166,20.71        c-0.392,0.972-1.385,2.431-3.621,1.877c0.079,0.114-5.745-1.433-5.745-1.433l-3.92,9.041l10.28,2.563        c1.911,0.479,3.788,0.979,5.632,1.453l-3.267,13.127l7.891,1.969l3.237-12.987c2.158,0.584,4.25,1.125,6.298,1.634        l-3.226,12.926l7.9,1.969l3.27-13.102c13.473,2.548,23.604,1.52,27.866-10.663c3.437-9.81-0.17-15.469-7.258-19.16        C102.859,115.399,106.749,112.003,107.786,104.991z M89.737,130.302c-2.444,9.811-18.96,4.507-24.318,3.176l4.338-17.389        C75.112,117.424,92.287,120.07,89.737,130.302z M92.177,104.85c-2.226,8.924-15.975,4.389-20.435,3.277l3.932-15.772        C80.133,93.467,94.498,95.542,92.177,104.85z"></path>
+            </svg>
+            <%
+            numBitcoins = thing.analysisSummary["totalValue"]
+            %>
+            ${round(numBitcoins, 4) if isinstance(numBitcoins, float) else '??'}
+        </li>
+        <li class="dateSummaryPreview">
+            <div style="display:inline-block;" title="Date of first transaction in post">
+                ${thing.analysisSummary["startDate"]}&nbsp-&nbsp
+            </div>
+            <div style="display:inline-block;" title="Date of last transaction in post">
+                ${thing.analysisSummary["endDate"]}
+            </div>
+        </li>
+    
+    %elif thing.analysisSummary["postType"] == "addresses":
+        <li class="listDivider"></li>
+        <li title="Number of Addresses in post">
+            <svg  width="27" height="27" viewBox="0 0 1024 1024">
+                <path fill="grey" d="M512 0c-176.732 0-320 143.268-320 320 0 320 320 704 320 704s320-384 320-704c0-176.732-143.27-320-320-320zM512 512c-106.040 0-192-85.96-192-192s85.96-192 192-192 192 85.96 192 192-85.96 192-192 192z"></path>
+            </svg>
+            ${len(thing.analysisSummary["addresses"])}
+        </li>
     %endif
+    
+  %endif
 </%def>
 
 <%def name="make_link(name, css_class, tabindex=0)">
@@ -123,7 +135,7 @@
 
 <%def name="entry()">
   <div class="linkSubmitTime"> 
-	${unsafe(capture(thing_timestamp, thing, thing.timesince, live=True, include_tense=False))}
+    ${unsafe(capture(thing_timestamp, thing, thing.timesince, live=True, include_tense=False))}
   </div>
   <p class="title">
     %if c.site.link_flair_position == 'left':
@@ -169,17 +181,16 @@
       ${child_content}
     %else:
        %if thing.selftext:
-	     <div class="usertext-body may-blank-within md-container ${'admin_takedown' if thing.admin_takedown else ''}">
-		% if not thing.expunged:
-			${unsafe(safemarkdown(thing.selftext[:200], nofollow = thing.nofollow))}
-		% else:
-			<em>${_("[removed]")}</em>&#32;
-		% endif
-	     </div>
-	     
-	     %if len(thing.selftext) < 201:
-		<%selftext_hide = True%>
-	     %endif
+            <div class="usertext-body may-blank-within md-container ${'admin_takedown' if thing.admin_takedown else ''}">
+                %if not thing.expunged:
+                    ${unsafe(safemarkdown(thing.selftext[:200], nofollow = thing.nofollow))}
+                %else:
+                    <em>${_("[removed]")}</em>&#32;
+                %endif
+            </div>
+            %if len(thing.selftext) < 201:
+                <%selftext_hide = True%>
+            %endif
        %endif
      <span style="display:none" class="error">loading...</span>
     %endif
@@ -188,10 +199,10 @@
   ##the expando button
 
   %if thing.link_child and not thing.link_child.expand and not selftext_hide:
-	<div class="blockpath-expando-button collapsed">
-		<span class="blockpath-expando-button-label-collapsed">${_("more")}</span>
-		<span class="blockpath-expando-button-label-expanded">${_("less")}</span>
-	</div>
+    <div class="blockpath-expando-button collapsed">
+        <span class="blockpath-expando-button-label-collapsed">${_("more")}</span>
+        <span class="blockpath-expando-button-label-expanded">${_("less")}</span>
+    </div>
   %endif
 
 ##Blockpath will render all buttons on the bottom of an entry

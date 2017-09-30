@@ -94,14 +94,9 @@ class BaseController(WSGIController):
 
         request.via_cdn = False
         cdn_ip = g.cdn_provider.get_client_ip(request.environ)
-	request.client_ip=''
+        request.client_ip=''
 
         request.client_ip = forwarded_for.split(',')[0]
-        print ("forwarded_for.split>>>>>>>")
-        print request.client_ip
-
-        print("Print session id")
-        print session
         if cdn_ip:
             request.ip = cdn_ip
             request.via_cdn = True
@@ -123,10 +118,6 @@ class BaseController(WSGIController):
 
         if request.client_ip:
             request.ip = request.client_ip
-        print("Show the user ip from HTTP_X_FORWARDED : ")
-        print(forwarded_for)
-        print("Show the user ip from client_ip :")
-        print(request.client_ip)
 
         #if x-dont-decode is set, pylons won't unicode all the parameters
         if request.environ.get('HTTP_X_DONT_DECODE'):
@@ -157,12 +148,12 @@ class BaseController(WSGIController):
         # method (action). Rewrite this to include the HTTP verb which is the
         # real name of the controller method: GET_do_something().
         action = request.environ['pylons.routes_dict'].get('action')
-        print('Action >>>>>>>>>>>> ')
-        print(action)
+        #print('Action >>>>>>>>>>>> ')
+        #print(action)
         if action:
             meth = request.method.upper()
-            print('Method >>>>>>>>>>>> ')
-            print(meth)
+            #print('Method >>>>>>>>>>>> ')
+            #print(meth)
             if meth == 'HEAD':
                 meth = 'GET'
 

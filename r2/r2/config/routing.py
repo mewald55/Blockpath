@@ -282,7 +282,7 @@ def make_map(config):
     mc('/', controller='hot', action='listing')
 
     mc('/:controller', action='listing',
-       requirements=dict(controller="hot|new|rising|randomrising|ads"))
+       requirements=dict(controller="hot|new|rising|randomrising")) #blockpath removed ads here
     mc('/saved', controller='user', action='saved_redirect')
 
     mc('/by_id/:names', controller='byId', action='listing')
@@ -467,7 +467,7 @@ def make_map(config):
     #mc('/mobile', controller='redirect', action='redirect',  dest='https://m.reddit.com/')
 
     # Used for showing ads
-    mc("/ads/", controller="ad", action="ad")
+   # mc("/ads/", controller="ad", action="ad") #blockpath removed ads here
 
     mc("/try", controller="forms", action="try_compact")
 

@@ -246,6 +246,7 @@ def js_config(extra_config=None):
         "https_forced": feature.is_enabled("force_https"),
         # debugging?
         "debug": g.debug,
+        "donation_address": g.live_config["blockpath_donation_addr"] if 'blockpath_donation_addr' in g.live_config else '',
         "poisoning_canary": poisoning_canary,
         "poisoning_report_mac": poisoning_report_mac,
         "cache_policy": cache_policy,

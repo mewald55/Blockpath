@@ -404,6 +404,7 @@ class Globals(object):
         ConfigValue.str: [
             'listing_chooser_gold_multi',
             'listing_chooser_explore_sr',
+            'blockpath_donation_addr',
         ],
         ConfigValue.messages: [
             'welcomebar_messages',

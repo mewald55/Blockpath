@@ -43,50 +43,50 @@
 ${thing.formtabs_menu}
 %endif
 <div class="form-content">
-	<div id="submit-analysis-header" style="display:none">
-		Select Bitcoin Data
-	</div>
-	<div id="submit-analysis-guide" style="display:none">
-		<div id="submit-analysis-search">
-			<br>
-			<br>
-			<h1>Start by searcing for an address or transaction: </h1>
-			<br>
-			<form action="/search/tx" role="search" class="searchBarForm fader">
-				<input type="text" onclick=""  id="searchInputField" name="q" placeholder="Search the Blockchain" tabindex="20" class="">
-				<button class="search-submit-button c-btn c-btn-primary txsearchbutton" type='submit' aria-label="${_("Search")}">
-					<span class="search-icon"> GO </span>
-				</button>
-			</form>
-			<br>	<br>
-			<span> Add additional addresses or transactions using the address selector field in the summary area on the search results page </span>
-			<br><br>
-			<span> Submit your post by clicking the "Create Post" tab on the search results page. </span>
-		</div>
-		<div id="submit-analysis-divider-vert">
-			<div id="lineVert"></div>
-			<div id="wordwrapperVert">
-				<div id="wordVert">OR</div>
-			</div>
-		</div>
-		<div id="submit-analysis-divider-horiz">
-			<div id="lineHoriz"></div>
-			<div id="wordwrapperHoriz">
-				<div id="wordHoriz">OR</div>
-			</div>
-		</div>
-		<div id="submit-analysis-upload">
-			<button class="btn btn-primary" type="button" onclick="uploadNotReady()">
-				<svg width="60" height="60" viewBox="0 0 24 24"><path d="M17 22v2H7v-2h10zm0-4H7v2h10v-2zM7 11v5h10v-5h6L12 0 1 11h6z"/></svg>
-				<div class="uploadAnalysisText"> Upload Transaction History </div>
-			</button>
-			<script>
-				function uploadNotReady(){
-					$("#submit-analysis-upload .uploadAnalysisText").html("Sorry, the transaction upload <br> feature is not ready :(");
-				}
-			</script>
-		</div>
-	</div>
+    <div id="submit-analysis-header" style="display:none">
+        Select Bitcoin Data
+    </div>
+    <div id="submit-analysis-guide" style="display:none">
+        <div id="submit-analysis-search">
+            <br>
+            <br>
+            <h1>Start by searcing for an address or transaction: </h1>
+            <br>
+            <form action="/search/tx" role="search" class="searchBarForm fader">
+                <input type="text" onclick=""  id="searchInputField" name="q" placeholder="Search the Blockchain" tabindex="20" class="">
+                <button class="search-submit-button c-btn c-btn-primary txsearchbutton" type='submit' aria-label="${_("Search")}">
+                    <span class="search-icon"> GO </span>
+                </button>
+            </form>
+            <br>	<br>
+            <span> Add additional addresses or transactions using the address selector field in the summary area on the search results page </span>
+            <br><br>
+            <span> Submit your post by clicking the "Create Post" tab on the search results page. </span>
+        </div>
+        <div id="submit-analysis-divider-vert">
+            <div id="lineVert"></div>
+            <div id="wordwrapperVert">
+                <div id="wordVert">OR</div>
+            </div>
+        </div>
+        <div id="submit-analysis-divider-horiz">
+            <div id="lineHoriz"></div>
+            <div id="wordwrapperHoriz">
+                <div id="wordHoriz">OR</div>
+            </div>
+        </div>
+        <div id="submit-analysis-upload" class="largeButtonDiv">
+            <button class="btn btn-primary" type="button" onclick="uploadNotReady()">
+                <svg width="60" height="60" viewBox="0 0 24 24"><path d="M17 22v2H7v-2h10zm0-4H7v2h10v-2zM7 11v5h10v-5h6L12 0 1 11h6z"/></svg>
+                <div class="largeButtonHeaderText"> Upload Transaction <br> History </div>
+            </button>
+            <script>
+                function uploadNotReady(){
+                    $("#submit-analysis-upload .largeButtonHeaderText").html("Sorry, the transaction <br> upload feature is <br> not ready :(");
+                }
+            </script>
+        </div>
+    </div>
 <%utils:submit_form onsubmit="return post_form(this, 'submit', linkstatus, null, true)"
                     action=${add_sr("/submit")},
                     _class="submit content warn-on-unload",
@@ -104,7 +104,7 @@ ${thing.formtabs_menu}
 </div>
 
 <div class="spacer">
-  <%utils:round_field title="${_('title')}" id="title-field" long_description="This will be the title of your post">
+  <%utils:round_field title="${_('title')}" id="title-field" long_description="Just the title of your post...">
     <textarea name="title" rows="2" maxlength="200" required>${thing.title}</textarea>
     ${error_field("NO_TEXT", "title", "div")}
     ${error_field("TOO_LONG", "title", "div")}
@@ -133,7 +133,8 @@ ${thing.formtabs_menu}
 
 %if thing.show_self:
 <div class="spacer">
-  <%utils:round_field title="${_('text')}", description="${_('(optional)')}" id="text-field" long_description="This is the text content of your post. If you are posting bitcoin data, describe the transactions you are posting">
+  <%utils:round_field title="${_('text')}", description="${_('(optional)')}" id="text-field" 
+    long_description="This is the text content of your post. If you are posting bitcoin data, describe the transactions you are posting. The first ~20 words will be shown as a preview before clicking your post.">
     <input name="kind" value="self" type="hidden"/>
 
     ${UserText(None, text = thing.text, have_form = False, creating = True, textarea_class='md')}
@@ -144,7 +145,8 @@ ${thing.formtabs_menu}
 %endif
 
 <div class="spacer">
-  <%utils:round_field title="Choose a Page" description="" id="reddit-field"  long_description="Choose the page that you want to submit your post to">
+  <%utils:round_field title="Choose a Page" description="" id="reddit-field" 
+    long_description="Choose the page that you want to submit your post to. Your post will appear in both this page and the general front page.">
   ${SubredditSelector(thing.default_sr, extra_subreddits=thing.extra_subreddits, required=True)}
   </%utils:round_field>
 </div>
@@ -161,57 +163,63 @@ ${thing.formtabs_menu}
 </div>
 
 <div class="spacer" id="radioButtons" style="display: none" >
-          <%utils:round_field title="${_('Select Analysis Data to Include')}">
-            <input checked="checked" value="filterData" type="radio" name="loadData" id="filterData" />
-            <label for="filterData">
-                ${_("Filtered Data")}
-            </label>  
-	  <input style="margin-left: 8vw;" type="radio" value="rawData" name="loadData" id="rawData"/>
-            <label for="rawData">
-                ${_("Raw Data")}
-            </label>
-          </%utils:round_field>
-</div>
+  <%utils:round_field title="${_('Select Bitcoin Data to Include')}" id="data-radio-field">
+    <input style="display:none;" type="radio" value="txs" name="loadData" id="submitData-txs" checked="checked" />
+    <input style="display:none;" type="radio" value="addresses" name="loadData" id="submitData-addresses" />
 
-<div class="general-summary link-summary" style="display: none" id="summaryData">
-    <div class="span12 box  box-main shadow1 summary-bg" style="width: 91%; text-align: center;">
-        <table class="address-table" style="width: 82%; display:table; margin: 6px auto;">
-            <tbody>
-            <tr>
-                <th colspan="2">Addresses</th>
-            </tr>
-            <tr>
-                <td class="colInfo" style="width:180px;">No. of Addresses:</td>
-                <td class="colData opacityFadeIn" id="numAddressesTotalCreate"></td>
-             </tr>
-            <tr>
-                <td class="colInfo">No. of Input Addresses:</td>
-                <td class="colData opacityFadeIn" id="numAddressesInputCreate"></td>
-             </tr>
-            <tr>
-                <td class="colInfo">No. of Output Addresses:</td>
-                <td class="colData opacityFadeIn" id="numAddressesOutputCreate"></td>
-            </tr>
-            </tbody>
-        </table>
+    <div id="submitDataBtn-txs" class="largeButtonDiv">
+        <button class="btn btn-primary isSelectedBtn" type="button" onclick="toggleSubmitDataType(1);">
+            <svg width="60" height="60" viewBox="0 0 24 24"><path fill="#999950" d="M4 22h-4v-4h4v4zm0-12h-4v4h4v-4zm0-8h-4v4h4v-4zm3 0v4h17v-4h-17zm0 12h17v-4h-17v4zm0 8h17v-4h-17v4z"/></svg>
+            <div class="largeButtonHeaderText"> <b>Transactions</b> </div>
+            <div class="title-line"></div>
+            <div class="largeButtonDescriptionText"> 
 
-        <table class="address-table" style="width: 82%; display:table; margin: 6px auto;">
-            <tbody>
-            <tr>
-                <th colspan="2">Transactions</th>
-            </tr>
-            <tr>
-            <td class="colInfo" style="width:180px;" >No. Transactions:</td>
-            <td class="colData opacityFadeIn" id="numTransactionsCreate"></td>
-            </tr>
-            <tr>
-            <td class="colInfo">Total Sent:</td>
-            <td class="colData opacityFadeIn" style="font-size:15px;" id="totalSentCreate"></td>
-            </tr>
-            </tbody>
-        </table>
+            </div>
+        </button>
     </div>
+    <div id="submit-analysis-divider-vert" style="height:14.5vw; max-height: 300px; min-height: 134px; margin: 0 0.7%;">
+        <div id="lineVert"></div>
+        <div id="wordwrapperVert">
+            <div id="wordVert">OR</div>
+        </div>
+    </div>
+    <div id="submit-analysis-divider-horiz">
+        <div id="lineHoriz"></div>
+        <div id="wordwrapperHoriz">
+            <div id="wordHoriz">OR</div>
+        </div>
+    </div>
+    <div id="submitDataBtn-addresses" class="largeButtonDiv">
+        <button class="btn btn-primary" type="button" onclick="toggleSubmitDataType(0);">
+            <svg width="60" height="60" viewBox="0 0 1024 1024"><path fill="#999950" d="M512 0c-176.732 0-320 143.268-320 320 0 320 320 704 320 704s320-384 320-704c0-176.732-143.27-320-320-320zM512 512c-106.040 0-192-85.96-192-192s85.96-192 192-192 192 85.96 192 192-85.96 192-192 192z"></path></svg>
+            <div class="largeButtonHeaderText"> <b>Addresses</b> </div>
+            <div class="title-line"></div>
+            <div class="largeButtonDescriptionText"> 
+            
+            </div>
+        </button>
+    </div>
+    <div>
+        <span style="float:right; margin: 10px auto; font-size: 14px; cursor: pointer; border-radius: 15px;" onclick=" $('#attachingDataHelpSlide').slideToggle('fast')">
+            <a href="#"> Attaching data help </a>
+        </span>
+        <div id="attachingDataHelpSlide" style="width: 92%; max-width: 1900px; margin: auto; font-size: 16px; display: none;">
+            <br>
+            <b>Attaching Transactions</b>
+            <br>
+            Attach the first 1000 transactions to your post. Use this if you want to specifically share the current transactions you have loaded.
+            <br><br>
+            <b>Attaching Addresses</b>
+            <br>
+            Attach the first 3 addresses that you have included in your analysis. These are controlled with the addresss manager on the Table View tab.
+            Users viewing your post will always see the latest transactions involving these addresses.
+            Use this option if the addresses are important, and the current transactions are not particularly important.
+        </div>
+
+    </div>
+  </%utils:round_field>
 </div>
+
 
 
 <div class="spacer">

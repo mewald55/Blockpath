@@ -55,7 +55,7 @@ from printable import Printable
 from r2.config import extensions
 from r2.lib.memoize import memoize
 from r2.lib.wrapped import Wrapped
-from r2.lib.filters import _force_utf8, _force_unicode
+from r2.lib.filters import _force_utf8, _force_unicode, websafe_json
 from r2.lib import hooks, utils
 from mako.filters import url_escape
 from r2.lib.strings import strings, Score
@@ -126,9 +126,9 @@ class Link(Thing, Printable):
                      disable_comments=False,
                      locked=False,
                      selftext='',
-		     analysisDataSimple ='', #unsafe data from client
-		     analysisData='',
-		     analysisSummary= None,
+                     analysisDataSimple ='', #unsafe data from client
+                     analysisData='', #safe public data
+                     analysisSummary= None,
                      sendreplies=True,
                      ip='0.0.0.0',
                      flair_text=None,
@@ -177,16 +177,16 @@ class Link(Thing, Printable):
     @property
     def is_nsfw(self):
         return self.over_18
-	
+
     #method to check for blockchain analysis JSON data in a post
     @property
     def has_analysisData(self):
-	    if self.analysisData:
-		return True
-	    else:
-		return False
-	
-	
+        if self.analysisData:
+            return True
+        else:
+            return False
+
+
 
     @property
     def is_embeddable(self):
@@ -224,7 +224,7 @@ class Link(Thing, Printable):
                 sendreplies=True):
         from r2.lib.voting import cast_vote
         from r2.models import admintools
-	from r2.models.comment_tree import CommentTree
+        from r2.models.comment_tree import CommentTree
 
         if is_self:
             url = "self"
@@ -245,14 +245,20 @@ class Link(Thing, Printable):
             spam_filter_level = sr.spam_links
         if spam_filter_level == "all" and not sr.is_special(author):
             spam = True
-	setAnalysisData = '' if not analysisDataSimple else '{"status":"loading", "updateTime": 0, "txs":""}'
-	
-	l = cls(
+        setAnalysisData = '' if not analysisDataSimple else '{"postType":"None", "status":"loading", "updateTime": 0, "txs":[], "addresses":[]}'
+        if analysisDataSimple:
+            try:
+                analysisDataSimple = websafe_json(analysisDataSimple)
+            except:
+                g.log.warning("Blockpath: %s tried to submit %r with bad data", c.user, title)
+                return
+
+        l = cls(
             _ups=1,
             title=title,
             url=url,
             selftext=selftext,
-	    analysisDataSimple=analysisDataSimple,
+            analysisDataSimple=analysisDataSimple,
             analysisData=setAnalysisData,
             analysisSummary='',
             _spam=spam,
@@ -674,14 +680,12 @@ class Link(Thing, Printable):
                 item.thumbnail = "default"
                 item.thumbnail_sprited = True
                 item.preview_image = getattr(item, 'preview_object', None)
-		
-	    item.show_media_preview = show_media_preview	
-	    # add custom blockpath image for posts with JSON data
-	    if bool(item.analysisData):
+            
+            item.show_media_preview = show_media_preview
+            # add custom blockpath image for posts with JSON data
+            if bool(item.analysisData):
                 item.thumbnail = "hasAnalysis"
                 #item.thumbnail_sprited = True
-		
-		
 
 
             item.score = max(0, item.score)

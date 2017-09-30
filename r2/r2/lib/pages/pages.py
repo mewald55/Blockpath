@@ -831,7 +831,7 @@ class Reddit(Templated):
                 subtitles = get_funny_translated_string("create_subreddit", 2)
                 data_attrs = {'event-action': 'createsubreddit'}
                 ps.append(SideBox('Create your own page',
-                           '/subreddits/create', 'create',
+                           '/pages/create', 'create',
                            subtitles=subtitles,
                            data_attrs=data_attrs,
                            show_cover = True))
@@ -879,12 +879,12 @@ class Reddit(Templated):
 
                 mod_href = c.site.path + 'about/moderators'
                 ps.append(SideContentBox(_('moderators'),
-                                         wrapped_moderators,
-                                         helplink = helplink,
-                                         more_href = mod_href,
-                                         more_text = more_text,
-					 extra_class = "moreSideBarInfo",
-					 extra_style = "display:none;"))
+                                     wrapped_moderators,
+                                     helplink = helplink,
+                                     more_href = mod_href,
+                                     more_text = more_text,
+                                     extra_class = "moreSideBarInfo",
+                                     extra_style = "display:none;"))
 
         if no_ads_yet and show_adbox:
             ps.append(Ads())
@@ -895,12 +895,12 @@ class Reddit(Templated):
             ps.append(SideContentBox(_("Recently viewed links"),
                                      [ClickGadget(c.recent_clicks)]))
 
-	"""
-	#The account activity link is moved to the user dropdown for blockpath
-        if c.user_is_loggedin:
-            activity_link = AccountActivityBox()
-            ps.append(activity_link)
-	"""
+        """
+        #The account activity link is moved to the user dropdown for blockpath
+            if c.user_is_loggedin:
+                activity_link = AccountActivityBox()
+                ps.append(activity_link)
+        """
         return ps
 
     def render(self, *a, **kw):
@@ -917,8 +917,10 @@ class Reddit(Templated):
 
         return responsive(res, self.space_compress)
 
+    """
+    #blockpath moved this into redditheader.html
     def corner_buttons(self):
-        """set up for buttons in upper right corner of main page."""
+        #set up for buttons in upper right corner of main page.
         buttons = []
         if c.user_is_loggedin:
             if c.user.name in g.admins:
@@ -946,6 +948,7 @@ class Reddit(Templated):
                                  onclick = "return showlang();",
                                  css_class = "pref-lang")]
         return NavMenu(buttons, base_path = "/", type = "flatlist")
+    """
 
     def build_toolbars(self):
         """Sets the layout of the navigation topbar on a Reddit.  The result
@@ -1859,9 +1862,8 @@ class LinkInfoPage(Reddit):
             buttons = []
             if not self.disable_comments:
                 buttons.extend([info_button('comments')])
-
-	        if self.num_duplicates > 0:
-		    buttons.append(info_button('duplicates', num=self.num_duplicates))
+            if self.num_duplicates > 0:
+                buttons.append(info_button('duplicates', num=self.num_duplicates))
 
             if self.show_promote_button:
                 buttons.append(NavButton(menu.promote, 'promoted', sr_path=False))
@@ -1873,9 +1875,9 @@ class LinkInfoPage(Reddit):
         else:
             main_buttons = []
             toolbar = [NavMenu(main_buttons, type='linkviewtoolbar')]
-	if c.user_is_admin:
-		from admin_pages import AdminLinkMenu
-		toolbar.append(AdminLinkMenu(self.link))
+        if c.user_is_admin:
+            from admin_pages import AdminLinkMenu
+            toolbar.append(AdminLinkMenu(self.link))
 
         return toolbar
 
@@ -1893,16 +1895,17 @@ class LinkInfoPage(Reddit):
                 title_buttons=getattr(self, "subtitle_buttons", []),
                 css_class="commentarea",
             )
-
+        
+        replyArea = self.replyArea if hasattr(self, 'replyArea') else '' #bc some views (/details) dont have this yet
         if self.link.analysisData:
-	    extraHTML = hooks.get_hook('viewdiscussionpage').call(a=self.link.analysisData, pageType = "linkview")[0]
-	    if not extraHTML:
-		extraHTML = ''
+            extraHTML = hooks.get_hook('viewdiscussionpage').call(a=self.link.analysisData, pageType = "linkview")[0]
+            if not extraHTML:
+                extraHTML = ''
             return self.content_stack(
-                (self.infobar, self.link_listing, self.replyArea, comment_area, extraHTML )
+                (self.infobar, self.link_listing, replyArea, comment_area, extraHTML )
             )
 
-        return self.content_stack((self.infobar, self.link_listing, self.replyArea, comment_area, self.popup_panes))
+        return self.content_stack((self.infobar, self.link_listing, replyArea, comment_area, self.popup_panes))
 
     def build_popup_panes(self):
         panes = super(LinkInfoPage, self).build_popup_panes()
@@ -1938,7 +1941,7 @@ class LinkInfoPage(Reddit):
                 from admin_pages import AdminLinkInfoBar
                 rb.insert(1, AdminLinkInfoBar(a=self.link))
             #else:
-		#blockpath: disable side info box until we have some useful info to put here
+                #blockpath: disable side info box until we have some useful info to put here
                 #rb.insert(1, LinkInfoBar(a=self.link))
         return rb
 
@@ -2227,19 +2230,19 @@ class SubredditsPage(Reddit):
                  search_params = {}, *a, **kw):
         Reddit.__init__(self, title = title, loginbox = loginbox, infotext = infotext,
                         *a, **kw)
-			
-	"""
-	search doesn't work on blockpath yet :/
-        self.searchbar = SearchBar(
-            prev_search = prev_search,
-            header=_('search subreddits by name'),
-            search_params={},
-            simple=True,
-            subreddit_search=True,
-            search_path="/subreddits/search",
-        )
-	"""
-	self.searchbar = None
+                
+        """
+        search doesn't work on blockpath yet :/
+            self.searchbar = SearchBar(
+                prev_search = prev_search,
+                header=_('search subreddits by name'),
+                search_params={},
+                simple=True,
+                subreddit_search=True,
+                search_path="/subreddits/search",
+            )
+        """
+        self.searchbar = None
         self.sr_infobar = InfoBar(message = strings.sr_subscribe)
         self.interestbar = InterestBar(True) if show_interestbar else None
 
@@ -2259,12 +2262,12 @@ class SubredditsPage(Reddit):
         if c.user_is_loggedin:
             #add the aliases to "my reddits" stays highlighted
             buttons.append(NamedButton("mine",
-                                       aliases=['/subreddits/mine/subscriber',
-                                                '/subreddits/mine/contributor',
-                                                '/subreddits/mine/moderator']))
+                                       aliases=['/pages/mine/subscriber',
+                                                '/pages/mine/contributor',
+                                                '/pages/mine/moderator']))
 
         return [PageNameNav('subreddits'),
-                NavMenu(buttons, base_path = '/subreddits', type="tabmenu")]
+                NavMenu(buttons, base_path = '/pages', type="tabmenu")]
 
     def content(self):
         return self.content_stack((self.interestbar, self.searchbar,
@@ -2651,8 +2654,9 @@ class ErrorPage(Templated):
     """Wrapper for an error message"""
     def __init__(self, title, message, image=None, explanation=None, **kwargs):
         if not image:
-            letter = random.choice(['a', 'b', 'c', 'd', 'e'])
-            image = 'reddit404' + letter + '.png'
+            #letter = random.choice(['a', 'b', 'c', 'd', 'e'])
+            letter = 'a' #blockpath only has one image for now.
+            image = 'blockpath404' + letter + '.png'
         # Normalize explanation strings.
         if explanation:
             explanation = explanation.lower().rstrip('.') + '.'
@@ -2663,38 +2667,6 @@ class ErrorPage(Templated):
                            explanation=explanation,
                            **kwargs)
 
-class TxRedditError(BoringPage):
-    site_tracking = False
-
-    def __init__(self, title, message, image=None, sr_description=None,
-                 explanation=None):
-        BoringPage.__init__(self, title, loginbox=False,
-                            show_sidebar=False,
-                            content=TxErrorPage(title=title,
-                                                message=message,
-                                                image=image,
-                                                sr_description=sr_description,
-                                                explanation=explanation))
-
-
-class TxErrorPage(Templated):
-    """Wrapper for an error message"""
-
-    def __init__(self, title, message, image=None, explanation=None, **kwargs):
-        if not image:
-            letter = random.choice(['a', 'b', 'c', 'd', 'e'])
-            image = 'reddit404' + letter + '.png'
-        # Normalize explanation strings.
-        print("%%%%%%%%%%%%%%%%%% For Error page Tx template .... ")
-        if explanation:
-            explanation = explanation.lower().rstrip('.') + '.'
-        Templated.__init__(self,
-                           title=title,
-                           message=message,
-                           image_url=image,
-                           explanation=explanation,
-                           **kwargs)
-        
 class InterstitialPage(BoringPage):
     show_infobar = False
 
@@ -2862,9 +2834,9 @@ class SubredditTopBar(CachedTemplate):
         drop_down_buttons.append(NavButton(menu.edit_subscriptions,
                                            sr_path = False,
                                            css_class = 'bottom-option',
-                                           dest = '/subreddits/'))
+                                           dest = '/pages/'))
         return SubredditMenu(drop_down_buttons,
-                             title = _('my subreddits'),
+                             title = _('my pages'),
                              type = 'srdrop')
 
     def subscribed_reddits(self):
@@ -5601,13 +5573,13 @@ class ListingChooser(Templated):
             self.add_item("other", _("everything"),
                           path="/me/f/all",
                           extra_class="gold-perks",
-                          description=_("from all subreddits"))
+                          description=_("from all pages"))
         else:
             self.add_item("other", _("everything"), site=All,
-                          description=_("from all subreddits"))
+                          description=_("from all pages"))
         if c.user_is_loggedin and c.user.is_moderator_somewhere:
             self.add_item("other", _("moderating"), site=Mod,
-                          description=_("subreddits you mod"))
+                          description=_("pages you mod"))
 
         self.add_item("other", _("saved"), path='/user/%s/saved' % c.user.name)
 

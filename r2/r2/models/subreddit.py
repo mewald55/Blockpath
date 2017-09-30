@@ -1422,6 +1422,8 @@ class Subreddit(Thing, Printable, BaseSite):
             ModAction.create(self, log_user, "sticky", target=link)
 
     def remove_sticky(self, link, log_user=None):
+        if not self.sticky_fullnames:
+            return #blockpath gets an error here when frontpage posts are removed 
         # XXX: have to work with a copy of the list instead of modifying
         #   it directly, because it doesn't get marked as "dirty" and
         #   saved properly unless we assign a new list to the attr

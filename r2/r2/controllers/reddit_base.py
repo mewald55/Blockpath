@@ -1505,15 +1505,3 @@ class RedditController(OAuth2ResourceController):
         request.environ['retry_after'] = 60
         abort(503)
 
-    def tx_search_fail(self, exception):
-        if type(exception) is ConnectionError :
-            strings.search_failed = "Block Path server is down, Please try after some time"
-
-        #print("For Error page Tx Error page is calling .... ",strings.search_failed)
-        errpage = pages.TxRedditError(_("tx search failed"),
-                                    strings.search_failed)
-
-        request.environ['usable_error_content'] = errpage.render()
-        request.environ['retry_after'] = 60
-        #print (errpage)
-        abort(503)

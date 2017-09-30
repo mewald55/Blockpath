@@ -1006,15 +1006,19 @@ $(function() {
         });
         
         //blockpath donate QR code
-        if (!!document.getElementById("donationQR")) {
+        var donateDiv = $("#donationContainer");
+        if (!!donateDiv.length && r.config.donation_address) {
             new QRCode(document.getElementById("donationQR"), {
-                text: "15H4aWsTUTKDgUXGz57RT6qY8NrCa5qgmq",
+                text: r.config.donation_address,
                 width: 126,
                 height: 126,
                 colorDark: "#000000",
                 colorLight: "#ffffff",
                 correctLevel: QRCode.CorrectLevel.H
             });
+            donateDiv.append("<span> If this website was useful for you, consider a donation "+
+                "so we can continue providing this service. <br> <a href='https://blockpath.com/search/addr?q="+
+                r.config.donation_address+" '>" + r.config.donation_address + "</a>  </span>");
         }
         
         //blockpath requires a verified email:

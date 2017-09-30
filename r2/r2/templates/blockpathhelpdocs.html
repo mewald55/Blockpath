@@ -23,8 +23,32 @@ from r2.lib.template_helpers import static
                 </ul>
         </div>
     </div>
+    
+    
+    <div class="privacySection">
+        <h2> What is Blockpath? </h2>
+            Blockpath is a website for exploring and discussing the Bitcoin blockchain.
+            <br>
+            
+            
+            The homepage features the content that the community has voted up the most.
+            <br> Discussed content could include addresses and transactions about:
+                <ul>
+                    <li> Proof of reserves of bitcoin exchanges</li>
+                    <li> Charities that accept bitcoins transparently displaying how donations are being spent</li>
+                    <li> Crypto ICOs showing their investors how funds are being utilized</li>
+                    <li> Historically important events on the blockchain</li>
+                    <li> Otherwise interesting </li>
+                </ul>
+            
+            The explorer tool features a graphical explorer that lays out addresses and transactions on a network graph.
+            <br> Addresses and transactions can be added and removed from this analysis, making it useful as an accounting tool.
+            
+            
+    </div>
     <div class="privacySection">
         <h2> Using the Graph Tool </h2>
+            <i> Quick tips for using the graph are found in the help tab when you are viewing the graph. </i>
             <h3> Graph Modes </h3>
             <div class="privacyBullet">
                 Address Mode (default)
@@ -81,6 +105,7 @@ from r2.lib.template_helpers import static
                 You can tune these, depending on the data you are looking at, to help arrange it in a more useful way.
             </div>
             <h3> Other </h3>
+            <!--
             <div class="privacyBullet">
                 What do the colors represent on a graph color overlay?
                 <ul>
@@ -89,13 +114,16 @@ from r2.lib.template_helpers import static
                     more.....
                 </ul>
             </div>
+            -->
             <div class="privacyBullet">
-                What is static graph mode?
+                <b> What is static graph mode?</b>
+                If the graph animations are too slow or unwanted, the graph can be set to precalculate node positions before displaying, without using animations.
+                <b> This mode activates when the node limit or link limit set in the graph settings menu is exceeded.
             </div>
     </div>
     <div class="privacySection">
         <h2> Using the Table </h2>
-        
+        <i> Quick tips for using the table are found in the help tab when you are viewing the table. </i>
         <div class="privacyBullet">
             <h3>Labelling transactions</h3>
             <ul>
@@ -122,7 +150,7 @@ from r2.lib.template_helpers import static
     
     <div class="privacySection">
         <h2> Summary Section </h2>
-        <h3> What does the summary show?:</h3>
+        <h3> What does the summary show?</h3>
         The summary is the section at the top of the table tab that displays statistics about the analysis you are viewing. 
         <ul>
             <li>The left side is a general summary of all the transactions currently displayed. 
@@ -140,9 +168,16 @@ from r2.lib.template_helpers import static
     </div>
     <div class="privacySection">
         <h2> Discussion Pages </h2>
-        <h3> What are Pages?</h3>
-        Similar to reddit's "subreddit", a page is an area to discuss and share data around a certain topic or theme. 
+            <h3> What are Pages?</h3>
+            Similar to reddit's "subreddit", a page is an area to discuss and share data around a certain topic or theme. 
+            <br> You are subscribed to a few pages by default, these can be viewed by clicking the menu button at the top left of the website.
+            <br> You can edit your subscriptions and explore additional pages with the "edit subscriptions" button in the left side menu.
+            <br>
+            <h3> Creating a Page </h3>
+            You can create a new page by clicking the "Create Page" button on the right sidebar of the homepage.
+        
     </div>
+    <!--
     <div class="privacySection">
         <h2> Blockpath Pro </h2>
         <h3> How to use date range selector</h3>
@@ -158,7 +193,7 @@ from r2.lib.template_helpers import static
         The top chart is an aggregrate sum of all the address's you are viewing. It is created by summing together the integrals of each address's data over time.
         This chart helps you understand the activity of all address's you are viewing over a time period, and select the time range that you are most interested in.
         Slide the vertical bars in this chart left or right to select the time period you are interested in viewing. 
-        
+        <br>
         <h3> How to Upgrade </h3>
         To upgrade, sign in and click the upgrade button in the user dropdown menu at the top right of page.
         In the pop-up dialog, click the blurred QR code to generate a new payment address. Send bitcoin to the address that appears by scanning the QR code with your wallet,
@@ -168,11 +203,11 @@ from r2.lib.template_helpers import static
         Blockpath will monitor the bitcoin address we present to you for 20 minutes. We recommend sending payment within 15 minutes so your payment will be detected.
         A minimum of 1 month must be paid in a single transaction for our service to credit your account.
         Single payments greater than the 3 month cost will give you the discount rate applied to your order.
-        
+        <br>
         Additional amounts greater than the 1 month or 3 months cost will prorated as additional days credited to your account. 
         As an example, you can send any amount between 30-90 days cost, and you will received that number of days priced at the 1 month rate.
         Or you can send any amount greater than 90 days cost, and you will receive that number of days priced at the 3 month rate.
-        
+        <br>
         <b> Mining Fees: </b> We will immediately accept a payment with 0 confirmations if a sufficient fee is attached to your transaction. 
         This fee amount is displayed to you on the payment page as Satoshis/Byte. The actual fee necessary is dependant on the size of your transaction. (sorry this is confusing...)
         The fee rate is slightly less than the "1 Hour" suggested value from https://bitcoinfees.21.co/
@@ -181,15 +216,7 @@ from r2.lib.template_helpers import static
         <br>
         Problems with your payment? Our apologies, we are still tuning our payments system... Go to the "Contact Us" page and send us a message, we will get it fixed for you.
     </div>
-    
-    
-    
-    
-    
-    
-    
-    
-    
+    -->
     
     
     

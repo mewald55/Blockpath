@@ -236,10 +236,10 @@ class SubredditMiddleware(object):
 
     def __call__(self, environ, start_response):
         path = environ['PATH_INFO']
-	sr_bp = self.sr_pattern_blockpath.match(path)
-	sr = self.sr_pattern.match(path)
-	if sr_bp:
-	    environ['subreddit'] = sr_bp.groups()[0]
+        sr_bp = self.sr_pattern_blockpath.match(path)
+        sr = self.sr_pattern.match(path)
+        if sr_bp:
+            environ['subreddit'] = sr_bp.groups()[0]
             environ['PATH_INFO'] = self.sr_pattern_blockpath.sub('', path) or '/'
         elif sr:
             environ['subreddit'] = sr.groups()[0]
@@ -336,8 +336,8 @@ class LimitUploadSize(object):
     Middleware for restricting the size of uploaded files (such as
     image files for the CSS editing capability).
     """
-    def __init__(self, app, max_size=1024*1000):
-	#blockpath increased limit from 500 KiB to 1000 KiB
+    def __init__(self, app, max_size=1024*750):
+        #blockpath increased limit from 500 KiB to 750 KiB
         self.app = app
         self.max_size = max_size
 
