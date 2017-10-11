@@ -22,7 +22,6 @@
 
 <%!
    from pylons import app_globals as g
-
    from r2.config import feature
    from r2.lib.filters import conditional_websafe, unsafe, safemarkdown
    from r2.lib.template_helpers import (
@@ -30,6 +29,7 @@
        get_linkflair_css_classes,
        js_timestamp,
        make_url_protocol_relative,
+       maxParagraphLength,
    )
    from r2.lib.pages.things import LinkButtons
    from r2.lib.pages import WrappedUser
@@ -172,38 +172,37 @@
 
 
   <% selftext_hide = thing.is_self and not thing.selftext %>
-  <div class="expando expando-uninitialized"
-    %if not expand and child_content:
-      data-cachedhtml="${websafe(child_content)}"
-    %endif
-  >
-    %if expand:
-      ${child_content}
-    %else:
-       %if thing.selftext:
-            <div class="usertext-body may-blank-within md-container ${'admin_takedown' if thing.admin_takedown else ''}">
-                %if not thing.expunged:
-                    ${unsafe(safemarkdown(thing.selftext[:200], nofollow = thing.nofollow))}
-                %else:
-                    <em>${_("[removed]")}</em>&#32;
+    <div class="expando expando-uninitialized"
+        %if not expand and child_content:
+          data-cachedhtml="${websafe(child_content)}"
+        %endif
+    >
+        %if expand:
+            ${child_content}
+        %else:
+            %if thing.selftext:
+                %if len(thing.selftext) < 201:
+                    <%selftext_hide = True%>
                 %endif
-            </div>
-            %if len(thing.selftext) < 201:
-                <%selftext_hide = True%>
+                <div class="usertext-body may-blank-within md-container ${'admin_takedown' if thing.admin_takedown else ''}">
+                    %if not thing.expunged:
+                        ${unsafe(safemarkdown(maxParagraphLength(thing.selftext, 200), nofollow = thing.nofollow))}
+                    %else:
+                        <em>${_("[removed]")}</em>&#32;
+                    %endif
+                </div>
             %endif
-       %endif
-     <span style="display:none" class="error">loading...</span>
-    %endif
-  </div>
-
-  ##the expando button
-
-  %if thing.link_child and not thing.link_child.expand and not selftext_hide:
-    <div class="blockpath-expando-button collapsed">
-        <span class="blockpath-expando-button-label-collapsed">${_("more")}</span>
-        <span class="blockpath-expando-button-label-expanded">${_("less")}</span>
+            <span style="display:none" class="error">loading...</span>
+        %endif
     </div>
-  %endif
+
+    ##the expando button
+    %if thing.link_child and not thing.link_child.expand and not selftext_hide:
+        <div class="blockpath-expando-button collapsed">
+            <span class="blockpath-expando-button-label-collapsed">${_("more")}</span>
+            <span class="blockpath-expando-button-label-expanded">${_("less")}</span>
+        </div>
+    %endif
 
 ##Blockpath will render all buttons on the bottom of an entry
 ${bottom_buttons()}

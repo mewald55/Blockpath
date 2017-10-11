@@ -67,13 +67,13 @@ except Exception, e:
 redditbroke =  \
 '''<html>
   <head>
-    <title>reddit broke!</title>
+    <title>Blockpath broke!</title>
   </head>
   <body>
     <div style="margin: auto; text-align: center">
       <p>
         <a href="/">
-          <img border="0" src="%s" alt="you broke reddit" />
+          <img border="0" src="%s" alt="you broke Blockpath" />
         </a>
       </p>
       <p>
@@ -84,11 +84,11 @@ redditbroke =  \
 '''
 
 
-FAILIEN_COUNT = 3
+#FAILIEN_COUNT = 3
 def make_failien_url():
-    failien_number = random.randint(1, FAILIEN_COUNT)
-    failien_name = "youbrokeit%d.png" % failien_number
-    return static(failien_name)
+    #failien_number = random.randint(1, FAILIEN_COUNT)
+    #failien_name = "youbrokeit%d.png" % failien_number
+    return static("youbrokeblockpath.png")
 
 
 class ErrorController(RedditController):

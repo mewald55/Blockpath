@@ -2,14 +2,15 @@
 from r2.lib.template_helpers import static
 %>
 <div style="position: relative;margin: 0 auto;padding-left: 100px;padding-bottom: 82px;width: 67em;font-size: 11pt;background: antiquewhite; box-shadow: 0px 30px 40px rgba(0,0,0,.5);">
-    <div class="privacySection">
+    <div class="privacySection" style="margin-top:0; padding-top: 28px;">
         <div style="font-size:25px; font-weight:700;">Blockpath Help Documents: </div>
-        <div style="font-size: 20px;">Updated:  February 10, 2016</div>
+        <div style="font-size: 20px;">Updated:  October 9, 2017</div>
         
     </div>
     <div class="privacySection">
         This document is still a work in progress.
     </div>
+    <!--
     <div class="privacySection">
         <h2> Example h2 </h2>
         <h3> Example h3</h3>
@@ -23,46 +24,64 @@ from r2.lib.template_helpers import static
                 </ul>
         </div>
     </div>
-    
+    -->
     
     <div class="privacySection">
         <h2> What is Blockpath? </h2>
-            Blockpath is a website for exploring and discussing the Bitcoin blockchain.
-            <br>
-            
-            
-            The homepage features the content that the community has voted up the most.
-            <br> Discussed content could include addresses and transactions about:
-                <ul>
-                    <li> Proof of reserves of bitcoin exchanges</li>
-                    <li> Charities that accept bitcoins transparently displaying how donations are being spent</li>
-                    <li> Crypto ICOs showing their investors how funds are being utilized</li>
-                    <li> Historically important events on the blockchain</li>
-                    <li> Otherwise interesting </li>
-                </ul>
-            
-            The explorer tool features a graphical explorer that lays out addresses and transactions on a network graph.
-            <br> Addresses and transactions can be added and removed from this analysis, making it useful as an accounting tool.
-            
-            
+            <div class="privacyBullet">
+                Blockpath is a website for&nbsp;<i>exploring</i>&nbsp;and&nbsp;<i>discussing</i>&nbsp;the Bitcoin Blockchain.
+                <br><br>
+                    <div class="sectionTextSpotlight">
+                        <span style="font-size: 23px; font-family: Tahoma; "><i>It was created for two reasons: </i></span>
+                        <ol style="font-size: 19px; font-family: Tahoma; list-style: outside decimal;">
+                            <li> Because of the present difficulty in accessing and working with the endless data of the Blockchain. 
+                            We wanted a tool that would allow us to work with multiple groups of addresses and transactions, provide summaries and visuals of the data, 
+                            and to be flexible enough to adapt to the evolving use-cases of blockchains. </li>
+                            <li> Because if the Blockchain will be the world's global, decentralized, and transparent database, 
+                                it needs to be easier for people to organize, share, and discuss all the possible information that will be stored in it.
+                            </li>
+                        </ol>
+                        <br> &nbsp;&nbsp; &nbsp;&nbsp;<i>(These are both big goals we are still working towards...)</i>
+                    </div>
+                    <br>
+                
+                    <h3> Discussion </h3>
+                    The homepage features the content that the community has voted up the most.
+                    <br> Discussed content could include addresses and transactions about:
+                        <ul>
+                            <li> Proof of reserves of bitcoin exchanges</li>
+                            <li> Charities that accept bitcoins transparently displaying how donations are being spent</li>
+                            <li> Crypto ICOs showing their investors how funds are being utilized</li>
+                            <li> Historically important events on the blockchain</li>
+                            <li> Otherwise interesting items!</li>
+                        </ul>
+                    <br>
+                    <h3> Exploring </h3>
+                    You can access Blockpath's novel exploration and accounting tool by searching for an address/transaction, or by clicking a user created post from the homepage,
+                    and then using the "Table View" and "Graph View" tabs at the top of the screen.
+                    <br>
+                    The explorer tool features a graphical explorer that lays out addresses and transactions on a network graph.
+                    <br> Addresses and transactions can be added and removed from this analysis, making it useful as an accounting tool.
+            </div>
     </div>
     <div class="privacySection">
         <h2> Using the Graph Tool </h2>
-            <i> Quick tips for using the graph are found in the help tab when you are viewing the graph. </i>
+            The graph shows a network layout of the relationships between addresses/transactions that you have loaded into the table.
+            <br> <i> Quick tips for using the graph are also found in the help tab when you are viewing the graph. </i>
+            <br>
             <h3> Graph Modes </h3>
             <div class="privacyBullet">
                 Address Mode (default)
                 <ul>
                     <li> Nodes represent addresses, and a link means bitcoin has been transferred between them at some point. </li>
                     <li> Useful for viewing long-term relations between addresses. </li>
-                    <li> The date filter may hide transactions from addresses that are shown. </li>
+                    <li> The date filter may hide transactions from addresses that are loaded. </li>
                 </ul>
                 
                 Transaction Mode
                 <ul>
                     <li> Nodes represent transactions, and links are the inputs and outputs of each transaction. </li>
                     <li> Useful for viewing the movement of bitcoins over time. </li>
-                    <li></li>
                 </ul>
             </div>
             
@@ -88,7 +107,7 @@ from r2.lib.template_helpers import static
                 How can I find an address or TX on the graph?
                 <ul>
                     <li> You can find an address you are interested on the graph by hovering your mouse over the options within the filter bar. </li>
-                    <li> If you cannot find the address you are looking for in the filter bar, chances are this address is currently clustered on the graph. 
+                    <li> If you cannot find the address you are looking for in the filter bar, it is likely that this address is currently clustered on the graph. 
                         At this point, we've made a choice to not include clustered addresses in the filter bar to improve performance of the app.</li>
                     <li> If you are looking for a TX on the graph, we currently do not have functionality to help with this. Sorry.</li>
                 </ul>
@@ -117,17 +136,31 @@ from r2.lib.template_helpers import static
             -->
             <div class="privacyBullet">
                 <b> What is static graph mode?</b>
-                If the graph animations are too slow or unwanted, the graph can be set to precalculate node positions before displaying, without using animations.
-                <b> This mode activates when the node limit or link limit set in the graph settings menu is exceeded.
+                <br> If the graph animations are too slow or unwanted, the graph can be set to precalculate node positions before displaying, without using animations.
+                <br> This mode activates when the node limit or link limit set in the graph settings menu is exceeded.
+                <br><br>
+                <b> How are clusters formed on the graph?</b>
+                <br> 'Clusters' are the larger nodes that may be shown on the graph with a large number on them. These are groups of addresses or transactions that all share 
+                the same relationships with other nodes on the graph, so they can be clustered together to simplify the presentation.
+                <br> You can remove individual nodes or expand all nodes from the cluster by using the right click context menu on the cluster.
+                <br> Nodes in the cluster will automatically be added or removed from the cluster when additional transactions are added or removed from the analysis.
+                
             </div>
     </div>
+    
+    
+    
+    
+    
     <div class="privacySection">
         <h2> Using the Table </h2>
-        <i> Quick tips for using the table are found in the help tab when you are viewing the table. </i>
+        The table contains all the transactions that are currently loaded into your analysis. Adding or removing transactions here will alter the data in the graph and summary sections.
+        <br><i> Quick tips for using the table are found in the help tab when you are viewing the table. </i>
+        <br>
         <div class="privacyBullet">
             <h3>Labelling transactions</h3>
             <ul>
-                <li>Tags are added to transactions by you or the community to label transactions for discussion. You can select some of the example tags we have suggested for you, or you can make your own by typing in the box.</li>
+                <li> Tags are added to transactions by you or the community to label transactions for discussion. You can select some of the example tags we have suggested for you, or you can make your own by typing in the box.</li>
                 <li> If you are viewing a link where the author has added tags, they will be shown on the right-side of each transaction.</li>
                 <li> Editing tags will not change them for other users until a new post is created with this data.</li>
             </ul>
@@ -140,7 +173,7 @@ from r2.lib.template_helpers import static
                 <li> <b>Input Address Filter: </b> Only shows transactions that have that address as an input to the transaction.</li>
                 <li> <b>Output Address Filter: </b> Only shows transactions that have that address as an output to the transaction.</li>
                 <li> <b>Value Filter: </b>Only shows transactions where the total value of bitcoin transferred in the transaction is within the range you specify.</li>
-                <li> <b>Tag Filter: </b>Only shows transactions that are labelled with the tag filter you choose. Tag filters are added to transactions by you or the community to label transactions for discussion.</li>
+                <li> <b>Tag Filter: </b>Only shows transactions that are labelled with the tag filter you choose. Tag filters are added to transactions by you or the community to label them for discussion.</li>
                 <li> <b>General Search: </b> Search for any data in the table by typing and hitting enter.</li>
             </ul>
             You can also create your own address/value/tag filter by typing in the same format as an existing selected option. For example, for a custom value filter type this in the filter bar: "Value: 120mBTC - 19.855BTC"
@@ -160,7 +193,10 @@ from r2.lib.template_helpers import static
             </li>
             <li>
                 The right side is the address summary. This shows life-long statistics about particular addresses you are interested in. 
-                The address summary may include transactions that are not actively loaded in your analysis. 
+                The address summary may include transactions that are not actively loaded in your analysis.
+                <br>
+                The summary data of each address will not change when transactions are added or removed from the analysis.
+                <br>
                 The "number of transactions" row shows the life-long number of transactions this address is in, and also shows how many of these transactions are loaded in your analysis. 
                 Blockpath is currently limited to 50 transactions per address while we are in Beta stage.
             </li>

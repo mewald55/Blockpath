@@ -593,7 +593,7 @@ def add_attr(attrs, kind, label=None, link=None, cssclass=None, symbol=None):
         priority = 4
         cssclass = 'admin'
         if not label:
-            label = _('reddit admin, speaking officially')
+            label = 'Blockpath admin, speaking officially'
     elif kind in ('X', '@'):
         priority = 5
         cssclass = 'gray'
@@ -645,7 +645,7 @@ def add_friend_distinguish(distinguish_attribs_list, note=None):
 
 
 def add_cakeday_distinguish(distinguish_attribs_list, user):
-    label = _("%(user)s just celebrated a reddit birthday!")
+    label = _("%(user)s just celebrated a Blockpath birthday!")
     label %= {"user": user.name}
     link = "/user/%s" % user.name
     add_attr(distinguish_attribs_list, kind="cake", label=label, link=link)
@@ -789,3 +789,20 @@ def update_query(base_url, **kw):
     parsed = UrlParser(base_url)
     parsed.update_query(**kw)
     return parsed.unparse()
+
+def maxParagraphLength(text, maxLength, endOfLineTxt=" [...]"):
+    if len(text) <= maxLength:
+        return text
+    #grab the 35 characters before the maxLength mark
+    searchForSpace = text[maxLength - 35: maxLength]
+    for i, letter in enumerate(searchForSpace[::-1]):
+        if letter == " ":
+            return text[:maxLength - i] + endOfLineTxt
+    return text[:maxLength]
+    
+    
+    
+    
+    
+    
+    

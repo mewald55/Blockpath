@@ -27,7 +27,8 @@
 <%namespace file="utils.html" import="classes"/>
 
 <div ${classes('side-message', thing.extra_class)}>
-	<div style="font-size: 2.7em; text-align: center; font-weight: 600;"> Welcome to Blockpath </div>
-	<hr class="linkButtonsHR">
-	${unsafe(safemarkdown(thing.message))}
+    <div style="font-size: 2.7em; text-align: center; font-weight: 600;"> Welcome to Blockpath </div>
+    <hr class="linkButtonsHR">
+    ${unsafe(safemarkdown(thing.message))}
+    <a style="font-size: 12px;" href="/exhibit"> What is Blockpath? </a>
 </div>

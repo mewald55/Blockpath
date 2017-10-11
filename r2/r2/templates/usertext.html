@@ -111,16 +111,16 @@
   </button>
 </%def>
 
-%if thing.have_form:
-  <form action="#" class="${thing.css_class} warn-on-unload"
-      %if thing.post_form:
-        onsubmit="return post_form(this, '${thing.post_form}')"
-      %endif
+    %if thing.have_form:
+        <form action="#" class="${thing.css_class} warn-on-unload"
+        %if thing.post_form:
+            onsubmit="return post_form(this, '${thing.post_form}')"
+        %endif
         ${"style='display:none'" if not thing.display else ""}
         id="form-${thing.fullname + randstr(3)}">
-%else:
-  <div class="${thing.css_class}">
-%endif
+    %else:
+        <div class="${thing.css_class}">
+    %endif
 
   ##this is set for both editting selftext and creating new comments
   <input type="hidden" name="thing_id" value="${thing.fullname}"/>
@@ -142,59 +142,59 @@
 
   %if thing.editable or thing.creating:
     ##keep this on one line so we don't add extra spaces
-    <div class="usertext-edit md-container"
-         style="${"" if thing.creating else 'display: none'}">
-	%if thing.post_form == "comment":
-		<h2 class="createCommentHeader">
-			Write a reply: 
-		</h2>
-	%endif
-	<div class="roundfield-content">
-	<textarea rows="1" cols="1" maxlength="60000"
-		  name="${thing.name}"
-		  class="${thing.textarea_class}"
-		  ${data(**thing.data_attrs)}
-		  >${keep_space(thing.text)}</textarea>
-	</div>
-	%if thing.post_form != "comment":
-		## this will still be called for comments that are already posted but editable (unfortunetely...)
-		%if not thing.creating and thing.analysisData:
-			##for editing a posted link.
-			<span> You can also edit the blockchain data in your post by adding/deleting transactions or tag labels, then come back here and hit save. Any filters you have set will be applied to your data.</span>
-			<div style="display:none" id="editJsonBox">
-				<textarea name="analysisDataSimple" maxlength="1000000"></textarea>
-			</div>
-		%elif thing.creating:
-			##for creating a new link on the _create post_ tab
-			<div style="display:none" id="createJsonBox">
-				<textarea name="analysisDataSimple" maxlength="1000000"></textarea>
-			</div>
-		%endif
-	%endif
-	<div class="bottom-area">
-		${toggle_button("help-toggle", _("formatting help"), _("hide help"),
-			"helpon", "helpoff", style = "" if thing.creating else "display: none")}
-		%if thing.include_errors:
-			${error_field("TOO_LONG", thing.name, "span")}
-			${error_field("RATELIMIT", "ratelimit", "span")}
-			${error_field("NO_TEXT", thing.name, "span")}
-			${error_field("TOO_OLD", "parent", "span")}
-			${error_field("THREAD_LOCKED", "parent", "span")}
-			${error_field("DELETED_COMMENT", "parent", "span")}
-			${error_field("USER_BLOCKED", "parent", "span")}
-			${error_field("USER_MUTED", "parent", "span")}
-			${error_field("MUTED_FROM_SUBREDDIT", "parent", "span")}
-		%endif
-		<div class="usertext-buttons">
-			${action_button("save", "submit", "",
-				thing.creating and thing.have_form, theClass = "btn btn-info")}
-			${action_button("cancel", "button", "return cancel_usertext(this)", False, theClass = "btn")}
-			%if thing.have_form:
-				<span class="status"></span>
-			%endif
-		</div>
-	</div>
-	${markhelp(show_embed_help=thing.show_embed_help)}
+    <div class="usertext-edit md-container" 
+         style="${'' if thing.creating else 'display: none'}">
+        %if thing.post_form == "comment":
+            <h2 class="createCommentHeader">
+                Write a reply: 
+            </h2>
+        %endif
+        <div class="roundfield-content">
+            <textarea rows="1" cols="1" maxlength="60000"
+                  name="${thing.name}"
+                  class="${thing.textarea_class}"
+                  ${data(**thing.data_attrs)}
+                  >${keep_space(thing.text)}</textarea>
+        </div>
+        %if thing.post_form != "comment":
+            ## this will still be called for comments that are already posted but editable (unfortunetely...)
+            %if not thing.creating and thing.analysisData:
+                ##for editing a posted link.
+                <span> You can also edit the blockchain data in your post by adding/deleting transactions or tag labels, then come back here and hit save. Any filters you have set will be applied to your data.</span>
+                <div style="display:none" id="editJsonBox">
+                    <textarea name="analysisDataSimple" maxlength="1000000"></textarea>
+                </div>
+            %elif thing.creating:
+                ##for creating a new link on the _create post_ tab
+                <div style="display:none" id="createJsonBox">
+                    <textarea name="analysisDataSimple" maxlength="1000000"></textarea>
+                </div>
+            %endif
+        %endif
+        <div class="bottom-area">
+            ${toggle_button("help-toggle", _("formatting help"), _("hide help"),
+                "helpon", "helpoff", style = "" if thing.creating else "display: none")}
+            %if thing.include_errors:
+                ${error_field("TOO_LONG", thing.name, "span")}
+                ${error_field("RATELIMIT", "ratelimit", "span")}
+                ${error_field("NO_TEXT", thing.name, "span")}
+                ${error_field("TOO_OLD", "parent", "span")}
+                ${error_field("THREAD_LOCKED", "parent", "span")}
+                ${error_field("DELETED_COMMENT", "parent", "span")}
+                ${error_field("USER_BLOCKED", "parent", "span")}
+                ${error_field("USER_MUTED", "parent", "span")}
+                ${error_field("MUTED_FROM_SUBREDDIT", "parent", "span")}
+            %endif
+            <div class="usertext-buttons">
+                ${action_button("save", "submit", "",
+                    thing.creating and thing.have_form, theClass = "btn btn-info")}
+                ${action_button("cancel", "button", "return cancel_usertext(this)", False, theClass = "btn")}
+                %if thing.have_form:
+                    <span class="status"></span>
+                %endif
+            </div>
+        </div>
+        ${markhelp(show_embed_help=thing.show_embed_help)}
     </div>
   %endif
 

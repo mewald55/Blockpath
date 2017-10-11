@@ -51,47 +51,47 @@
 ## override the link _class so that we can globally update
 ## the way links are handled (if need be)
 <%def name="_a(**kw)">
-<a ${tags(**kw)}>${caller.body()}</a>
+    <a ${tags(**kw)}>${caller.body()}</a>
 </%def>
 
 <%def name="_a_buffered(body, **kw)" buffered="True">
-<a ${tags(**kw)}>${body}</a>
+    <a ${tags(**kw)}>${body}</a>
 </%def>
 
 
 ## thing should be global
 <%def name="_id(arg)">
-id="${arg}_${thing and thing._fullname or ''}"
+    id="${arg}_${thing and thing._fullname or ''}"
 </%def>
 
 <%def name="classes(*class_names)">
-class="${" ".join(filter(None, class_names))}"
+    class="${" ".join(filter(None, class_names))}"
 </%def>
 
 <%def name="data(**data_attrs)">
-%for name, value in data_attrs.iteritems():
-data-${name}="${value}"
-%endfor
+    %for name, value in data_attrs.iteritems():
+        data-${name}="${value}"
+    %endfor
 </%def>
 
 <%def name="submit_form(onsubmit='', action='', _class='', method='post', _id='', **params)">
-<form class="${_class or ''}" onsubmit="${onsubmit or ''}" 
-      action="${action or ''}" ${_id and "id='" + _id + "'" or ""} method="${method}"
-      >
-  %if c.user_is_loggedin:
-     <input type="hidden" name="uh" value="${c.modhash}">
-  %endif
-  %for key, value in params.iteritems():
-  <input type="hidden" name="${key}" value="${value}" />
-  %endfor
-  ${caller.body()}
-</form>
+    <form class="${_class or ''}" onsubmit="${onsubmit or ''}" 
+          action="${action or ''}" ${_id and "id='" + _id + "'" or ""} method="${method}"
+          >
+      %if c.user_is_loggedin:
+         <input type="hidden" name="uh" value="${c.modhash}">
+      %endif
+      %for key, value in params.iteritems():
+        <input type="hidden" name="${key}" value="${value}" />
+      %endfor
+      ${caller.body()}
+    </form>
 </%def>
 
 <%def name="first_defined(*kw)">
-%if not kw or kw[0] == UNDEFINED or not kw[0]:
-${first_defined(kw[1:])}
-%endif
+    %if not kw or kw[0] == UNDEFINED or not kw[0]:
+        ${first_defined(kw[1:])}
+    %endif
 </%def>
 
 <%def name="form_group(field_name, *args, **kwargs)">
@@ -196,24 +196,24 @@ ${unsafe(txt)}
                           default_lang = g.lang,
                           show_regions = False, 
                           all_langs = False)">
-<% 
-   langs = g.all_languages if all_langs else g.languages 
-   if not show_regions:
-       langs = [x for x in langs if len(x) == 2]
-%>
-%if langs:
-<select id="${name}" name="${name}" disabled>
-  %if allow_blank:
-  <option ${(not default_lang) and "selected='selected'" or ""}>
-  </option>
-  %endif
-  %for x in langs:
-  <option ${x == default_lang  and "selected='selected'" or ""} value="${x}">
-    ${g.lang_name[x][0]} [${x}] ${g.lang_name[x][1]}
-  </option>
-  %endfor
-</select>
-%endif
+    <% 
+       langs = g.all_languages if all_langs else g.languages 
+       if not show_regions:
+           langs = [x for x in langs if len(x) == 2]
+    %>
+    %if langs:
+        <select id="${name}" name="${name}" disabled>
+          %if allow_blank:
+              <option ${(not default_lang) and "selected='selected'" or ""}>
+              </option>
+          %endif
+          %for x in langs:
+              <option ${x == default_lang  and "selected='selected'" or ""} value="${x}">
+                ${g.lang_name[x][0]} [${x}] ${g.lang_name[x][1]}
+              </option>
+          %endfor
+        </select>
+    %endif
 </%def>
 
 <%def name="separator(separator_char)">
@@ -364,36 +364,36 @@ ${unsafe(txt)}
           <span style="display: none;" class="error img-status"></span>
           ${error_field("IMAGE_ERROR", "span")}
           <script type="text/javascript">
-       function on_image_success(img) {}
-       function create_new_image(name) {}
+           function on_image_success(img) {}
+           function create_new_image(name) {}
 
-       function completedUploadImage(status, img_src, name, errors, form_id) {
-           var form = form_id ? $("#" + form_id) : $('form.image-upload.uploading');
-           form.removeClass('uploading');
+           function completedUploadImage(status, img_src, name, errors, form_id) {
+               var form = form_id ? $("#" + form_id) : $('form.image-upload.uploading');
+               form.removeClass('uploading');
 
-           if (status) 
-               form.find(".img-status").show().html(status);
-           else
-               form.find(".img-status").hide().html("");
-           $.map(errors, function(e) {
-                   if(e[1]) 
-                       form.find("." + e[0]).html(e[1]).show();
-                   else
-                       form.find("." + e[0]).html('').hide();
-               });
-           if(img_src) {
-              form.get(0).reset();
-              var img = (name) ? $("#img-preview-" + name) :
-                  form.find("img.img-preview:first");
-              if(!$.defined(img) || img.length == 0) 
-                  img = create_new_image(name);
-              if(img)
-                  img.attr("src", "").attr("src", img_src);
-              img.show().parent().show();
-              form.find(".delete-img").show();
-              on_image_success(img);
-          }
-       }
+               if (status) 
+                   form.find(".img-status").show().html(status);
+               else
+                   form.find(".img-status").hide().html("");
+               $.map(errors, function(e) {
+                       if(e[1]) 
+                           form.find("." + e[0]).html(e[1]).show();
+                       else
+                           form.find("." + e[0]).html('').hide();
+                   });
+               if(img_src) {
+                  form.get(0).reset();
+                  var img = (name) ? $("#img-preview-" + name) :
+                      form.find("img.img-preview:first");
+                  if(!$.defined(img) || img.length == 0) 
+                      img = create_new_image(name);
+                  if(img)
+                      img.attr("src", "").attr("src", img_src);
+                  img.show().parent().show();
+                  form.find(".delete-img").show();
+                  on_image_success(img);
+              }
+           }
           </script>
           
           <iframe src="about:blank" width="600" height="200" 
@@ -501,31 +501,31 @@ ${unsafe(txt)}
   %endif
 
   %if g.googleanalytics_gold and thing.site_tracking:
-  ## it uses new analytics.js
-  <script type="text/javascript">
-    %if thing.dnt_enabled:
-    if (!window.DO_NOT_TRACK) {
-    %endif
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','//www.google-analytics.com/analytics.js','_ga');
+      ## it uses new analytics.js
+      <script type="text/javascript">
+        %if thing.dnt_enabled:
+        if (!window.DO_NOT_TRACK) {
+        %endif
+          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+          })(window,document,'script','//www.google-analytics.com/analytics.js','_ga');
 
-      window._ga('create', '${g.googleanalytics_gold}', {
-        'name': 'goldTracker',
-        'cookieDomain': '${g.domain}',
-        '1': '${tracking.get_site()}',
-        '2': '${tracking.get_srpath()}',
-        '3': window.user_type,
-        '4': '${uitype}',
-        'sampleRate': ${g.googleanalytics_sample_rate_gold}
-      });
+          window._ga('create', '${g.googleanalytics_gold}', {
+            'name': 'goldTracker',
+            'cookieDomain': '${g.domain}',
+            '1': '${tracking.get_site()}',
+            '2': '${tracking.get_srpath()}',
+            '3': window.user_type,
+            '4': '${uitype}',
+            'sampleRate': ${g.googleanalytics_sample_rate_gold}
+          });
 
-      if (window.is_gold_page) {
-        window._ga('goldTracker.send', 'pageview');
-      }
-    %if thing.dnt_enabled:
-    }
+          if (window.is_gold_page) {
+            window._ga('goldTracker.send', 'pageview');
+          }
+        %if thing.dnt_enabled:
+        }
     %endif
   </script>
   %endif
