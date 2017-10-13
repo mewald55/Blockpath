@@ -933,10 +933,13 @@ $(function() {
         $.default_cookie_security(r.config.https_forced)
         
         /* visually mark the last-clicked entry */
+        /*
+        //Blockpath disabled last_clicked dotted border around links.
         last_click();
         $(window).on('pageshow', function() {
             last_click()
         })
+        */
 
         /* search form help expando */
         /* TODO: use focusin and focusout in jQuery 1.4 */

@@ -636,11 +636,11 @@ class Reddit(Templated):
         """generates content in <div class="rightbox">"""
 
         ps = PaneStack(css_class='spacer')
-	"""
-	#The searchbar is on the top toolbar for Blockpath
-        if self.searchbox:
-            ps.append(SearchForm())
-	"""
+        """
+        #The searchbar is on the top toolbar for Blockpath
+            if self.searchbox:
+                ps.append(SearchForm())
+        """
         sidebar_message = g.live_config.get("sidebar_message")
         if sidebar_message and isinstance(c.site, DefaultSR):
             ps.append(SidebarMessage(sidebar_message[0]))
@@ -650,11 +650,11 @@ class Reddit(Templated):
                 gold_sidebar_message and isinstance(c.site, DefaultSR)):
             ps.append(SidebarMessage(gold_sidebar_message[0],
                                      extra_class="gold"))
-	"""
-	#Don't need side login box for blockpath
-        if not c.user_is_loggedin and self.loginbox and not g.read_only_mode:
-            ps.append(LoginFormWide())
-	"""
+        """
+        #Don't need side login box for blockpath
+            if not c.user_is_loggedin and self.loginbox and not g.read_only_mode:
+                ps.append(LoginFormWide())
+        """
 
         if isinstance(c.site, DomainSR) and c.user_is_admin:
             from r2.lib.pages.admin_pages import AdminNotesSidebar
@@ -698,8 +698,8 @@ class Reddit(Templated):
 
         user_banned = c.user_is_loggedin and c.site.is_banned(c.user)
 
-	sideButtonsHTML = []
-	
+        sideButtonsHTML = []
+        
         if (self.submit_box
                 and (c.user_is_loggedin or not g.read_only_mode)
                 and not user_banned):
@@ -734,14 +734,14 @@ class Reddit(Templated):
                 fake_sub = isinstance(c.site, FakeSubreddit)
                 is_multi = isinstance(c.site, MultiReddit)
                 mod_link_override = mod_self_override = False
-		
+
                 if isinstance(c.site, FakeSubreddit):
                     submit_buttons = set(("link", "self", "analysis"))
                 else:
                     # we want to show submit buttons for logged-out users too
                     # so we can't just use can_submit_link/text
                     submit_buttons = c.site.allowed_types
-		    
+ 
                     if c.user_is_loggedin:
                         if ("link" not in submit_buttons and
                                 c.site.can_submit_link(c.user)):
@@ -751,8 +751,7 @@ class Reddit(Templated):
                                 c.site.can_submit_text(c.user)):
                             submit_buttons.add("self")
                             mod_self_override = True
-			    submit_buttons.add("analysis")
-			    
+                            submit_buttons.add("analysis") 
 
                 """if "link" in submit_buttons:
                     css_class = "submit submit-link"
@@ -786,8 +785,8 @@ class Reddit(Templated):
                                       sr_path=not fake_sub or is_multi,
                                       data_attrs=data_attrs,
                                       show_cover=True))
-		"""currently a hack until analysis is an official submit type"""
-		if "analysis" in submit_buttons:
+                """currently a hack until analysis is an official submit type"""
+                if "analysis" in submit_buttons:
                     css_class = "submit submit-analysis"
                     if mod_self_override:
                         css_class += " mod-override"
@@ -797,14 +796,24 @@ class Reddit(Templated):
                                       sr_path=not fake_sub or is_multi,
                                       data_attrs=data_attrs,
                                       show_cover=True))
-		
 
         no_ads_yet = True
         user_disabled_ads = c.user.gold and c.user.pref_hide_ads
         show_adbox = c.site.allow_ads and not (user_disabled_ads or g.disable_ads)
 
-	if sideButtonsHTML:
-		ps.append(SideContentBox(title='', content=sideButtonsHTML, extra_class="submitButtons-area"))
+        if sideButtonsHTML:
+            #Blockpath has moved the page-create button up into this content box.
+            if self.create_reddit_box and c.user_is_loggedin:
+                if (c.user._age.days >= g.min_membership_create_community and
+                        c.user.can_create_subreddit):
+                    subtitles = '' #get_funny_translated_string("create_subreddit", 2)
+                    data_attrs = {'event-action': 'createsubreddit'}
+                    sideButtonsHTML.append(SideBox('Create your own page',
+                               '/subreddits/create', 'create',
+                               subtitles=subtitles,
+                               data_attrs=data_attrs,
+                               show_cover = True))
+            ps.append(SideContentBox(title='', content=sideButtonsHTML, extra_class="submitButtons-area"))
 
         # don't show the subreddit info bar on cnames unless the option is set
         if not isinstance(c.site, FakeSubreddit):
@@ -824,17 +833,6 @@ class Reddit(Templated):
             no_ads_yet = False
         elif self.show_wiki_actions:
             ps.append(self.wiki_actions_menu())
-
-        if self.create_reddit_box and c.user_is_loggedin:
-            if (c.user._age.days >= g.min_membership_create_community and
-                    c.user.can_create_subreddit):
-                subtitles = get_funny_translated_string("create_subreddit", 2)
-                data_attrs = {'event-action': 'createsubreddit'}
-                ps.append(SideBox('Create your own page',
-                           '/pages/create', 'create',
-                           subtitles=subtitles,
-                           data_attrs=data_attrs,
-                           show_cover = True))
 
         if c.default_sr:
             hook = hooks.get_hook('home.add_sidebox')
@@ -1118,12 +1116,12 @@ class RedditFooter(CachedTemplate):
     def __init__(self):
         self.nav = [
             NavMenu([
-		NamedButton("features", False, dest="/exhibit"),
-		NamedButton("help", False, dest="/helpdocs"),
-		NamedButton("contact", False),
-		NavButton("policies",  sr_path = False, dest = '/help/privacypolicy'),
-		NamedButton("source_code", False, dest="/code")		
-	    ],
+                NamedButton("features", False, dest="/exhibit"),
+                NamedButton("help", False, dest="/helpdocs"),
+                NamedButton("contact", False),
+                NavButton("policies",  sr_path = False, dest = '/help/privacypolicy'),
+                NamedButton("source_code", False, dest="/code")		
+                ],
                 type="flat_vert",
                 separator=""),
         ]
@@ -2877,20 +2875,20 @@ class SubredditTopBar(CachedTemplate):
                        css_class = 'sr-bar')
 
     def sr_bar (self):
-	sep0 = '<span class="slideMenu_Title"> Content Categories </span>'
+        sep0 = '<span class="slideMenu_Title"> Content Categories </span>'
         sep1 = '<span class="slideMenu_Title"> Subscribed Pages </span>'
-	sep2 = '<span class="slideMenu_Title"> Popular Pages </span>'
+        sep2 = '<span class="slideMenu_Title"> Popular Pages </span>'
         menus = []
-	menus.append(RawString(sep0))
+        menus.append(RawString(sep0))
         menus.append(self.special_reddits())
         if not c.user_is_loggedin:
-	    menus.append(RawString(sep2))
+            menus.append(RawString(sep2))
             menus.append(self.popular_reddits())
         else:
-	    menus.append(RawString(sep1))
+            menus.append(RawString(sep1))
             menus.append(self.subscribed_reddits())
-	    menus.append(RawString(sep2))
-	    menus.append(self.popular_reddits(exclude_mine=True))
+            menus.append(RawString(sep2))
+            menus.append(self.popular_reddits(exclude_mine=True))
 
         return menus
 
@@ -3591,28 +3589,28 @@ class NewLink(Templated):
 
         self.show_link = False #show_link
         self.show_self = show_self
-	self.analysis = True #used in newlink.html #always include the analysis html for now
+        self.analysis = True #used in newlink.html #always include the analysis html for now
 
         tabs = []
         """if show_link:
             tabs.append(('link', ('link-desc', 'url-field','formtabs-content')))
-	"""
+        """
         if show_self:
             tabs.append(('text', ('text-desc', 'text-field','newlink')))
-	
-	tabs.append(('analysis', ('submit-analysis-guide', 'submit-analysis-header')))
+        
+        tabs.append(('analysis', ('submit-analysis-guide', 'submit-analysis-header')))
 
         if self.show_self:
-	    """and self.show_link:"""
+            """and self.show_link:"""
             all_fields = set(chain(*(parts for (tab, parts) in tabs)))
             buttons = []
 
             if selftext == 'true' or text != '':
                 self.default_tab = tabs[0][0]
-	    elif analysis== 'true':
-		self.default_tab = tabs[1][0]
-		"""Matt: I know this elif statement is redundant, but it is a reminder to myself in the future
-		when we want to add functionality"""
+            elif analysis== 'true':
+                self.default_tab = tabs[1][0]
+                """Matt: I know this elif statement is redundant, but it is a reminder to myself in the future
+                when we want to add functionality"""
             else:
                 self.default_tab = tabs[1][0]
             for tab_name, parts in tabs:
@@ -3624,13 +3622,13 @@ class NewLink(Templated):
                     self.default_show = to_show
                     self.default_hide = to_hide
 
-		""" Im sorry for this hack..."""
-		if tab_name == 'text':
-		    long_name = 'Text-Only Post'
-		elif tab_name == 'analysis':
-		    long_name = 'Post with Bitcoin Data'
-		else:
-		    long_name = 'Error!'
+                """ Im sorry for this hack..."""
+                if tab_name == 'text':
+                    long_name = 'Text-Only Post'
+                elif tab_name == 'analysis':
+                    long_name = 'Post with Bitcoin Data'
+                else:
+                    long_name = 'Error!'
                 buttons.append(JsButton(long_name, onclick=onclick, css_class=tab_name + "-button"))
 
             self.formtabs_menu = JsNavMenu(buttons, type = 'formtab')
@@ -4930,7 +4928,7 @@ class UserText(CachedTemplate):
     def __init__(self,
                  item,
                  text = '',
-		 analysisData = '',
+                analysisData = '',
                  have_form = True,
                  editable = False,
                  creating = False,
@@ -4972,7 +4970,7 @@ class UserText(CachedTemplate):
         CachedTemplate.__init__(self,
                                 fullname = fullname,
                                 text = text,
-				analysisData = analysisData,
+                                analysisData = analysisData,
                                 have_form = have_form,
                                 editable = editable,
                                 creating = creating,

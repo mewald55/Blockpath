@@ -757,8 +757,9 @@ body > .content .link.compressed .midcol {
 }
 
 .entry {
-    overflow: hidden; 
+    overflow: hidden;
     margin-left: 3px;
+    padding-right: 11px;
     opacity: 1;
 }
 .domain { color: #888; font-size:x-small; white-space: nowrap; }
@@ -1986,10 +1987,13 @@ a.star { text-decoration: none; color: #ff8b60 }
     border: none;
     margin-right: 4px;
     line-height: 1.6em;
+    float: right;
 }
+
+/*
 .entry .buttons li + li {
     padding-left: 4px;
-}
+}*/
 
 .entry .buttons li.stamp + li.stamp {
     margin-left: 4px;
@@ -4555,7 +4559,8 @@ form input[type=radio] {margin: 2px .5em 0 0; }
 
 .thumbnail.self {
     height: 50px;
-    background-image: url(../self_default2.png); /* SPRITE */
+    //background-image: url(../self_default2.png); /* SPRITE */
+    //for now Blockpath will just have a blank space for self post thumbnails.
 }
 
 .thumbnail.default {
@@ -5206,12 +5211,12 @@ ul.tabmenu.formtab {
 .usertext-edit {
     /*margin-top: 5px;*/
     padding: 0 1px; /* so the border of help/textbox don't get chopped off */
-    width: 93% !important;
+    //width: 93% !important;
     margin:auto;
 }
 
 .usertext-edit textarea {
-    width: 97% !important;
+    width: 96% !important;
     height: 100px;
 }
 

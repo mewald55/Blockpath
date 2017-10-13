@@ -661,9 +661,11 @@ class Link(Thing, Printable):
                 else:
                     item.thumbnail = ""
                 item.preview_image = None
-            elif not show_media:
-                item.thumbnail = ""
-                item.preview_image = None
+            #Blockpath disabled this flag so that selftext posts get a blankthumbnail, even with show_media being off.
+            #elif not show_media:
+            #    g.log.warning("showmedia")
+            #    item.thumbnail = ""
+            #    item.preview_image = None
             elif (item._deleted or
                   item._spam and item._date < timeago("6 hours")):
                 item.thumbnail = "default"

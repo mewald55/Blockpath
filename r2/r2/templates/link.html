@@ -109,7 +109,8 @@
 </%def>
 
 <%def name="bottom_buttons()">
-  <ul class="flat-list buttons summaryPreview">
+  ## summaryPreview class removed here.
+  <ul class="flat-list buttons">
     %if thing.quarantine:
       <li>
         <span class="quarantine-stamp stamp">${quarantine_stamp()}</span>
@@ -122,7 +123,9 @@
     %endif
     ${self.buttons()}
     ${self.admintagline()}
-    ${makeAnalysisSummaryPreview()}
+    
+    ## analysis data summary not used now...
+    ##${makeAnalysisSummaryPreview()}
   </ul>
   <div class="reportform report-${thing._fullname}"></div>
  </%def>
@@ -181,12 +184,12 @@
             ${child_content}
         %else:
             %if thing.selftext:
-                %if len(thing.selftext) < 201:
+                %if len(thing.selftext) < 251:
                     <%selftext_hide = True%>
                 %endif
                 <div class="usertext-body may-blank-within md-container ${'admin_takedown' if thing.admin_takedown else ''}">
                     %if not thing.expunged:
-                        ${unsafe(safemarkdown(maxParagraphLength(thing.selftext, 200), nofollow = thing.nofollow))}
+                        ${unsafe(safemarkdown(maxParagraphLength(thing.selftext, 250), nofollow = thing.nofollow))}
                     %else:
                         <em>${_("[removed]")}</em>&#32;
                     %endif
@@ -306,8 +309,8 @@ ${bottom_buttons()}
 
 <%def name="thumbnail()">
   %if thing.thumbnail:
-  <%call expr="make_link('thumbnail', 'thumbnail ' + (thing.thumbnail if thing.thumbnail_sprited else ''))">
-    ${thumbnail_img(thing)}
-  </%call>
+      <%call expr="make_link('thumbnail', 'thumbnail ' + (thing.thumbnail if thing.thumbnail_sprited else ''))">
+        ${thumbnail_img(thing)}
+      </%call>
   %endif
 </%def>

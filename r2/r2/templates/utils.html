@@ -180,16 +180,16 @@
 
 
 <%def name="text_with_links(txt, _sr_path = False, nocname=False, **kw)">
-<%
-   from r2.lib.filters import conditional_websafe
-   for key, link_args in kw.iteritems():
-      link_args.setdefault("_sr_path", _sr_path)
-      kw[key]=spaceCompress(capture(plain_link, **link_args))
-   txt = conditional_websafe(txt) % kw
-   txt = txt.replace(" <", "&#32;<").replace("> ", ">&#32;")
+    <%
+       from r2.lib.filters import conditional_websafe
+       for key, link_args in kw.iteritems():
+          link_args.setdefault("_sr_path", _sr_path)
+          kw[key]=spaceCompress(capture(plain_link, **link_args))
+       txt = conditional_websafe(txt) % kw
+       txt = txt.replace(" <", "&#32;<").replace("> ", ">&#32;")
 
-%>
-${unsafe(txt)}
+    %>
+    ${unsafe(txt)}
 </%def>
 
 <%def name="language_tool(name='lang', allow_blank = False, 
@@ -718,19 +718,18 @@ ${unsafe(txt)}
 
 <%def name="thumbnail_img(thing)">
   %if thing.thumbnail == "hasAnalysis" and thing.analysisSummary and "postType" in thing.analysisSummary:
-
         %if thing.analysisSummary["postType"] == "txs":
             %if thing.analysisSummary["numOfTXs"] == 1:
                 <svg width="70" height="50" viewBox="0 -3 24 27">
-                    <path d="M16 0H8v6h8V0z   M13 15v-7h-2v7h2z      M13 20v2h-2v-2h2z     m2-2H9v6h6v-6z    "/>
+                    <path fill="grey" d="M16 0H8v6h8V0z   M13 15v-7h-2v7h2z      M13 20v2h-2v-2h2z     m2-2H9v6h6v-6z    "/>
                 </svg>
             %elif thing.analysisSummary["numOfTXs"] > 1:
                 <svg width="70" height="50" viewBox="0 -3 24 27">
-                    <path d="M16 0H8v6h8V0zM6 20v2H2v-2h4zm2-2H0v6h8v-6zm14 2v2h-4v-2h4zm2-2h-8v6h8v-6zm-11-7V8h-2v3H3v5h2v-3h14v3h2v-5h-8z"/>
+                    <path fill="grey" d="M16 0H8v6h8V0zM6 20v2H2v-2h4zm2-2H0v6h8v-6zm14 2v2h-4v-2h4zm2-2h-8v6h8v-6zm-11-7V8h-2v3H3v5h2v-3h14v3h2v-5h-8z"/>
                 </svg>
             %elif thing.analysisSummary["numOfTXs"] > 100:
                 <svg width="70" height="50" viewBox="0 -3 24 27">
-                    <path d="M16 0H8v6h8V0zM4 20v2H2v-2h2zm2-2H0v6h6v-6zm16 2v2h-2v-2h2zm2-2h-6v6h6v-6zm-11-7V8h-2v3H2v5h2v-3h7v3h2v-3h7v3h2v-5h-9zm0 9v2h-2v-2h2zm2-2H9v6h6v-6z"/>
+                    <path fill="grey" d="M16 0H8v6h8V0zM4 20v2H2v-2h2zm2-2H0v6h6v-6zm16 2v2h-2v-2h2zm2-2h-6v6h6v-6zm-11-7V8h-2v3H2v5h2v-3h7v3h2v-3h7v3h2v-5h-9zm0 9v2h-2v-2h2zm2-2H9v6h6v-6z"/>
                 </svg>
             %endif
         
@@ -741,7 +740,7 @@ ${unsafe(txt)}
                 </svg>
             %elif len(thing.analysisSummary["addresses"]) > 1:
                 <svg  width="70" height="70" viewBox="0 0 1024 1024">
-                    <path transform="translate(186,0)scale(0.7)" fill="green" d="M512 0c-176.732 0-320 143.268-320 320 0 320 320 704 320 704s320-384 320-704c0-176.732-143.27-320-320-320zM512 512c-106.040 0-192-85.96-192-192s85.96-192 192-192 192 85.96 192 192-85.96 192-192 192z"></path>
+                    <path transform="translate(186,0)scale(0.7)" fill="grey" d="M512 0c-176.732 0-320 143.268-320 320 0 320 320 704 320 704s320-384 320-704c0-176.732-143.27-320-320-320zM512 512c-106.040 0-192-85.96-192-192s85.96-192 192-192 192 85.96 192 192-85.96 192-192 192z"></path>
                     <path transform="translate(600,500)scale(0.45)" fill="grey" d="M512 0c-176.732 0-320 143.268-320 320 0 320 320 704 320 704s320-384 320-704c0-176.732-143.27-320-320-320zM512 512c-106.040 0-192-85.96-192-192s85.96-192 192-192 192 85.96 192 192-85.96 192-192 192z"></path>
                     <path transform="translate(0,500)scale(0.45)" fill="grey" d="M512 0c-176.732 0-320 143.268-320 320 0 320 320 704 320 704s320-384 320-704c0-176.732-143.27-320-320-320zM512 512c-106.040 0-192-85.96-192-192s85.96-192 192-192 192 85.96 192 192-85.96 192-192 192z"></path>
                 </svg>
@@ -765,5 +764,8 @@ ${unsafe(txt)}
     %if (thing.thumbnail != "hasAnalysis"):
         <img src="${make_url_protocol_relative(thing.thumbnail)}" ${size_str} alt="">
     %endif
+  %elif thing.thumbnail == "self":
+    ##self posts fall into this statement. The css class: .thumbnail.self assigns a default image for these.
+    
   %endif
 </%def>

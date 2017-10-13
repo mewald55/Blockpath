@@ -149,7 +149,7 @@ class ListingController(RedditController):
                                page_classes=self.extra_page_classes,
                                show_sidebar=self.show_sidebar,
                                show_chooser=self.show_chooser,
-			       show_newsletterbar=False, #Blockpath disabled this for now.
+                               show_newsletterbar=False, #Blockpath disabled this for now.
                                nav_menus=self.menus,
                                title=self.title(),
                                infotext=self.infotext,
@@ -483,7 +483,7 @@ class ListingWithPromos(SubredditListingController):
 class HotController(ListingWithPromos):
     where = 'hot'
     extra_page_classes = ListingController.extra_page_classes + ['hot-page']
-    show_chooser = True
+    show_chooser = False #blockpath disabled.
     next_suggestions_cls = ListingSuggestions
     show_organic = True
 
@@ -577,7 +577,7 @@ class NewController(ListingWithPromos):
     where = 'new'
     title_text = _('newest submissions')
     extra_page_classes = ListingController.extra_page_classes + ['new-page']
-    show_chooser = True
+    show_chooser = False #blockpath disabled.
     next_suggestions_cls = ListingSuggestions
 
     def keep_fn(self):
@@ -617,7 +617,7 @@ class RisingController(NewController):
 
 class BrowseController(ListingWithPromos):
     where = 'browse'
-    show_chooser = True
+    show_chooser = False #blockpath disabled.
     next_suggestions_cls = ListingSuggestions
 
     def keep_fn(self):
@@ -1000,7 +1000,7 @@ class UserController(ListingController):
             return self.abort403()
 
         if where == 'saved':
-            self.show_chooser = True
+            self.show_chooser = False #blockpath disabled.
             category = VSavedCategory('category').run(env.get('category'))
             srname = request.GET.get('sr')
             if srname and c.user.gold:

@@ -917,7 +917,7 @@ class BlockpathpayController(GoldPaymentController):
 
         #an additional secret for blockpathpay... #todo: maybe make this more secretive
         if event_dict['secretSig'] != g.secrets['blockpathpay_secret']:
-            g.log.error("input: %s,  internalSecret: %s" % (event_dict['secretSig'], g.secrets['blockpathpay_secret']) )
+            #g.log.error("input: %s,  internalSecret: %s" % (event_dict['secretSig'], g.secrets['blockpathpay_secret']) )
             g.log.error('blockpathpay: Warning! Wrong 2nd layer key for accepting payments, from: %s' % request.ip)
             return None, None
         transaction_id = 'B%s' % event_dict['id'] #literally the bitcoin transaction id

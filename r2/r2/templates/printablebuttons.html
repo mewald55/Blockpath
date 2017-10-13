@@ -321,249 +321,253 @@
 </%def>
 
 <%def name="linkbuttons()">
-  <hr class="linkButtonsHR"></hr>
-  %if thing.show_comments:
-    <li class="first">
-    ${self.bylink_button(
-        thing.comment_label,
-        thing.permalink,
-        sr_path=(thing.promoted is None),
-        a_class=unsafe("bylink %s" % thing.commentcls),
-        event_action="comments", makeSVG = True)}
-    </li>
-  %endif
-  <div class="dropdown block-summary">
-  <button title="More options" class="btn btn-link dropdown-toggle blockpathLinkMore" style="outline: 0;" type="button" data-toggle="dropdown">
-  <svg  width="25" height="25" viewBox="0 0 30 30">
-	<circle cx="15" cy="15" r="13" stroke="grey" stroke-width="3" fill="none"/>
-	<circle cx="15" cy="15" r="2" stroke="grey" stroke-width="1" fill="grey"/>
-	<circle cx="10" cy="15" r="2" stroke="grey" stroke-width="1" fill="grey"/>
-	<circle cx="20" cy="15" r="2" stroke="grey" stroke-width="1" fill="grey"/>
-</svg>
-</button>
-  
-  <ul class="dropdown-menu ">
-  %if thing.editable and not thing.promoted:
-    <li>
-      ${self.simple_button(_("edit"), "edit_usertext", css_class="edit-usertext")}
-    </li>
-  %endif
-  % if thing.show_share:
-    <li class="share">
-      <a class="post-sharing-button" href="javascript: void 0;">${_("share")}</a>
-    </li>
-  % endif
-  %if thing.is_loggedin and not thing.deleted:
-    %if thing.saved:
-      <li class="link-unsave-button save-button"><a href="#">${_("unsave")}</a></li>
-    %else:
-      <li class="link-save-button save-button"><a href="#">${_("save")}</a></li>
-    %endif
-    <li>
-    %if thing.hidden:
-      ${self.state_button("unhide", _("unhide"), \
-        "change_state(this, 'unhide', hide_thing);", _("unhidden"),
-        access_required=False, event_action="unhide")}
-    %else:
-      ${self.state_button("hide", _("hide"), \
-         "change_state(this, 'hide', hide_thing);", _("hidden"),
-         access_required=False, event_action="hide")}
-    %endif
-    </li>
-  %endif
-
-  ${self.distinguish()}
-  ${self.give_gold()}
-  ${self.banbuttons()}
-  %if thing.promoted is not None:
-    %if thing.user_is_sponsor or thing.is_author:
-       <li>
-         ${plain_link(_("edit"), thing.promo_url, _sr_path = False)}
-       </li>
-    %endif
-    %if c.user_is_sponsor:
-      %if thing.show_approval:
-        %if thing.promote_status not in (PROMOTE_STATUS.rejected, PROMOTE_STATUS.finished):
-          <li>
-            <form action="/post/reject" class="rejection-form"
-                 style="display:none"
-                 %if getattr(thing, "hide_after_seen", False):
-                   data-hide-after-seen="true"
-                 %endif
-                 method="post" onsubmit="reject post_form(this, 'unpromote')">
-              <br/>
-              <input type="hidden" name="executed" value="rejected" />
-              <label>Reason:</label><br/>
-              <textarea name="reason" value="" ></textarea>
-              <br/>
-              <a href="javascript: void 0;"
-                onclick="change_state(this, 'unpromote', complete_reject_promo)">
-               submit
-              </a>/
-            </form>
-            ${toggle_button("reject_promo", \
-                           _("reject"), _("cancel"), \
-                           "reject_promo", "cancel_reject_promo")}
-          </li>
-        %endif
-        %if thing.promote_status in (PROMOTE_STATUS.unpaid, PROMOTE_STATUS.unseen, PROMOTE_STATUS.rejected, PROMOTE_STATUS.edited_live):
-          <li>
-            ${ynbutton(_("accept"), \
-                       _("accepted"), "promote", \
-                       callback="hide_thing" if getattr(thing, "hide_after_seen", False) else "null")}
-          </li>
-        %endif
-      %endif
-      %if thing.is_awaiting_fraud_review:
-        <li class="fraud-button">
-          <a href="javascript:void(0)" class="action-thing" data-action-form="#fraud-action-form" title="${thing.payment_flagged_reason}">
-            ${_("fraud")}
-          </a>
+    ## <hr class="linkButtonsHR"></hr>
+    %if thing.show_comments:
+        <li class="" style="margin-top: 3px;">
+            ${self.bylink_button(
+                thing.comment_label,
+                thing.permalink,
+                sr_path=(thing.promoted is None),
+                a_class=unsafe("bylink %s" % thing.commentcls),
+                event_action="comments", makeSVG = True)}
         </li>
-      %endif
     %endif
-    %if thing.user_is_sponsor or thing.is_author:
-      <li>
-        ${plain_link(_("traffic"), thing.traffic_url, _sr_path = False)}
-      </li>
+    ## We wont show the link options button to logged out users because there aren't many options for them anyways
+    %if c.user_is_loggedin:
+        <li class="listDivider"></li>
+        <li class="dropdown block-summary">
+            <button title="More options" class="btn btn-link dropdown-toggle blockpathLinkMore" style="outline: 0;" type="button" data-toggle="dropdown">
+                <svg  width="25" height="25" viewBox="0 0 30 30">
+                    <circle cx="15" cy="15" r="13" stroke="grey" stroke-width="3" fill="none"/>
+                    <circle cx="15" cy="15" r="2" stroke="grey" stroke-width="1" fill="grey"/>
+                    <circle cx="10" cy="15" r="2" stroke="grey" stroke-width="1" fill="grey"/>
+                    <circle cx="20" cy="15" r="2" stroke="grey" stroke-width="1" fill="grey"/>
+                </svg>
+            </button>
+          
+          <ul class="dropdown-menu ">
+              %if thing.editable and not thing.promoted:
+                <li>
+                  ${self.simple_button(_("edit"), "edit_usertext", css_class="edit-usertext")}
+                </li>
+              %endif
+              % if thing.show_share:
+                <li class="share">
+                  <a class="post-sharing-button" href="javascript: void 0;">${_("share")}</a>
+                </li>
+              % endif
+              %if thing.is_loggedin and not thing.deleted:
+                %if thing.saved:
+                  <li class="link-unsave-button save-button"><a href="#">${_("unsave")}</a></li>
+                %else:
+                  <li class="link-save-button save-button"><a href="#">${_("save")}</a></li>
+                %endif
+                <li>
+                %if thing.hidden:
+                  ${self.state_button("unhide", _("unhide"), \
+                    "change_state(this, 'unhide', hide_thing);", _("unhidden"),
+                    access_required=False, event_action="unhide")}
+                %else:
+                  ${self.state_button("hide", _("hide"), \
+                     "change_state(this, 'hide', hide_thing);", _("hidden"),
+                     access_required=False, event_action="hide")}
+                %endif
+                </li>
+              %endif
+
+              ${self.distinguish()}
+              ${self.give_gold()}
+              ${self.banbuttons()}
+              %if thing.promoted is not None:
+                %if thing.user_is_sponsor or thing.is_author:
+                   <li>
+                     ${plain_link(_("edit"), thing.promo_url, _sr_path = False)}
+                   </li>
+                %endif
+                %if c.user_is_sponsor:
+                  %if thing.show_approval:
+                    %if thing.promote_status not in (PROMOTE_STATUS.rejected, PROMOTE_STATUS.finished):
+                      <li>
+                        <form action="/post/reject" class="rejection-form"
+                             style="display:none"
+                             %if getattr(thing, "hide_after_seen", False):
+                               data-hide-after-seen="true"
+                             %endif
+                             method="post" onsubmit="reject post_form(this, 'unpromote')">
+                          <br/>
+                          <input type="hidden" name="executed" value="rejected" />
+                          <label>Reason:</label><br/>
+                          <textarea name="reason" value="" ></textarea>
+                          <br/>
+                          <a href="javascript: void 0;"
+                            onclick="change_state(this, 'unpromote', complete_reject_promo)">
+                           submit
+                          </a>/
+                        </form>
+                        ${toggle_button("reject_promo", \
+                                       _("reject"), _("cancel"), \
+                                       "reject_promo", "cancel_reject_promo")}
+                      </li>
+                    %endif
+                    %if thing.promote_status in (PROMOTE_STATUS.unpaid, PROMOTE_STATUS.unseen, PROMOTE_STATUS.rejected, PROMOTE_STATUS.edited_live):
+                      <li>
+                        ${ynbutton(_("accept"), \
+                                   _("accepted"), "promote", \
+                                   callback="hide_thing" if getattr(thing, "hide_after_seen", False) else "null")}
+                      </li>
+                    %endif
+                  %endif
+                  %if thing.is_awaiting_fraud_review:
+                    <li class="fraud-button">
+                      <a href="javascript:void(0)" class="action-thing" data-action-form="#fraud-action-form" title="${thing.payment_flagged_reason}">
+                        ${_("fraud")}
+                      </a>
+                    </li>
+                  %endif
+                %endif
+                %if thing.user_is_sponsor or thing.is_author:
+                  <li>
+                    ${plain_link(_("traffic"), thing.traffic_url, _sr_path = False)}
+                  </li>
+                %endif
+              %endif
+
+              %if thing.show_reports and not thing.show_spam:
+                ${reports_button()}
+              %endif
+
+              %if getattr(thing.thing, "use_big_modbuttons", False):
+                 ${big_modbuttons(thing.thing)}
+              %elif thing.ignore_reports and thing.can_ban:
+                ${ignore_reports_toggle(thing.thing)}
+              %endif
+
+              %if thing.show_reports and not thing.show_spam and (thing.mod_reports or thing.user_reports):
+                ${report_reasons()}
+              %endif
+
+          </ul>
+        </li>
     %endif
-  %endif
-
-  %if thing.show_reports and not thing.show_spam:
-    ${reports_button()}
-  %endif
-
-  %if getattr(thing.thing, "use_big_modbuttons", False):
-     ${big_modbuttons(thing.thing)}
-  %elif thing.ignore_reports and thing.can_ban:
-    ${ignore_reports_toggle(thing.thing)}
-  %endif
-
-  %if thing.show_reports and not thing.show_spam and (thing.mod_reports or thing.user_reports):
-    ${report_reasons()}
-  %endif
-
-</ul>
-</div>
 </%def>
 
 <%def name="commentbuttons()">
   %if not thing.deleted:
     %if not getattr(thing, "suppress_reply_buttons", False) and (thing.can_reply or thing.locked):
       <li class="reply-button">
-      %if thing.can_reply:
-	<a class="access-required" href="javascript:void(0)" data-event-action="comment" onclick="return reply(this)">
-	      <svg width="20" height="20"  fill="grey" viewBox="-24 0 24 24">
-		<path transform="scale(-1,1)" d="M16 15v4l8-8.035-8-7.965v4s-13.277 2.144-16 14c5.796-6.206 16-6 16-6z"/>
-	      </svg>
-	</a>
-      %else:
-	<a class="locked-error access-required" href="javascript:void(0)" data-event-action="comment" onclick="return void(this)">
-	     <svg width="20" height="20"  fill="grey" viewBox="-24 0 24 24">
-		<path transform="scale(-1,1)" d="M16 15v4l8-8.035-8-7.965v4s-13.277 2.144-16 14c5.796-6.206 16-6 16-6z"/>
-	     </svg>
-	</a>
-      %endif
+          %if thing.can_reply:
+            <a class="access-required" href="javascript:void(0)" data-event-action="comment" onclick="return reply(this)">
+                  <svg width="20" height="20"  fill="grey" viewBox="-24 0 24 24">
+                <path transform="scale(-1,1)" d="M16 15v4l8-8.035-8-7.965v4s-13.277 2.144-16 14c5.796-6.206 16-6 16-6z"/>
+                  </svg>
+            </a>
+              %else:
+            <a class="locked-error access-required" href="javascript:void(0)" data-event-action="comment" onclick="return void(this)">
+                 <svg width="20" height="20"  fill="grey" viewBox="-24 0 24 24">
+                <path transform="scale(-1,1)" d="M16 15v4l8-8.035-8-7.965v4s-13.277 2.144-16 14c5.796-6.206 16-6 16-6z"/>
+                 </svg>
+            </a>
+          %endif
       </li>
     %endif
     <li>
-    <button class="btn btn-link blockpathLinkMore" style="outline: 0;" type="button" onclick='$(this).next(".comment-buttons").animate({"opacity" : "toggle"});'>
-	<svg  width="20" height="20" viewBox="0 0 30 30">
-		<circle cx="15" cy="15" r="13" stroke="grey" stroke-width="3" fill="none"/>
-		<circle cx="15" cy="15" r="2" stroke="grey" stroke-width="1" fill="grey"/>
-		<circle cx="10" cy="15" r="2" stroke="grey" stroke-width="1" fill="grey"/>
-		<circle cx="20" cy="15" r="2" stroke="grey" stroke-width="1" fill="grey"/>
-	</svg>
-    </button>
+        <button class="btn btn-link blockpathLinkMore" style="outline: 0;" type="button" onclick='$(this).next(".comment-buttons").animate({"opacity" : "toggle"});'>
+        <svg  width="20" height="20" viewBox="0 0 30 30">
+            <circle cx="15" cy="15" r="13" stroke="grey" stroke-width="3" fill="none"/>
+            <circle cx="15" cy="15" r="2" stroke="grey" stroke-width="1" fill="grey"/>
+            <circle cx="10" cy="15" r="2" stroke="grey" stroke-width="1" fill="grey"/>
+            <circle cx="20" cy="15" r="2" stroke="grey" stroke-width="1" fill="grey"/>
+        </svg>
+        </button>
 
-    <ul class="flat-list comment-buttons" style="display:none; opacity:1;" >
-	    <li class="first">
-	      ${self.bylink_button(_("permalink"), thing.permalink)}
-	    </li>
-	    %if thing.embed_button:
-	      <li>
-		${thing.embed_button.render()}
-	      </li>
-	    %endif
+        <ul class="flat-list comment-buttons" style="display:none; opacity:1;" >
+            <li class="first">
+              ${self.bylink_button(_("permalink"), thing.permalink)}
+            </li>
+            %if thing.embed_button:
+              <li>
+                ${thing.embed_button.render()}
+            </li>
+            %endif
 
-	    %if thing.saved:
-	      <li class="comment-unsave-button save-button">
-		<a href="javascript:void(0)">${_("unsave")}</a>
-	      </li>
-	    %else:
-	      <li class="comment-save-button save-button">
-		<a href="javascript:void(0)">${_("save")}</a>
-	      </li>
-	    %endif
+            %if thing.saved:
+              <li class="comment-unsave-button save-button">
+                <a href="javascript:void(0)">${_("unsave")}</a>
+              </li>
+            %else:
+              <li class="comment-save-button save-button">
+                <a href="javascript:void(0)">${_("save")}</a>
+              </li>
+            %endif
 
-	    %if c.profilepage:
-	      <li>
-		${self.bylink_button(_("context"), thing.permalink + "?context=3", event_action="context")}
-	      </li>
-	      <li class="first">
-	      ${self.bylink_button(
-		_("full comments") + " (%d)" % thing.full_comment_count, 
-		thing.full_comment_path,
-		sr_path=True,
-		a_class="bylink may-blank",
-                event_action="full_comments")}
-	      </li>
-	    %endif
+            %if c.profilepage:
+              <li>
+                ${self.bylink_button(_("context"), thing.permalink + "?context=3", event_action="context")}
+              </li>
+              <li class="first">
+                  ${self.bylink_button(
+                    _("full comments") + " (%d)" % thing.full_comment_count, 
+                    thing.full_comment_path,
+                    sr_path=True,
+                    a_class="bylink may-blank",
+                    event_action="full_comments")}
+              </li>
+            %endif
 
-	    %if thing.parent_permalink and not thing.profilepage:
-	      <li>
-		${self.bylink_button(_("parent"), thing.parent_permalink, event_action="parent")}
-	      </li>
-	    %endif
+            %if thing.parent_permalink and not thing.profilepage:
+              <li>
+                ${self.bylink_button(_("parent"), thing.parent_permalink, event_action="parent")}
+              </li>
+            %endif
 
-	    %if thing.is_author:
-	      %if thing.editable:
-		<li>
-		  ${self.simple_button(_("edit"), "edit_usertext", css_class="edit-usertext")}
-		</li>
-	      %endif
-	      <li>
-		%if thing.thing.inbox_replies_enabled:
-		  ${ynbutton(_("disable inbox replies"), _("inbox replies disabled"), "sendreplies",
-		    hidden_data=dict(id=thing.thing._fullname, state=False), 
-		    access_required=False, event_action="disable_inbox_replies")}
-		%else:
-		  ${ynbutton(_("enable inbox replies"), _("inbox replies enabled"), "sendreplies",
-		    hidden_data=dict(id=thing.thing._fullname, state=True), 
-		    access_required=False, event_action="enable_inbox_replies")}
-		%endif
-	      </li>
-	    %endif
+            %if thing.is_author:
+              %if thing.editable:
+                <li>
+                  ${self.simple_button(_("edit"), "edit_usertext", css_class="edit-usertext")}
+                </li>
+              %endif
+              <li>
+                %if thing.thing.inbox_replies_enabled:
+                  ${ynbutton(_("disable inbox replies"), _("inbox replies disabled"), "sendreplies",
+                    hidden_data=dict(id=thing.thing._fullname, state=False), 
+                    access_required=False, event_action="disable_inbox_replies")}
+                %else:
+                ${ynbutton(_("enable inbox replies"), _("inbox replies enabled"), "sendreplies",
+                    hidden_data=dict(id=thing.thing._fullname, state=True), 
+                    access_required=False, event_action="enable_inbox_replies")}
+                %endif
+              </li>
+            %endif
 
-	    ${self.banbuttons()}
-	    ${self.distinguish()}
-	    ${self.give_gold()}
-	    ${self.show_admin_context()}
+            ${self.banbuttons()}
+            ${self.distinguish()}
+            ${self.give_gold()}
+            ${self.show_admin_context()}
 
-    	    %if not getattr(thing, "suppress_reply_buttons", False) and (thing.can_reply or thing.locked):
-     		 <li class="reply-button">
-    		 %if thing.can_reply:
-       		   ${self.simple_button(_("reply {verb}"), "reply", css_class="access-required", event_action="comment")}
-      		%else:
-      		  ${self.simple_button(_("reply {verb}"), "void", css_class="locked-error access-required", event_action="comment")}
-     	    	%endif
-    		</li>
-    	    %endif
+            %if not getattr(thing, "suppress_reply_buttons", False) and (thing.can_reply or thing.locked):
+                <li class="reply-button">
+                    %if thing.can_reply:
+                        ${self.simple_button(_("reply {verb}"), "reply", css_class="access-required", event_action="comment")}
+                    %else:
+                        ${self.simple_button(_("reply {verb}"), "void", css_class="locked-error access-required", event_action="comment")}
+                    %endif
+                </li>
+            %endif
 
-  	    %if thing.show_reports and not thing.show_spam:
-   	      ${reports_button()}
-   	    %endif
+            %if thing.show_reports and not thing.show_spam:
+              ${reports_button()}
+            %endif
 
-	    %if getattr(thing.thing, "use_big_modbuttons", False):
-	       ${big_modbuttons(thing.thing)}
-	    %elif thing.ignore_reports and thing.can_ban:
-	      ${ignore_reports_toggle(thing.thing)}
-	    %endif
+            %if getattr(thing.thing, "use_big_modbuttons", False):
+               ${big_modbuttons(thing.thing)}
+            %elif thing.ignore_reports and thing.can_ban:
+              ${ignore_reports_toggle(thing.thing)}
+            %endif
 
-	    %if thing.show_reports and not thing.show_spam and (thing.mod_reports or thing.user_reports):
-	      ${report_reasons()}
-	    %endif
-    </ul>
+            %if thing.show_reports and not thing.show_spam and (thing.mod_reports or thing.user_reports):
+              ${report_reasons()}
+            %endif
+        </ul>
     </li>
   %endif
 </%def>
@@ -780,49 +784,49 @@
        css_class, alt_css_class = alt_css_class, css_class
    extra_class = "login-required" if login_required else ""
  %>
-<span class="${class_name} toggle" style="${style}" ${data(**data_attrs or dict())}>
- <a class="option active ${css_class} ${extra_class}" href="#" tabindex="100"
-    %if not login_required or c.user_is_loggedin:
-      onclick="return toggle(this, ${callback}, ${cancelback})"
-    %endif
-    >
-   %if title:
-     ${title}
-   %else:
-     &nbsp;
-   %endif
- </a>
- <a class="option ${alt_css_class}" href="#">
-   %if alt_title:
-     ${alt_title}
-   %else:
-     &nbsp;
-   %endif
- </a>
-</span>
+    <span class="${class_name} toggle" style="${style}" ${data(**data_attrs or dict())}>
+     <a class="option active ${css_class} ${extra_class}" href="#" tabindex="100"
+        %if not login_required or c.user_is_loggedin:
+          onclick="return toggle(this, ${callback}, ${cancelback})"
+        %endif
+        >
+       %if title:
+         ${title}
+       %else:
+         &nbsp;
+       %endif
+     </a>
+     <a class="option ${alt_css_class}" href="#">
+       %if alt_title:
+         ${alt_title}
+       %else:
+         &nbsp;
+       %endif
+     </a>
+    </span>
 </%def>
 
 ### originally in commentbutton ###Reddit renamed this to bylink_button
 <%def name="comment_button(name, link_text, link,\
             _sr_path = True, a_class='', title='', makeSVG = False)">
-	%if makeSVG:
-		<a title="Number of comments in post" class="commentSVG" href='${makeSR_href(link, _sr_path)}'>
-			<svg  width="25" height="25" viewBox="0 0 31 30"><path fill="blue" d=" M15 4c-1.583 0-3.112 0.248-4.543 0.738-1.341 0.459-2.535 1.107-3.547 1.926-1.876 1.518-2.91 3.463-2.91 5.474 0 1.125 0.315 2.217 0.935 3.247 0.646 1.073 1.622 2.056 2.821 2.842 0.951 0.624 1.592 1.623 1.761 2.748 0.028 0.187 0.051 0.375 0.068 0.564 0.085-0.079 0.169-0.16 0.254-0.244 0.754-0.751 1.771-1.166 2.823-1.166 0.167 0 0.335 0.011 0.503 0.032 0.605 0.077 1.223 0.116 1.836 0.116 1.583 0 3.112-0.248 4.543-0.738 1.341-0.459 2.535-1.107 3.547-1.926 1.876-1.518 2.91-3.463 2.91-5.474s-1.033-3.956-2.91-5.474c-1.012-0.819-2.206-1.467-3.547-1.926-1.431-0.49-2.96-0.738-4.543-0.738zM15 0v0c8.284 0 15 5.435 15 12.139s-6.716 12.139-15 12.139c-0.796 0-1.576-0.051-2.339-0.147-3.222 3.209-6.943 3.785-10.661 3.869v-0.785c2.008-0.98 3.625-2.765 3.625-4.804 0-0.285-0.022-0.564-0.063-0.837-3.392-2.225-5.562-5.625-5.562-9.434 0-6.704 6.716-12.139 15-12.139z"></path></svg>
-			${thing.comment_label}
-		</a>
-	%else:
-		${plain_link(link_text, link, _sr_path = _sr_path, _class=a_class, title=title)}
-	%endif
+    %if makeSVG:
+        <a title="Number of comments in post" class="commentSVG" href='${makeSR_href(link, _sr_path)}'>
+            <svg  width="25" height="25" viewBox="0 0 31 30"><path fill="grey" d=" M15 4c-1.583 0-3.112 0.248-4.543 0.738-1.341 0.459-2.535 1.107-3.547 1.926-1.876 1.518-2.91 3.463-2.91 5.474 0 1.125 0.315 2.217 0.935 3.247 0.646 1.073 1.622 2.056 2.821 2.842 0.951 0.624 1.592 1.623 1.761 2.748 0.028 0.187 0.051 0.375 0.068 0.564 0.085-0.079 0.169-0.16 0.254-0.244 0.754-0.751 1.771-1.166 2.823-1.166 0.167 0 0.335 0.011 0.503 0.032 0.605 0.077 1.223 0.116 1.836 0.116 1.583 0 3.112-0.248 4.543-0.738 1.341-0.459 2.535-1.107 3.547-1.926 1.876-1.518 2.91-3.463 2.91-5.474s-1.033-3.956-2.91-5.474c-1.012-0.819-2.206-1.467-3.547-1.926-1.431-0.49-2.96-0.738-4.543-0.738zM15 0v0c8.284 0 15 5.435 15 12.139s-6.716 12.139-15 12.139c-0.796 0-1.576-0.051-2.339-0.147-3.222 3.209-6.943 3.785-10.661 3.869v-0.785c2.008-0.98 3.625-2.765 3.625-4.804 0-0.285-0.022-0.564-0.063-0.837-3.392-2.225-5.562-5.625-5.562-9.434 0-6.704 6.716-12.139 15-12.139z"></path></svg>
+            ${thing.comment_label}
+        </a>
+    %else:
+        ${plain_link(link_text, link, _sr_path = _sr_path, _class=a_class, title=title)}
+    %endif
 </%def>
 
 <%def name="bylink_button(title, link, sr_path=True, a_class='bylink', event_action=None, makeSVG = False)">
   <% data_attrs = {"event-action": event_action} if event_action else None %>
-	%if makeSVG:
-		<a title="Number of comments in post" class="commentSVG" href='${makeSR_href(link, _sr_path)}'>
-			<svg  width="25" height="25" viewBox="0 0 31 30"><path fill="blue" d=" M15 4c-1.583 0-3.112 0.248-4.543 0.738-1.341 0.459-2.535 1.107-3.547 1.926-1.876 1.518-2.91 3.463-2.91 5.474 0 1.125 0.315 2.217 0.935 3.247 0.646 1.073 1.622 2.056 2.821 2.842 0.951 0.624 1.592 1.623 1.761 2.748 0.028 0.187 0.051 0.375 0.068 0.564 0.085-0.079 0.169-0.16 0.254-0.244 0.754-0.751 1.771-1.166 2.823-1.166 0.167 0 0.335 0.011 0.503 0.032 0.605 0.077 1.223 0.116 1.836 0.116 1.583 0 3.112-0.248 4.543-0.738 1.341-0.459 2.535-1.107 3.547-1.926 1.876-1.518 2.91-3.463 2.91-5.474s-1.033-3.956-2.91-5.474c-1.012-0.819-2.206-1.467-3.547-1.926-1.431-0.49-2.96-0.738-4.543-0.738zM15 0v0c8.284 0 15 5.435 15 12.139s-6.716 12.139-15 12.139c-0.796 0-1.576-0.051-2.339-0.147-3.222 3.209-6.943 3.785-10.661 3.869v-0.785c2.008-0.98 3.625-2.765 3.625-4.804 0-0.285-0.022-0.564-0.063-0.837-3.392-2.225-5.562-5.625-5.562-9.434 0-6.704 6.716-12.139 15-12.139z"></path></svg>
-			${thing.comment_label}
-		</a>
-	%else:
-		${plain_link(title, link,  _class=a_class, rel="nofollow",  _sr_path=sr_path,  data=data_attrs, )}
-	%endif
+    %if makeSVG:
+        <a title="Number of comments in post" class="commentSVG" href='${makeSR_href(link, _sr_path)}'>
+            <svg  width="25" height="25" viewBox="0 0 31 30"><path fill="grey" d=" M15 4c-1.583 0-3.112 0.248-4.543 0.738-1.341 0.459-2.535 1.107-3.547 1.926-1.876 1.518-2.91 3.463-2.91 5.474 0 1.125 0.315 2.217 0.935 3.247 0.646 1.073 1.622 2.056 2.821 2.842 0.951 0.624 1.592 1.623 1.761 2.748 0.028 0.187 0.051 0.375 0.068 0.564 0.085-0.079 0.169-0.16 0.254-0.244 0.754-0.751 1.771-1.166 2.823-1.166 0.167 0 0.335 0.011 0.503 0.032 0.605 0.077 1.223 0.116 1.836 0.116 1.583 0 3.112-0.248 4.543-0.738 1.341-0.459 2.535-1.107 3.547-1.926 1.876-1.518 2.91-3.463 2.91-5.474s-1.033-3.956-2.91-5.474c-1.012-0.819-2.206-1.467-3.547-1.926-1.431-0.49-2.96-0.738-4.543-0.738zM15 0v0c8.284 0 15 5.435 15 12.139s-6.716 12.139-15 12.139c-0.796 0-1.576-0.051-2.339-0.147-3.222 3.209-6.943 3.785-10.661 3.869v-0.785c2.008-0.98 3.625-2.765 3.625-4.804 0-0.285-0.022-0.564-0.063-0.837-3.392-2.225-5.562-5.625-5.562-9.434 0-6.704 6.716-12.139 15-12.139z"></path></svg>
+            ${thing.comment_label}
+        </a>
+    %else:
+        ${plain_link(title, link,  _class=a_class, rel="nofollow",  _sr_path=sr_path,  data=data_attrs, )}
+    %endif
 </%def>

@@ -82,7 +82,7 @@ def make_map(config):
     mc('/account-activity', controller='front', action='account_activity')
 
 
-	#blockpath has renamed subreddits -> pages
+    #blockpath has renamed subreddits -> pages
     mc('/pages/create', controller='front', action='newreddit') #/create does not work here
     mc('/pages/search', controller='front', action='search_reddits')
     mc('/pages/login', controller='forms', action='login')
