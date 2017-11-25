@@ -11,16 +11,16 @@
         r.TimeText.init();
         r.ui.init();
         r.interestbar.init();
-        r.visited.init();
-        r.apps.init();
-        r.wiki.init();
+        //r.visited.init();
+        //r.apps.init();
+        //r.wiki.init();
         r.gold.init();
         r.multi.init();
-        r.recommend.init();
+        //r.recommend.init();
         r.saved.init();
         r.messages.init();
         r.filter.init();
-        r.newsletter.ui.init();
+        //r.newsletter.ui.init();
         r.cachePoisoning.init();
         r.locked.init();
     } catch (err) {

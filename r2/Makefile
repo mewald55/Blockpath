@@ -29,6 +29,7 @@ BUILD_DIR=build
 .PHONY: clean
 all: pyx static ini
 clean: clean_pyx clean_i18n clean_static
+bp: clean_static static
 
 DEFS_PY := Makefile.py
 DEFS_FILE := Makefile.defs
@@ -86,9 +87,9 @@ clean_ini:
 	rm $(INIFILES)
 
 #################### CSS file lists
-SPRITED_STYLESHEETS += reddit.less compact.css modtools.less expando.less
-LESS_STYLESHEETS := wiki.less adminbar.less policies.less reddit-embed.less
-OTHER_STYLESHEETS := mobile.css highlight.css
+SPRITED_STYLESHEETS += reddit.less modtools.less expando.less
+LESS_STYLESHEETS := adminbar.less
+OTHER_STYLESHEETS := highlight.css
 
 #################### Static Files
 STATIC_ROOT := r2/public
@@ -167,12 +168,6 @@ $(STATIC_BUILD_DIR)/sprite-%.png $(STATIC_BUILD_DIR)/%.css: $(CSS_SOURCE_DIR)/%.
 	$(LESSC) $(CSS_SOURCE_DIR)/$*.less.tmp > $(STATIC_BUILD_DIR)/$*.css.tmp
 	$(CSS_COMPRESS) < $(STATIC_BUILD_DIR)/$*.css.tmp > $(STATIC_BUILD_DIR)/$*.css
 	rm $(CSS_SOURCE_DIR)/$*.less.tmp $(STATIC_BUILD_DIR)/$*.css.tmp
-
-# deprecated; remove once compact.scss has been converted to LESS
-$(STATIC_BUILD_DIR)/sprite-%.png $(STATIC_BUILD_DIR)/%.css: $(CSS_SOURCE_DIR)/%.css $(STATIC_BUILDSTAMP)
-	# see above
-	rm -f $(STATIC_BUILD_DIR)/sprite-$*.png $(STATIC_BUILD_DIR)/$*.css
-	$(PYTHON) r2/lib/nymph.py $< $(STATIC_BUILD_DIR)/sprite-$*.png | $(CSS_COMPRESS) > $(STATIC_BUILD_DIR)/$*.css
 
 clean_css:
 	rm -f $(CSS_OUTPUTS)

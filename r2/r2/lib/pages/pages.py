@@ -246,6 +246,8 @@ class Reddit(Templated):
     css_class          = None
     extra_page_classes = None
     extra_stylesheets  = []
+    extra_html         = None
+    show_herobox       = False
 
     def __init__(self, space_compress=None, nav_menus=None, loginbox=True,
                  infotext='', infotext_class=None, infotext_show_icon=False,
@@ -286,6 +288,9 @@ class Reddit(Templated):
         self.infobar = None
         self.mobilewebredirectbar = None
         self.show_timeout_modal = False
+        
+        if 'show_herobox' in context:
+            self.show_herobox = context['show_herobox']
 
         if feature.is_enabled("new_expando_icons"):
             self.feature_new_expando_icons = True
@@ -367,9 +372,8 @@ class Reddit(Templated):
         self.srtopbar = None
         if srbar and not is_api():
             self.srtopbar = SubredditTopBar()
-
+        
         panes = [content]
-
         if c.user_is_loggedin and not is_api() and not self.show_wiki_actions:
             # insert some form templates for js to use
             # TODO: move these to client side templates
@@ -631,7 +635,13 @@ class Reddit(Templated):
                                        separator="")],
                               _id="moderation_tools",
                               collapsible=True)
-
+    
+    #creates herobox for homepage.
+    def herobox(self):
+        if self.show_herobox:
+            return BPHerobox()
+        return None
+        
     def rightbox(self):
         """generates content in <div class="rightbox">"""
 
@@ -996,7 +1006,7 @@ class Reddit(Templated):
             main_buttons.append(more_buttons[0])
             more_buttons = []
 
-        toolbar = [NavMenu(main_buttons, type='blockpathdrop')]
+        toolbar = [NavMenu(main_buttons, type='blockpathdrop')] if not self.show_herobox else []
         if more_buttons:
             toolbar.append(NavMenu(more_buttons, title=menu.more, type='tabdrop'))
 
@@ -1022,13 +1032,14 @@ class Reddit(Templated):
             self.welcomebar = None
 
         return self.content_stack((
-            self.welcomebar,
-            self.newsletterbar,
+            #self.welcomebar,
+            #self.newsletterbar,
             self.infobar,
-            self.locationbar,
-            self.mobilewebredirectbar,
+            #self.locationbar,
+            #self.mobilewebredirectbar,
             self.nav_menu,
             self._content,
+            #self.extra_html,
         ))
 
     def build_popup_panes(self):
@@ -1896,11 +1907,9 @@ class LinkInfoPage(Reddit):
         
         replyArea = self.replyArea if hasattr(self, 'replyArea') else '' #bc some views (/details) dont have this yet
         if self.link.analysisData:
-            extraHTML = hooks.get_hook('viewdiscussionpage').call(a=self.link.analysisData, pageType = "linkview")[0]
-            if not extraHTML:
-                extraHTML = ''
+            self.extra_html = hooks.get_hook('viewdiscussionpage').call(a=self.link.analysisData, pageType = "linkview")[0]
             return self.content_stack(
-                (self.infobar, self.link_listing, replyArea, comment_area, extraHTML )
+                (self.infobar, self.link_listing, replyArea, comment_area )
             )
 
         return self.content_stack((self.infobar, self.link_listing, replyArea, comment_area, self.popup_panes))
@@ -2608,6 +2617,11 @@ class WelcomeBar(InfoBar):
             message = ("Blockpath is a platform for exploring and discussing the blockchain",
                        "Use powerful graphing and filtering to share the internet's distributed database. Get started by viewing the top activity on the blockchain below, or use the search bar above.")
         InfoBar.__init__(self, message=message)
+
+
+class BPHerobox(Templated):
+    def __init__(self):
+        Templated.__init__(self, isMobile=request.parsed_agent.is_mobile_browser)
 
 class NewsletterBar(InfoBar):
     pass
@@ -4928,7 +4942,7 @@ class UserText(CachedTemplate):
     def __init__(self,
                  item,
                  text = '',
-                analysisData = '',
+                 analysisData = '',
                  have_form = True,
                  editable = False,
                  creating = False,
@@ -4946,6 +4960,7 @@ class UserText(CachedTemplate):
                  admin_takedown=False,
                  data_attrs={},
                  source=None,
+                 requestLogIn=False,
                 ):
 
         css_class = "usertext"
@@ -4988,6 +5003,7 @@ class UserText(CachedTemplate):
                                 admin_takedown=admin_takedown,
                                 data_attrs=data_attrs,
                                 source=source,
+                                requestLogIn=requestLogIn,
                                )
 
 class MediaEmbedBody(CachedTemplate):

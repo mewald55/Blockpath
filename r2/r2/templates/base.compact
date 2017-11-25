@@ -50,16 +50,11 @@
       ${unsafe(js.use('reddit-init'))}
     <!-- <![endif]-->
 
-    <!--[if lt IE 9]>
-      ${unsafe(js.use('reddit-init-legacy'))}
-    <![endif]-->
-
     ${js_setup(thing.extra_js_config)}
     ${googleanalytics('mobile')}
   </head>
   <body ${classes(*thing.page_classes())}>
     ${self.bodyContent()}
-    ${unsafe(js.use('mobile'))}
   </body>
 </html>
 

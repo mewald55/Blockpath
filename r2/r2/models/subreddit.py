@@ -1802,7 +1802,8 @@ class _DefaultSR(FakeSubreddit):
 
     @property
     def title(self):
-        return _(g.short_description)
+        return "Discuss the Blockchain" #the homepage page title. Eventually should be moved to live config...
+        #return _(g.short_description)
 
 # This is the base class for the instantiated front page reddit
 class DefaultSR(_DefaultSR):

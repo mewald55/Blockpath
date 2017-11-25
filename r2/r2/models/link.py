@@ -465,10 +465,10 @@ class Link(Thing, Printable):
             else:
                 res = "/%s" % p
         elif not force_domain:
-            res = "/r/%s/%s" % (sr.name, p)
+            res = "/pages/%s/%s" % (sr.name, p)
         elif sr != c.site or force_domain:
             permalink_domain = get_domain(subreddit=False)
-            res = "%s://%s/r/%s/%s" % (g.default_scheme, permalink_domain,
+            res = "%s://%s/pages/%s/%s" % (g.default_scheme, permalink_domain,
                                        sr.name, p)
         else:
             res = "/%s" % p

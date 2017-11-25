@@ -387,27 +387,34 @@ class FrontController(RedditController):
 
         displayPane.append(LinkCommentSep())
 
-	replyDisplayPane = PaneStack()
-        # insert reply box only for logged in user
-        if (not is_api() and
-                c.user_is_loggedin and
-                article.can_comment_slow(c.user)):
+        replyDisplayPane = PaneStack()
+        requestLogIn = False
+        # insert reply box for all users. If logged out, grey out and request login.
+        if not is_api():
             # no comment box for permalinks
             display = not comment
-
-            # show geotargeting notice only if user is able to comment
-            if article.promoted:
-                geotargeted, city_target = promote.is_geotargeted_promo(article)
-                if geotargeted:
-                    displayPane.append(GeotargetNotice(city_target=city_target))
-
-            data_attrs = {'type': 'link', 'event-action': 'comment'}
-            replyDisplayPane.append(UserText(item=article, creating=True,
-                                        post_form='comment',
-                                        display=display,
-                                        cloneable=True,
-					extra_css="thing link replyBox", #blockpath hack to style the text box.
-                                        data_attrs=data_attrs))
+            showReplyBox = False
+            if c.user_is_loggedin and article.can_comment_slow(c.user):
+                showReplyBox = True
+                # show geotargeting notice only if user is able to comment
+                if article.promoted:
+                    geotargeted, city_target = promote.is_geotargeted_promo(article)
+                    if geotargeted:
+                        displayPane.append(GeotargetNotice(city_target=city_target))
+            elif not c.user_is_loggedin:
+                #todo: if user is logged out, and commenting is not allowed, need to hide comment box.
+                showReplyBox = True
+                requestLogIn = True
+            
+            if showReplyBox:
+                data_attrs = {'type': 'link', 'event-action': 'comment'}
+                replyDisplayPane.append(UserText(item=article, creating=True,
+                                            post_form='comment',
+                                            display=display,
+                                            cloneable=True,
+                                            extra_css="thing link replyBox", #blockpath hack to style the text box.
+                                            requestLogIn=requestLogIn,
+                                            data_attrs=data_attrs))
 
         if previous_visits:
             displayPane.append(CommentVisitsBox(previous_visits))
@@ -470,17 +477,18 @@ class FrontController(RedditController):
                 self._add_show_comments_link(subtitle_buttons, article, num,
                                              g.max_comments_gold, gold=True)
 
-        sort_menu = CommentSortMenu(
-            default=sort,
-            css_class='suggested' if suggested_sort_active else '',
-            suggested_sort=suggested_sort,
-        )
-
-        link_settings = LinkCommentsSettings(
-            article,
-            sort=sort,
-            suggested_sort=suggested_sort,
-        )
+        bpCommmentPaneOptions = []
+        if article.num_comments > 0:
+            bpCommmentPaneOptions.append(CommentSortMenu(
+                    default=sort,
+                    css_class='suggested' if suggested_sort_active else '',
+                    suggested_sort=suggested_sort,
+                ))
+            bpCommmentPaneOptions.append(LinkCommentsSettings(
+                article,
+                sort=sort,
+                suggested_sort=suggested_sort,
+            ))
 
         # Check for click urls on promoted links
         click_url = None
@@ -526,11 +534,11 @@ class FrontController(RedditController):
             comment=comment,
             disable_comments=disable_comments,
             content=displayPane,
-	    replyArea = replyDisplayPane,
+            replyArea = replyDisplayPane,
             page_classes=page_classes,
             subtitle=subtitle,
             subtitle_buttons=subtitle_buttons,
-            nav_menus=[sort_menu, link_settings],
+            nav_menus=bpCommmentPaneOptions,
             infotext=infotext,
             infotext_class=infotext_class,
             infotext_show_icon=infotext_show_icon,
@@ -1492,18 +1500,18 @@ class FrontController(RedditController):
                           content=Blockpathhelpdocs()).render()
 
     def GET_policy_page(self, page):
-	if page == 'privacypolicy':
-	    pagename = "Blockpath Privacy Policy"
+        if page == 'privacypolicy':
+            pagename = "Blockpath Privacy Policy"
             content = BPPrivacyPolicy()
         elif page == 'useragreement':
             pagename = "Blockpath User Agreement"
-	    content = BPUserAgreement()
+            content = BPUserAgreement()
         elif page == 'contentpolicy':
             pagename = "Blockpath Content Policy"
-	    content = BPContentPolicy()
+            content = BPContentPolicy()
         else:
             abort(404)
-	return PolicyPage(pagename=pagename, content=content).render()
+        return PolicyPage(pagename=pagename, content=content).render()
 
     @validate(vendor=VOneOf("v", ("claimed-gold", "claimed-creddits",
                                   "spent-creddits", "paypal", "coinbase",

@@ -619,6 +619,9 @@ set_consumer_count author_query_q 1
 set_consumer_count subreddit_query_q 1
 set_consumer_count domain_query_q 1
 
+#blockpath also enables these:
+set_consumer_count sitemaps_q 1
+
 chown -R $REDDIT_USER:$REDDIT_GROUP $CONSUMER_CONFIG_ROOT/
 
 

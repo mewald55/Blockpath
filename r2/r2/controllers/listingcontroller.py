@@ -107,6 +107,8 @@ class ListingController(RedditController):
     #extra parameters to send to the render_cls constructor
     render_params = {}
     extra_page_classes = ['listing-page']
+    
+    show_herobox = False #blockpaths hero box on homepage listing.
 
     @property
     def menus(self):
@@ -145,6 +147,7 @@ class ListingController(RedditController):
         self.listing_obj = self.listing()
 
         content = self.content()
+
         return self.render_cls(content=content,
                                page_classes=self.extra_page_classes,
                                show_sidebar=self.show_sidebar,
@@ -155,6 +158,7 @@ class ListingController(RedditController):
                                infotext=self.infotext,
                                infotext_class=self.infotext_class,
                                robots=getattr(self, "robots", None),
+                               show_herobox = self.show_herobox, #passed thru kwargs for simplicity.
                                **self.render_params).render()
 
     def content(self):
@@ -274,7 +278,7 @@ class SubredditListingController(ListingController):
 
     def _build_og_title(self, max_length=256):
         #sr_fragment = "/r/" + c.site.name
-	sr_fragment = "/pages/" + c.site.name
+        sr_fragment = "/pages/" + c.site.name
         title = c.site.title.strip()
         if not title:
             return trunc_string(sr_fragment, max_length)
@@ -395,6 +399,8 @@ class ListingWithPromos(SubredditListingController):
             return res
 
     def make_single_ad(self):
+    
+        
         keywords = promote.keywords_from_context(c.user, c.site)
         if keywords:
             return SpotlightListing(show_promo=c.site.allow_ads, keywords=keywords,
@@ -456,6 +462,7 @@ class ListingWithPromos(SubredditListingController):
         # only send a spotlight listing for HTML rendering
         if c.render_style == "html":
             spotlight = None
+            BPsort = SortMenu(css_class='bpLinkSort') #BP: will put sort menu on all link listing pages.
             show_sponsors = not c.user.pref_hide_ads or not c.user.gold
             show_organic = self.show_organic and c.user.pref_organic
             on_frontpage = isinstance(c.site, DefaultSR)
@@ -464,18 +471,20 @@ class ListingWithPromos(SubredditListingController):
             if on_frontpage:
                 self.extra_page_classes = \
                     self.extra_page_classes + ['front-page']
-
+            """
             if requested_ad:
                 spotlight = self.make_requested_ad(requested_ad)
             elif on_frontpage and show_organic:
                 spotlight = self.make_spotlight()
             elif show_sponsors:
                 spotlight = self.make_single_ad()
-
             self.spotlight = spotlight
-
-            if spotlight:
-                return PaneStack([spotlight, self.listing_obj],
+            """
+            
+            #BP Hack
+            self.spotlight = None
+            if True or spotlight:
+                return PaneStack([spotlight, BPsort, self.listing_obj],
                                  css_class='spacer')
         return self.listing_obj
 
@@ -488,7 +497,6 @@ class HotController(ListingWithPromos):
     show_organic = True
 
     def query(self):
-
         if isinstance(c.site, DefaultSR):
             sr_ids = Subreddit.user_subreddits(c.user)
             return normalized_hot(sr_ids)
@@ -537,7 +545,7 @@ class HotController(ListingWithPromos):
 
     def content(self):
         content = super(HotController, self).content()
-
+        self.show_herobox = isinstance(c.site, DefaultSR)
         if c.render_style == "html":
             stack = None
 

@@ -558,6 +558,7 @@ function updateEventHandlers(thing) {
             add_thing_to_cookie(this, "recentclicks2");
         });
 
+    /*
     if (listing.filter(".organic-listing").length) {
         thing.find(".hide-button a, .del-button a.yes, .report-button a.yes")
             .each(function() { $(this).get(0).onclick = null });
@@ -580,6 +581,7 @@ function updateEventHandlers(thing) {
                                  function() { r.spotlight.next() });
                     }); 
     }
+    */
 };
 
 function last_click() {
@@ -1011,17 +1013,19 @@ $(function() {
         //blockpath donate QR code
         var donateDiv = $("#donationContainer");
         if (!!donateDiv.length && r.config.donation_address) {
+            var addr = r.config.donation_address;
             new QRCode(document.getElementById("donationQR"), {
-                text: r.config.donation_address,
-                width: 126,
-                height: 126,
-                colorDark: "#000000",
+                text: addr,
+                width: 90,
+                height: 90,
+                colorDark: "#262626",
                 colorLight: "#ffffff",
                 correctLevel: QRCode.CorrectLevel.H
             });
-            donateDiv.append("<span> If this website was useful for you, consider a donation "+
+            var donateSplit = addr.substring(0,addr.length/2) + "<br>" + addr.substring(addr.length/2, addr.length);
+            donateDiv.append("<div id='donationText'> If this website was useful for you, consider a donation "+
                 "so we can continue providing this service. <br> <a href='https://blockpath.com/search/addr?q="+
-                r.config.donation_address+" '>" + r.config.donation_address + "</a>  </span>");
+                addr+" '>" + donateSplit + "</a>  </div>");
         }
         
         //blockpath requires a verified email:

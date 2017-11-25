@@ -33,12 +33,7 @@
 <%namespace file="utils.html" import="_md"/>
 
 <%def name="load_timeseries_js()">
-  <!--[if lte IE 8]>
-  ${unsafe(js.use('timeseries-ie'))}
-  <![endif]-->
-  <!--[if !(lte IE 8)]><!-->
   ${unsafe(js.use('timeseries'))}
-  <!--<![endif]-->
 </%def>
 
 <div class="md-container wiki-page-content">

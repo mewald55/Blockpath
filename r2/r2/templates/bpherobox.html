@@ -1,0 +1,59 @@
+<div id="herobox">
+
+    <figure id="heroboxBack">
+        <video autoplay="" loop="" poster="https://blockpathstatic.website/images/BlockpathHeroVideo1Poster.jpg">
+            ## If mobile, don't load video, because mobile browsers will not autoplay, so it would just waste bandwidth...
+            <source src=${'https://blockpathstatic.website/images/BlockpathHeroVideo1.webm type=video/webm' if not thing.isMobile else ''}>
+        </video>
+    </figure>
+    
+    <div id="heroboxFront">
+        <div id="heroboxHeaderText">
+            The block explorer that does so much more.
+        </div>
+        <div id="heroboxMainText">
+            <h2 id="heroboxTitle" > A multi-address Bitcoin accounting tool with a built-in graphical explorer. </h2>
+            <form action="/search/addr" role="search" class="" onsubmit=" return validateHeroboxSearch(1);" style="margin-top: 14px;">
+                <div style="display:inline-block;">
+                    <input id="heroboxSearch" name="q" placeholder="Search the Blockchain" type="text">
+                    <br>
+                    <div id="heroboxExamples" style="text-align:left; padding-left:15px; font-size:13px; color: grey; font-weight:800;"> Examples:&nbsp;&nbsp;
+                        <a style="color: #476d93;" href="https://blockpath.com/search/addr?q=1LTvYhbpur5nZMe3hifMGgq28MMBzRgNdC"> Address</a> &nbsp;&nbsp;--&nbsp;&nbsp;
+                        <a style="color: #476d93;" href="https://blockpath.com/search/tx?q=b9691c0089d447c58837087583bfa7fa71df726da1a5f216cedb13d0d9c5eb4d"> Transaction</a>
+                    </div>
+                </div>
+                <button style="width:155px; height: 42px; margin-left: 7px; margin-bottom: 10px; font-size: 21px; vertical-align:top;" class="btn btn-primary"> Explore </button>
+                <script>
+                    function validateHeroboxSearch(useFallbackExample) {
+                        var addSearchText = document.getElementById('heroboxSearch').value;
+                        if (!addSearchText && useFallbackExample){addSearchText='1LTvYhbpur5nZMe3hifMGgq28MMBzRgNdC';}
+                        addSearchText = addSearchText.replace(/\s+/g, '');
+                        document.getElementById('heroboxSearch').value = addSearchText;
+                        return true;
+                    }
+                </script>
+            </form>
+        </div>
+        <div id="heroboxBottomText" onclick="herobox_scrolltocontent();" style="width: 300px; cursor: pointer;margin-left: auto;margin-right: auto;">
+            See what others are finding
+            <div>
+                <svg width="24" height="24" viewBox="0 0 24 24">
+                    <g transform="rotate(90,12,12)">
+                        <path fill="white" d="M6.028 0v6.425l5.549 5.575-5.549 5.575v6.425l11.944-12z"></path>
+                    </g>
+                </svg>
+            </div>
+            <script>
+                function herobox_scrolltocontent(){
+                    window.scrollTo(0, document.getElementById('herobox').clientHeight - 70);
+                }
+            </script>
+        </div>
+    </div>
+
+</div>
+
+<div style="width: 70%;height: 50px;margin: auto; display:none;">
+    <div style="font-size: 26px;text-align: center;margin-top: 10px;"> Top Posts </div>
+    <hr class="linkButtonsHR" style="height: 5px;">
+</div>

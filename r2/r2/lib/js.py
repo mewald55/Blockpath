@@ -50,7 +50,7 @@ inline_script_tag = '<script type="text/javascript">{content}</script>'
 class Uglify(object):
     def compile(self, data, dest):
         process = subprocess.Popen(
-	    ["uglifyjs", "--mangle", "toplevel", "--compress", "drop_console", "--"],
+            ["uglifyjs", "--mangle", "toplevel", "--compress", "drop_console", "--"],
             stdin=subprocess.PIPE,
             stdout=dest,
         )
@@ -178,10 +178,10 @@ class Module(Source):
                 source = self.wrap.format(content=source, name=self.name)
 
             if self.should_compile:
-		#temp = open('tempfile.txt', 'w+')
-		#print >> sys.stderr, "Blockpath tempfile pwd: %s " % os.getcwd(),
-		#temp.write(source)
-		#temp.close()
+                #temp = open('tempfile.txt', 'w+')
+                #print >> sys.stderr, "Blockpath tempfile pwd: %s " % os.getcwd(),
+                #temp.write(source)
+                #temp.close()
                 print >> sys.stderr, "Compiling {0}...".format(self.name),
                 minifier.compile(source, out)
             else:
@@ -515,7 +515,7 @@ module["gtm"] = Module("gtm.js",
     "google-tag-manager/gtm-listener.js",
 )
 
-
+"""
 module["reddit-embed-base"] = Module("reddit-embed-base.js",
     "lib/es5-shim.js",
     "lib/json2.js",
@@ -538,7 +538,7 @@ module["comment-embed"] = Module("comment-embed.js",
     module["reddit-embed-base"],
     "embed/comment-embed.js",
 )
-
+"""
 
 module["reddit-init-base"] = Module("reddit-init-base.js",
     "lib/modernizr.js",
@@ -565,7 +565,7 @@ module["reddit-init-base"] = Module("reddit-init-base.js",
     "uuid.js",
     "hooks.js",
     "setup.js",
-    "migrate-global-reddit.js",
+    #"migrate-global-reddit.js",
     "ajax.js",
     "safe-store.js",
     "preload.js",
@@ -584,7 +584,7 @@ module["reddit-init-base"] = Module("reddit-init-base.js",
     "validator.js",
     "strength-meter.js",
     "toggles.js",
-    "spotlight.js",
+    #"spotlight.js",
     "reddit.js",
     "sr-autocomplete.js",
     localized_appendices=[
@@ -592,6 +592,7 @@ module["reddit-init-base"] = Module("reddit-init-base.js",
     ],
 )
 
+"""
 module["reddit-init-legacy"] = Module("reddit-init-legacy.js",
     "lib/html5shiv.js",
     "lib/jquery-1.11.1.js",
@@ -600,6 +601,7 @@ module["reddit-init-legacy"] = Module("reddit-init-legacy.js",
     module["reddit-init-base"],
     wrap=catch_errors,
 )
+"""
 
 module["reddit-init"] = Module("reddit-init.js",
     "lib/jquery-2.1.1.js",
@@ -636,17 +638,17 @@ module["reddit"] = Module("reddit.js",
     _submodule["locked"],
     _submodule["timeouts"],
     _submodule["archived"],
-    "newsletter.js",
+    #"newsletter.js",
     "flair.js",
     "report.js",
     "interestbar.js",
-    "visited.js",
-    "wiki.js",
-    "apps.js",
+    #"visited.js",
+    #"wiki.js",
+    #"apps.js",
     "gold.js",
     "multi.js",
     "filter.js",
-    "recommender.js",
+    #"recommender.js",
     "action-forms.js",
     "embed.js",
     "post-sharing.js",
@@ -681,6 +683,7 @@ module["admin"] = Module("admin.js",
 )
 
 
+"""
 module["mobile"] = Module("mobile.js",
     module["reddit"],
     "lib/jquery.lazyload.js",
@@ -701,6 +704,7 @@ module["sponsored"] = Module("sponsored.js",
     "image-upload.js",
     "sponsored.js"
 )
+"""
 
 
 module["timeseries"] = Module("timeseries.js",
@@ -709,12 +713,12 @@ module["timeseries"] = Module("timeseries.js",
     "timeseries.js",
 )
 
-
+"""
 module["timeseries-ie"] = Module("timeseries-ie.js",
     "lib/excanvas.min.js",
     module["timeseries"],
 )
-
+"""
 
 module["traffic"] = Module("traffic.js",
     "traffic.js",

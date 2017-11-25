@@ -149,12 +149,19 @@
                 Write a reply: 
             </h2>
         %endif
-        <div class="roundfield-content">
+        <div class="roundfield-content ${'login-required' if thing.requestLogIn else ''}" style="position:relative;">
             <textarea rows="1" cols="1" maxlength="60000"
                   name="${thing.name}"
                   class="${thing.textarea_class}"
                   ${data(**thing.data_attrs)}
                   >${keep_space(thing.text)}</textarea>
+            %if thing.requestLogIn:
+                <div class="requestlogincover">
+                    <div style="width: 100%; text-align: center;padding-top: 48px;">
+                        Login to comment
+                    </div>
+                </div>
+            %endif
         </div>
         %if thing.post_form != "comment":
             ## this will still be called for comments that are already posted but editable (unfortunetely...)
@@ -171,30 +178,32 @@
                 </div>
             %endif
         %endif
-        <div class="bottom-area">
-            ${toggle_button("help-toggle", _("formatting help"), _("hide help"),
-                "helpon", "helpoff", style = "" if thing.creating else "display: none")}
-            %if thing.include_errors:
-                ${error_field("TOO_LONG", thing.name, "span")}
-                ${error_field("RATELIMIT", "ratelimit", "span")}
-                ${error_field("NO_TEXT", thing.name, "span")}
-                ${error_field("TOO_OLD", "parent", "span")}
-                ${error_field("THREAD_LOCKED", "parent", "span")}
-                ${error_field("DELETED_COMMENT", "parent", "span")}
-                ${error_field("USER_BLOCKED", "parent", "span")}
-                ${error_field("USER_MUTED", "parent", "span")}
-                ${error_field("MUTED_FROM_SUBREDDIT", "parent", "span")}
-            %endif
-            <div class="usertext-buttons">
-                ${action_button("save", "submit", "",
-                    thing.creating and thing.have_form, theClass = "btn btn-info")}
-                ${action_button("cancel", "button", "return cancel_usertext(this)", False, theClass = "btn")}
-                %if thing.have_form:
-                    <span class="status"></span>
+        %if not thing.requestLogIn:
+            <div class="bottom-area">
+                ${toggle_button("help-toggle", _("formatting help"), _("hide help"),
+                    "helpon", "helpoff", style = "" if thing.creating else "display: none")}
+                %if thing.include_errors:
+                    ${error_field("TOO_LONG", thing.name, "span")}
+                    ${error_field("RATELIMIT", "ratelimit", "span")}
+                    ${error_field("NO_TEXT", thing.name, "span")}
+                    ${error_field("TOO_OLD", "parent", "span")}
+                    ${error_field("THREAD_LOCKED", "parent", "span")}
+                    ${error_field("DELETED_COMMENT", "parent", "span")}
+                    ${error_field("USER_BLOCKED", "parent", "span")}
+                    ${error_field("USER_MUTED", "parent", "span")}
+                    ${error_field("MUTED_FROM_SUBREDDIT", "parent", "span")}
                 %endif
+                <div class="usertext-buttons">
+                    ${action_button("save", "submit", "",
+                        thing.creating and thing.have_form, theClass = "btn btn-info")}
+                    ${action_button("cancel", "button", "return cancel_usertext(this)", False, theClass = "btn")}
+                    %if thing.have_form:
+                        <span class="status"></span>
+                    %endif
+                </div>
             </div>
-        </div>
-        ${markhelp(show_embed_help=thing.show_embed_help)}
+            ${markhelp(show_embed_help=thing.show_embed_help)}
+        %endif
     </div>
   %endif
 

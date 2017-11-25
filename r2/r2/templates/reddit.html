@@ -118,18 +118,12 @@
     ${unsafe(js.use('reddit-init'))}
   <!-- <![endif]-->
 
-  <!--[if lt IE 9]>
-    ${unsafe(js.use('reddit-init-legacy'))}
-  <![endif]-->
   ${less_js()}
 </%def>
 
 <%def name="javascript_bottom()">
   <% from r2.lib import js %>
   ${unsafe(js.use('reddit'))}
-  %if getattr(thing, "feature_expando_nsfw_flow", False):
-    ${unsafe(js.use("expando-nsfw-flow"))}
-  %endif
   ${unsafe(c.js_preload.use())}
 </%def>
 
@@ -138,43 +132,40 @@
     <%include file="adminbar.html"/>
     <%include file="redditheader.html"/>
   %endif
-
-  %if thing.show_sidebar:
-    <div class="side">
-      ${sidebar(content = thing.rightbox())}
-      <div id="donationContainer">
-        <hr class="linkButtonsHR">
-        <div id="donationQR"></div>
-      </div>
-    
-    </div>
-    
-  %endif
-
-  %if thing.show_chooser:
-    ${ListingChooser()}
-  %endif
-
-  %if thing.auction_announcement:
-    <div id="auction-announcement-container">
-      <div id="auction-announcement">
-        <h1>
-          ad auctions are launching monday 2/8
-        </h1>
-        <p>
-          for more details, see our&nbsp;<a href="https://www.reddit.com/r/selfserve/comments/434c0x/the_auction_is_coming/" target="_blank">announcement in /r/selfserve</a>
-        </p>
-      </div>
-    </div>
-  %endif
-
+  
+  ##%if thing.show_chooser:
+  ##  ${ListingChooser()}
+  ##%endif
+  
   <% content = getattr(self, "content", None) or thing.content %>
   %if content:
     ##<div class="fixedwidth"></div>
     ##<div class="clearleft"></div>
     <a name="content"></a>
     <div ${tags(id=thing.content_id)} ${classes("content", thing.css_class)} role="main">
-      ${content()}
+        
+        ${thing.herobox()}
+        
+        <div id="content-dashboard" class="c-clearfix">
+            <div id="dashboard-center">
+                ${content()}
+            </div>
+            
+            %if thing.show_sidebar:
+                <div class="side" style="width: 300px; float: left;">
+                    ${sidebar(content = thing.rightbox())}
+                    <div id="donationContainer">
+                        <hr class="linkButtonsHR">
+                        <div id="donationQR"></div>
+                    </div>
+                </div>
+            %endif
+        </div>
+        %if thing.extra_html:
+            <div id="extra_html">
+                ${thing.extra_html}
+            </div>
+        %endif
     </div>
   %endif
 

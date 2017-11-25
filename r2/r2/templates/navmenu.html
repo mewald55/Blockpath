@@ -147,6 +147,7 @@
     <div class="tabs tabs-style-linemove home-page">
       <nav>
          <ul class="tabmenu ${css_class}" ${"id='%s'" % thing._id if thing._id else ""}>
+         <!--
             <div style="flex:1;">
                 <li class="dropdown ${css_class}"  onclick="open_menu(this)">
                      <a href="#/" id="DiscussionDrop" class="">
@@ -167,6 +168,8 @@
                       %endfor
                 </div>
             </div>
+        -->
+
             <li style="flex: 2;"> 
                 <a id="blockPathSearch">
                     <svg onclick="fadeSearchBar(true)" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="35" height="35" viewBox="0 0 16 16">
@@ -210,10 +213,11 @@
                 function validationText() {
                     var addSearchText = document.getElementById('searchInputField').value;
                     addSearchText = addSearchText.replace(/\s+/g, '');
-                            document.getElementById('searchInputField').value = addSearchText;
-                            return true;
+                    document.getElementById('searchInputField').value = addSearchText;
+                    return true;
                 }
             </script>
+
         </ul>
        </nav>
     </div>

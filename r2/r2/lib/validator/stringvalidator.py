@@ -6,7 +6,7 @@ class StringValidator:
 	"""A simple String validation class with a few basic validation methods"""
 
 	REGEX_ALPHA = re.compile('^[a-z]+$', re.IGNORECASE)
-	REGEX_ADDRESS_STR = re.compile('([a-z\-0-9]){33,40}$', re.IGNORECASE)
+	REGEX_ADDRESS_STR = re.compile('([a-z\-0-9]){27,40}$', re.IGNORECASE)
 	REGEX_TX_STR = re.compile('([a-z\-0-9]){64,80}$', re.IGNORECASE)
 	REGEX_HANDLE = re.compile('[a-z0-9\_]+$', re.IGNORECASE)
 

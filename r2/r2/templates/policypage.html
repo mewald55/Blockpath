@@ -29,11 +29,11 @@
 
 <%def name="stylesheet()">
   ${parent.stylesheet()}
-  ${less_stylesheet('policies.less')}
+  ##${less_stylesheet('policies.less')}
 </%def>
 
 <%def name="javascript_bottom()">
   ${parent.javascript_bottom()}
   <% from r2.lib import js %>
-  ${unsafe(js.use('policies'))}
+  ##${unsafe(js.use('policies'))}
 </%def>

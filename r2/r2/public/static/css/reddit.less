@@ -300,9 +300,15 @@ ul.flat-vert {text-align: left;}
     font-weight: bold;
 }
 
+#user-menu {
+	right: 0px;
+	left: unset;
+	top: unset;
+}
+
 #user-menu > li > a{
-	padding:6px 20px;
-	display: table-cell;
+	padding:5px 20px;
+	display: block;
 }
 
 
@@ -457,12 +463,7 @@ ul.flat-vert {text-align: left;}
 /* side box menus */
 
 .side {
-    float: right; 
-    margin: 8px 0 0 5px;
-    width: 20%;
-    padding-left: 8px;
-    padding-right: 4px;
-    background-color:#F5F8FA;
+
 }
 
 .side .spacer {
@@ -474,10 +475,9 @@ ul.flat-vert {text-align: left;}
 	border-radius: 15px;
 	border: 1px solid #cbcb9a;
 	padding: 10px;
-	//line-height: 1.75em;
 
     p {
-        font-size: 2.3em;
+        font-size: 16px;
         margin: 0;
 
         strong {
@@ -1707,7 +1707,7 @@ body.with-listing-chooser.explore-page #header .pagename {
 .menuarea .spacer {display: inline; margin-right: 15px}
 
 .panestack-title {
-    margin: 10px 0px 0px 10px;
+    margin: 10px 0px 5px 10px;
     padding-bottom: 3px;
     border-bottom: 1px dotted gray;
 }
@@ -2845,7 +2845,8 @@ textarea.gray { color: gray; }
 .line-through { text-decoration: line-through }
 
 #noresults { 
-	//margin-right: 310px;  
+	text-align: center;
+	color: #90949c;
 }
 
 #ad-frame, #ad_main {
@@ -5210,7 +5211,7 @@ ul.tabmenu.formtab {
 
 .usertext-edit {
     /*margin-top: 5px;*/
-    padding: 0 1px; /* so the border of help/textbox don't get chopped off */
+    padding: 0 1px 10px 1px;
     //width: 93% !important;
     margin:auto;
 }
@@ -5234,13 +5235,13 @@ ul.tabmenu.formtab {
 }
 
 .usertext button {
-    margin: 5px 5px 10px 0;
+    margin: 0px 5px 0px 0;
 }
 
 .usertext .help-toggle, .usertext a.reddiquette {
     font-size: smaller;
     float:right;
-    margin-top: 5px; 
+    //margin-top: 5px; 
     margin-left: 10px;
 }
 
@@ -5248,6 +5249,7 @@ ul.tabmenu.formtab {
     /* this restricts children floats to the container */
     overflow: hidden;
     width: 100%;
+    margin-top:5px;
 }
 
 .usertext .markhelp {
@@ -5313,7 +5315,18 @@ ul.tabmenu.formtab {
 }
 .roundfield label { font-size: smaller; padding-right: 2px;  }
 
+.replyBox .login-required textarea{
+	background: #eee6;
+}
 
+.requestlogincover{
+	top:1px;
+	left:1px;
+	right:0;
+	bottom:1px;
+	color: darkgrey;
+	position:absolute;
+}
 
 /*** linefield stuff *****/
 .linefield {

@@ -36,10 +36,12 @@
     <meta name="referrer" content="${c.referrer_policy}">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link type="application/opensearchdescription+xml" rel="search" href="/static/opensearch.xml"/>
+    <meta name="google-site-verification" content="vnN6nyQBBdnTzYhvmumOADe3bgCApO6WsMv7b57J-CQ" />
     <link rel="canonical" href="${thing.canonical_link}" />
-    %if hasattr(thing, 'mobile_link'):
-        <link rel="alternate" media="only screen and (max-width: 640px)" href="${thing.mobile_link}" />
-    %endif
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+    ##%if hasattr(thing, 'mobile_link'):
+    ##    <link rel="alternate" media="only screen and (max-width: 640px)" href="${thing.mobile_link}" />
+    ##%endif
     ${self.viewport()}
     ${self.robots()}
     ${self.pagemeta()}
@@ -73,7 +75,7 @@ ${c.site.title}
 </%def>
 
 <%def name="keywords()">
-    blockpath.com, bitcoin, analysis, bitcoin analysis, bitcoin visualization, bitcoin discussion, bitcoin graph
+    bitcoin, analysis, bitcoin analysis, bitcoin visualization, bitcoin discussion, bitcoin graph, bitcoin accounting
 </%def>
 
 <%def name="viewport()">

@@ -606,8 +606,8 @@ class UrlParser(object):
 
     def canonicalize(self):
         subdomain = extract_subdomain(self.hostname)
-        if subdomain == '' or is_language_subdomain(subdomain):
-            self.hostname = 'www.{0}'.format(g.domain)
+        #if subdomain == '' or is_language_subdomain(subdomain):
+        #    self.hostname = 'www.{0}'.format(g.domain) #blockpath does not use www
         if not self.path.endswith('/'):
             self.path += '/'
         self.scheme = 'https'
