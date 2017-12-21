@@ -366,9 +366,9 @@ def make_map(config):
     mc('/post/:action/:url_user', controller='post',
        requirements=dict(action="login|reg"))
     mc('/post/:action', controller='post',
-       requirements=dict(action="options|over18|unlogged_options|optout"
+       requirements=dict(action="options|bpoptions|over18|unlogged_options|optout"
                          "|optin|login|reg|explore_settings"))
-
+    
     mc('/api', controller='redirect', action='redirect', dest='/dev/api')
     mc('/api/distinguish/:how', controller='api', action="distinguish")
     #mc('/api/spendcreddits', controller='ipn', action="spendcreddits")

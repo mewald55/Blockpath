@@ -34,7 +34,9 @@ from r2.lib.emailer import opt_in, opt_out
 from r2.lib.validator import *
 from r2.lib.validator.preferences import (
     filter_prefs,
+    bpfilter_prefs,
     PREFS_VALIDATORS,
+    BP_PREFS_VALIDATORS,
     set_prefs,
 )
 from r2.lib.csrf import csrf_exempt
@@ -77,6 +79,26 @@ class PostController(ApiController):
         c.user._commit()
         u.update_query(done='true')
         return self.redirect(u.unparse())
+
+    @validate(VUser(), VModhash(),
+              all_langs=VOneOf('all-langs', ('all', 'some'), default='all'),
+              **BP_PREFS_VALIDATORS)
+    def POST_bpoptions(self, all_langs, **prefs):
+        u = UrlParser(c.site.path + "prefs")
+        bpfilter_prefs(prefs, c.user)
+        if c.errors.errors:
+            for error in c.errors.errors:
+                if error[1] == 'stylesheet_override':
+                    u.update_query(error_style_override=error[0])
+                else:
+                    u.update_query(generic_error=error[0])
+            return self.redirect(u.unparse())
+
+        set_prefs(c.user, prefs)
+        c.user._commit()
+        u.update_query(done='true')
+        return self.redirect(u.unparse())
+
 
     def GET_over18(self):
         return InterstitialPage(

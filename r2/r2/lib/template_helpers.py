@@ -213,6 +213,10 @@ def js_config(extra_config=None):
         events_collector_key = g.secrets['events_collector_js_key']
         events_collector_secret = g.secrets['events_collector_js_secret']
 
+    bp_currencyrates = g.gencache.get("bp_currencyrates")
+    if not bp_currencyrates:
+        bp_currencyrates = {}
+    
     config = {
         # is the user logged in?
         "logged": logged,
@@ -247,6 +251,17 @@ def js_config(extra_config=None):
         # debugging?
         "debug": g.debug,
         "donation_address": g.live_config["blockpath_donation_addr"] if 'blockpath_donation_addr' in g.live_config else '',
+        "bpcritical_notification": g.live_config["bpcritical_notification"] if 'bpcritical_notification' in g.live_config else '',
+        "pref_bp_gravity": c.user.pref_bp_gravity,
+        "pref_bp_linkdistance": c.user.pref_bp_linkdistance,
+        "pref_bp_chargedistance": c.user.pref_bp_chargedistance,
+        "pref_bp_charge": c.user.pref_bp_charge,
+        "pref_bp_theta": c.user.pref_bp_theta,
+        "pref_bp_friction": c.user.pref_bp_friction,
+        "pref_bp_nodesoftlimit": c.user.pref_bp_nodesoftlimit,
+        "pref_bp_linksoftlimit": c.user.pref_bp_linksoftlimit,
+        "pref_bp_currency": c.user.pref_bp_currency,
+        "bp_currencyrates": bp_currencyrates,
         "poisoning_canary": poisoning_canary,
         "poisoning_report_mac": poisoning_report_mac,
         "cache_policy": cache_policy,

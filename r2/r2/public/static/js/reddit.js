@@ -892,6 +892,50 @@ function big_mod_toggle(el, press_action, unpress_action) {
     return false
 }
 
+/*****   Blockpath functions    ****/
+
+function insertQRCode(item, dom, size){
+    var px = 100;
+    var dark = "#000033";
+    if(size=="small"){
+        px = 30;
+        dark = "#94b8b8";
+    }else if(size=="medium"){
+        px = 90;
+        dark = "#262626";
+    }else if(size=="huge"){
+        px=310;
+    }
+    dom.style.minWidth = px+"px";
+    new QRCode(dom, {
+        text: item,
+        width: px,
+        height: px,
+        colorDark: dark,
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.H
+    });
+    setTimeout(function(){dom.classList.add("opacityFadeIn");},2);
+    
+    if(size!="huge"){
+        dom.addEventListener("click", function(){showFullScreenQRCode(this);});
+    }
+}
+
+function showFullScreenQRCode(dom){
+    if($("#fullscreenQRCode").length){
+        $("#fullscreenQRCode").remove(); //clear out old address.
+    }
+    var $dom = $(dom);
+    $dom.after('<div id="fullscreenQRCode" class="bpqr dropdown-menu"></div>');
+    var ref = $("#fullscreenQRCode");
+    insertQRCode($dom.attr("title"), ref[0], "huge");
+}
+
+
+
+
+
 /* The ready method */
 $(function() {
         $("body").click(close_menus);
@@ -1010,18 +1054,13 @@ $(function() {
           $(this).addClass("selected");
         });
         
+        
         //blockpath donate QR code
         var donateDiv = $("#donationContainer");
         if (!!donateDiv.length && r.config.donation_address) {
             var addr = r.config.donation_address;
-            new QRCode(document.getElementById("donationQR"), {
-                text: addr,
-                width: 90,
-                height: 90,
-                colorDark: "#262626",
-                colorLight: "#ffffff",
-                correctLevel: QRCode.CorrectLevel.H
-            });
+            insertQRCode(addr, document.getElementById("donationQR"), "medium");
+            
             var donateSplit = addr.substring(0,addr.length/2) + "<br>" + addr.substring(addr.length/2, addr.length);
             donateDiv.append("<div id='donationText'> If this website was useful for you, consider a donation "+
                 "so we can continue providing this service. <br> <a href='https://blockpath.com/search/addr?q="+
@@ -1034,7 +1073,10 @@ $(function() {
                 window.location.href = "https://blockpath.com/verify";
             }, null, "warning");
         }
-
+        
+        
+        
+        
         /* ajax ynbutton */
         function toggleThis() { return toggle(this); }
         $("body")

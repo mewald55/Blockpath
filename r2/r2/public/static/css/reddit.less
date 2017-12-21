@@ -231,12 +231,16 @@ label.disabled { color: gray; }
 .selected, .choice.primary { font-weight: bold; }
 
 .flat-list {list-style-type: none; display: inline;}
-.flat-list li, .flat-list form {display: inline; white-space: nowrap; }
+.flat-list > li, .flat-list form {display: inline; white-space: nowrap; }
 
 .flat-list li a.gold { color: #9a7d2e; font-weight: bold; }
 .flat-list li.selected a { color: orangered; }
 
-.link .flat-list { display: block; padding: 1px 0; }
+.link .flat-list { 
+	display: block;
+	padding: 1px 0;
+	height: 30px;
+}
 .link.compressed .flat-list { display: inline-block; padding: 0 0 1px 0; }
 
 ul.flat-vert {text-align: left;}
@@ -432,6 +436,7 @@ ul.flat-vert {text-align: left;}
     margin-top: 5px;
     vertical-align: bottom;
     align-self: flex-end;
+    max-width: 1700px;
 }
 
 .tabmenu li {
@@ -1981,13 +1986,21 @@ a.star { text-decoration: none; color: #ff8b60 }
 .odd  { }
 .even { }
 
-/* buttons on main link style */
-.entry .buttons li {
+/* buttons on comment dropdown menu */
+.comment .buttons li {
     display: inline;
     border: none;
     margin-right: 4px;
     line-height: 1.6em;
-    float: right;
+}
+
+//just for link buttons.
+.link .buttons > li{
+	float: right;
+	display: inline;
+	border: none;
+	margin-right: 4px;
+	line-height: 1.6em;
 }
 
 /*

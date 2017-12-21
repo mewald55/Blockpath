@@ -31,6 +31,8 @@ from r2.lib.validator.validator import (
     VLang,
     VOneOf,
     VSRByName,
+    VFloat,
+    VLength
 )
 from r2.lib.errors import errors
 from r2.models import Subreddit, NotFound
@@ -93,6 +95,17 @@ PREFS_VALIDATORS = dict(
     pref_threaded_modmail=VBoolean('threaded_modmail', False),
 )
 
+BP_PREFS_VALIDATORS = dict(
+    pref_bp_gravity = VFloat('bp_gravity', min=0, max=0.7),
+    pref_bp_linkdistance = VFloat('bp_linkdistance'),
+    pref_bp_chargedistance = VFloat('bp_chargedistance'),
+    pref_bp_charge = VFloat('bp_charge'),
+    pref_bp_theta = VFloat('bp_theta'),
+    pref_bp_friction = VFloat('bp_friction'),
+    pref_bp_nodesoftlimit = VFloat('bp_nodesoftlimit'),
+    pref_bp_linksoftlimit = VFloat('bp_linksoftlimit'),
+    pref_bp_currency = VLength('pref_bp_currency', 4, 0),
+)
 
 def set_prefs(user, prefs):
     for k, v in prefs.iteritems():
@@ -157,3 +170,11 @@ def filter_prefs(prefs, user):
                 # don't update if they can't view the chosen subreddit
                 c.errors.add(errors.SUBREDDIT_NO_ACCESS, field='stylesheet_override')
                 del prefs['pref_default_theme_sr']
+
+
+def bpfilter_prefs(prefs, user):
+    for pref_key in prefs.keys():
+        if pref_key not in user._bppreference_attrs:
+            del prefs[pref_key]
+
+

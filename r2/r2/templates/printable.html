@@ -187,6 +187,10 @@ ${self.RenderPrintable()}
   <div class="entry ${like_cls}">
     ${self.entry()}
   </div>
+  ##Blockpath will render all buttons on the bottom of an entry
+  %if self.bottom_buttons:
+    ${self.bottom_buttons()}
+  %endif
   ${self.Child()}
   <div class="clearleft"></div>
 </div>
@@ -205,6 +209,10 @@ ${self.RenderPrintable()}
 
 <%def name="entry()">
 </%def>
+
+<%def name="bottom_buttons()">
+</%def>
+
 
 <%def name="Child(display=True)">
 <div class="child" ${(not display and "style='display:none'" or "")}>

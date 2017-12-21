@@ -128,7 +128,7 @@
     ##${makeAnalysisSummaryPreview()}
   </ul>
   <div class="reportform report-${thing._fullname}"></div>
- </%def>
+</%def>
 
 <%def name="flair()">
   %if c.user.pref_show_link_flair and thing.flair_text:
@@ -184,12 +184,12 @@
             ${child_content}
         %else:
             %if thing.selftext:
-                %if len(thing.selftext) < 251:
+                %if len(thing.selftext) < 500:
                     <%selftext_hide = True%>
                 %endif
                 <div class="usertext-body may-blank-within md-container ${'admin_takedown' if thing.admin_takedown else ''}">
                     %if not thing.expunged:
-                        ${unsafe(safemarkdown(maxParagraphLength(thing.selftext, 250), nofollow = thing.nofollow))}
+                        ${unsafe(safemarkdown(maxParagraphLength(thing.selftext, 501), nofollow = thing.nofollow))}
                     %else:
                         <em>${_("[removed]")}</em>&#32;
                     %endif
@@ -206,9 +206,6 @@
             <span class="blockpath-expando-button-label-expanded">${_("less")}</span>
         </div>
     %endif
-
-    ##Blockpath will render all buttons on the bottom of an entry
-    ${bottom_buttons()}
 
 </%def>
 

@@ -1985,6 +1985,8 @@ class VInt(VNumber):
 class VFloat(VNumber):
     def cast(self, val):
         return float(val)
+    def param_docs(self):
+        return {self.param: "Nothing..."}
 
 
 class VDecimal(VNumber):

@@ -530,6 +530,12 @@ class Globals(object):
             json="json",
         )
 
+        ################# Blockpath Global Variables
+        #self.bp = {}
+        
+        
+        
+        
         ################# PROVIDERS
         self.auth_provider = select_provider(
             self.config,
