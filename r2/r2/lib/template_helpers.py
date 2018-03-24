@@ -261,6 +261,8 @@ def js_config(extra_config=None):
         "pref_bp_nodesoftlimit": c.user.pref_bp_nodesoftlimit,
         "pref_bp_linksoftlimit": c.user.pref_bp_linksoftlimit,
         "pref_bp_currency": c.user.pref_bp_currency,
+        "pref_bp_linklabel2": c.user.pref_bp_linklabel2,
+        "pref_bp_linklabeldir2": c.user.pref_bp_linklabeldir2,
         "bp_currencyrates": bp_currencyrates,
         "poisoning_canary": poisoning_canary,
         "poisoning_report_mac": poisoning_report_mac,

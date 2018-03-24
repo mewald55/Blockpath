@@ -25,26 +25,181 @@
 %>
 <%namespace file="utils.html" import="plain_link"/>
 
-<div class="menu-wrap pages-side-menu-wrap">
-    <nav class="menu" id="menuDivId">
-        <div class="icon-list">
-            <ul class="tabmenu sr-bar">
-                <li><a class="choice" href="https://blockpath.com">
-                    Home
-                </a></li>
-                <li><a class="choice" href="/submit?analysis=true">
-                    Create New Post
+<%
+    explore = bool(thing.bpPageType == "explore")
+    wallet = bool(thing.bpPageType == "wallet")
+    bpstandardview = bool(explore or wallet)
+    discussion = bool(thing.bpPageType == "linkview")
+    bptablegraph = bool(explore or wallet or discussion)
+%>
+
+<div class="menu-wrap" id="sidemenu-wrap" style="${'display:none;' if not bptablegraph else ''} ">
+    <nav id="sidemenu" class="${thing.bpPageType}">
+        <div id="sidemenu-home" class="sidemenu-cell">
+            <a href="https://blockpath.com">
+                <div style="display: inline-block;">
+                    <svg class="sidemenu-svg" height="28" width="28" viewBox="0 0 24 24">
+                        <path fill="grey" d="M21 13v10h-6v-6h-6v6h-6v-10h-3l12-12 12 12h-3zm-1-5.907v-5.093h-3v2.093l3 3z"/>
+                    </svg>
+                </div>
+                <div class="sidemenu-text" style="vertical-align: super;" > Home </div>
+            </a>
+        </div>
+        <div id="sidemenu-pages" class="sidemenu-cell">
+            <div class="dropdown-toggle" data-toggle="dropdown">
+                <div style="display: inline-block;">
+                    <svg class="sidemenu-svg" height="28" width="28" <svg viewBox="0 0 24 24">
+                        <path fill="grey" d="M13 6c3.469 0 2 5 2 5s5-1.594 5 2v9h-12v-16h5zm.827-2h-7.827v20h16v-11.842c0-2.392-5.011-8.158-8.173-8.158zm.173-2l-3-2h-9v22h2v-20h10z"/>
+                    </svg>
+                </div>
+                <div class="sidemenu-text"> Pages </div>
+            </div>
+            <ul id="" class="dropdown-menu sidemenu-childmenu">
+                %for m in thing.sr_bar():
+                    ${m.render()}
+                %endfor
+                <%
+                editmore = 'Edit Subscriptions' if c.user_is_loggedin else 'More Pages'
+                %>
+                <li>
+                    ${plain_link(format_html("%s &raquo;", editmore),"/pages/", _sr_path=False, id="sr-more-link")}
+                </li>
+            </ul>
+        </div>
+        %if not bptablegraph:
+            <div id="sidemenu-pages" class="sidemenu-cell">
+                <a href="/submit?analysis=true">
+                    <div style="display: inline-block;">
+                        <svg class="sidemenu-svg" height="28" width="28" viewBox="-2 -2 27 29">
+                            <path fill="grey" d="M0,18V23h5l14-14l-5-5L0,18z M22.7,5c0.5-0.5,0.5-1.5,0-1.7L20,0.5c-0.5-0.5-1.25-0.5-1.7,0l-2.29,2.29l4.8,4.8L22.56,5.1z"></path>
+                            <rect opacity="0" fill="none" stroke="black" height="30" width="23" y="0" x="0"></rect>  <line opacity="0" stroke-width="4px" stroke="DarkSlateBlue" y2="5" x2="18" y1="5" x1="5"></line>
+                            <line opacity="0" stroke-width="4px" stroke="DarkSlateBlue" y2="15" x2="18" y1="15" x1="5"></line> <line opacity="0" stroke-width="4px" stroke="DarkSlateBlue" y2="25" x2="18" y1="25" x1="5"></line>
+                        </svg>
+                    </div>
+                    <div class="sidemenu-text"> Create Post </div>
+                </a>
+            </div>
+        %endif
+        %if bptablegraph:
+            <div class="sidemenu-cell tableView ${'selected' if bpstandardview else ''}">
+                <div style="display: inline-block;">
+                    <%doc><svg class="sidemenu-svg" width="28" height="28" viewBox="0 0 24 24"> <path d="M4 22h-4v-4h4v4zm0-12h-4v4h4v-4zm0-8h-4v4h4v-4zm3 0v4h17v-4h-17zm0 12h17v-4h-17v4zm0 8h17v-4h-17v4z"/> </svg></%doc>
+                    %if bpstandardview:
+                        <svg class="sidemenu-svg" height="28" width="28" viewbox="-1 -1 47 31">
+                            <line stroke-width="4px" stroke="blue" y2="2" x2="15" y1="2" x1="0"></line>
+                            <line stroke-width="4px" stroke="blue" y2="2" x2="45" y1="2" x1="30"></line>
+                            <path fill="green" transform= "translate(0,-5)" d="M17,4 L17,10 L27,7 z"></path>
+                            <line stroke-width="4px" stroke="blue" y2="15" x2="15" y1="15" x1="0"></line>
+                            <line stroke-width="4px" stroke="blue" y2="15" x2="45" y1="15" x1="30"></line>
+                            <path fill="green" d="M17,12 L17,17 L27,15 z"></path>
+                            <line stroke-width="4px" stroke="blue" y2="28" x2="15" y1="28" x1="0"></line>
+                            <line stroke-width="4px" stroke="blue" y2="28" x2="45" y1="28" x1="30"></line>
+                            <path fill="green" transform= "translate(0,5)" d="M17,20 L17,25 L27,23 z"></path>
+                        </svg>
+                    %else:
+                        <svg class="sidemenu-svg" height="28" width="28" viewbox="-1 -1 47 31">
+                            <line stroke-width="4px" stroke="grey" y2="8" x2="15" y1="8" x1="5"></line>
+                            <line stroke-width="4px" stroke="grey" y2="8" x2="40" y1="8" x1="30"></line>
+                            <path fill="grey" d="M17,4 L17,10 L27,7 z"></path>
+                            <line stroke-width="4px" stroke="grey" y2="15" x2="15" y1="15" x1="5"></line>
+                            <line stroke-width="4px" stroke="grey" y2="15" x2="40" y1="15" x1="30"></line>
+                            <path fill="grey" d="M17,12 L17,17 L27,15 z"></path>
+                            <line stroke-width="4px" stroke="grey" y2="22" x2="15" y1="22" x1="5"></line>
+                            <line stroke-width="4px" stroke="grey" y2="22" x2="40" y1="22" x1="30"></line>
+                            <path fill="grey" d="M17,20 L17,25 L27,23 z"></path>
+                        </svg>
+                    %endif
+                </div>
+                <div class="sidemenu-text"> Overview </div>
+            </div>
+            
+            <div class="sidemenu-cell graphView">
+                <div style="display: inline-block;">
+                    <%doc> <svg class="sidemenu-svg" width="28" height="28" viewBox="0 0 24 24"> <path d="M20 3c0-1.657-1.344-3-3-3s-3 1.343-3 3c0 .312.061.606.149.889l-4.21 3.157c.473.471.878 1.01 1.201 1.599l4.197-3.148c.477.316 1.048.503 1.663.503 1.656 0 3-1.343 3-3zm-2 0c0 .551-.448 1-1 1s-1-.449-1-1 .448-1 1-1 1 .449 1 1zm3 12.062c1.656 0 3-1.343 3-3s-1.344-3-3-3c-1.281 0-2.367.807-2.797 1.938h-6.283c.047.328.08.66.08 1s-.033.672-.08 1h6.244c.396 1.195 1.509 2.062 2.836 2.062zm-1-3c0-.551.448-1 1-1s1 .449 1 1-.448 1-1 1-1-.448-1-1zm-20-.062c0 2.761 2.238 5 5 5s5-2.239 5-5-2.238-5-5-5-5 2.239-5 5zm2 0c0-1.654 1.346-3 3-3s3 1.346 3 3-1.346 3-3 3-3-1.346-3-3zm7.939 4.955l4.21 3.157c-.088.282-.149.576-.149.888 0 1.657 1.344 3 3 3s3-1.343 3-3-1.344-3-3-3c-.615 0-1.186.187-1.662.504l-4.197-3.148c-.324.589-.729 1.127-1.202 1.599zm6.061 4.045c0-.551.448-1 1-1s1 .449 1 1-.448 1-1 1-1-.449-1-1z"/></svg></%doc>
+                    <svg class="sidemenu-svg" height="28" width="28" viewbox="7 -1 47 31">
+                        <line stroke="black" y2="19" x2="38" y1="12" x1="12"></line>
+                        <line stroke="black" y2="19" x2="38" y1="5" x1="50"></line>
+                        <line stroke="black" y2="19" x2="38" y1="20" x1="30"></line>
+                        <circle style="fill: grey;" r="8.5" cy="19" cx="38"></circle>
+                        <circle style="fill: grey;" r="5" cy="12" cx="12"></circle>
+                        <circle style="fill: grey;" r="5" cy="5" cx="50"></circle>
+                        <circle style="fill: blue; opacity: 0;" r="5" cy="20" cx="30"></circle>
+                    </svg>
+                </div>
+                <div class="sidemenu-text"> Graph </div>
+            </div>
+        %endif
+        
+        %if discussion:
+            <div class="sidemenu-cell selected discussionView">
+                <div style="display: inline-block;">
+                    <svg class="sidemenu-svg" width="28" height="28" viewBox="-2 -1 44 34">
+                        <path transform= "translate(-2,-2)scale(1.1)"  fill="red" d=" M15 4c-1.583 0-3.112 0.248-4.543 0.738-1.341 0.459-2.535 1.107-3.547 1.926-1.876 1.518-2.91 3.463-2.91 5.474 0 1.125 0.315 2.217 0.935 3.247 0.646 1.073 1.622 2.056 2.821 2.842 0.951 0.624 1.592 1.623 1.761 2.748 0.028 0.187 0.051 0.375 0.068 0.564 0.085-0.079 0.169-0.16 0.254-0.244 0.754-0.751 1.771-1.166 2.823-1.166 0.167 0 0.335 0.011 0.503 0.032 0.605 0.077 1.223 0.116 1.836 0.116 1.583 0 3.112-0.248 4.543-0.738 1.341-0.459 2.535-1.107 3.547-1.926 1.876-1.518 2.91-3.463 2.91-5.474s-1.033-3.956-2.91-5.474c-1.012-0.819-2.206-1.467-3.547-1.926-1.431-0.49-2.96-0.738-4.543-0.738zM15 0v0c8.284 0 15 5.435 15 12.139s-6.716 12.139-15 12.139c-0.796 0-1.576-0.051-2.339-0.147-3.222 3.209-6.943 3.785-10.661 3.869v-0.785c2.008-0.98 3.625-2.765 3.625-4.804 0-0.285-0.022-0.564-0.063-0.837-3.392-2.225-5.562-5.625-5.562-9.434 0-6.704 6.716-12.139 15-12.139z"></path>
+                        <path transform= "translate(2,0)"   fill="green" d=" M34 28.161c0 1.422 0.813 2.653 2 3.256v0.498c-0.332 0.045-0.671 0.070-1.016 0.070-2.125 0-4.042-0.892-5.398-2.321-0.819 0.218-1.688 0.336-2.587 0.336-4.971 0-9-3.582-9-8s4.029-8 9-8c4.971 0 9 3.582 9 8 0 1.73-0.618 3.331-1.667 4.64-0.213 0.463-0.333 0.979-0.333 1.522z"></path>
+                    </svg>
+                </div>
+                <div class="sidemenu-text"> Discussion </div>
+            </div>
+        %endif
+        %if bptablegraph:
+            <div class="sidemenu-cell createLink" title="Create a post">
+                <div style="display: inline-block;">
+                    <svg class="sidemenu-svg" height="28" width="28" viewBox="-2 -2 27 29">
+                        <path fill="grey" d="M0,18V23h5l14-14l-5-5L0,18z M22.7,5c0.5-0.5,0.5-1.5,0-1.7L20,0.5c-0.5-0.5-1.25-0.5-1.7,0l-2.29,2.29l4.8,4.8L22.56,5.1z"></path>
+                        <rect opacity="0" fill="none" stroke="black" height="30" width="23" y="0" x="0"></rect>  <line opacity="0" stroke-width="4px" stroke="DarkSlateBlue" y2="5" x2="18" y1="5" x1="5"></line>
+                        <line opacity="0" stroke-width="4px" stroke="DarkSlateBlue" y2="15" x2="18" y1="15" x1="5"></line> <line opacity="0" stroke-width="4px" stroke="DarkSlateBlue" y2="25" x2="18" y1="25" x1="5"></line>
+                    </svg>
+                </div>
+                <div class="sidemenu-text"> Share </div>
+            </div>
+        %endif
+        
+        
+        <div id="appSettings" class="sidemenu-cell">
+            <div style="display: flex;" class="dropdown-toggle" data-toggle="dropdown">
+                <div style="display: inline-block;">
+                    <svg class="sidemenu-svg" width="28" height="28" viewBox="0 0 24 24">
+                        <path fill="grey" d="M24 13.616v-3.232c-1.651-.587-2.694-.752-3.219-2.019v-.001c-.527-1.271.1-2.134.847-3.707l-2.285-2.285c-1.561.742-2.433 1.375-3.707.847h-.001c-1.269-.526-1.435-1.576-2.019-3.219h-3.232c-.582 1.635-.749 2.692-2.019 3.219h-.001c-1.271.528-2.132-.098-3.707-.847l-2.285 2.285c.745 1.568 1.375 2.434.847 3.707-.527 1.271-1.584 1.438-3.219 2.02v3.232c1.632.58 2.692.749 3.219 2.019.53 1.282-.114 2.166-.847 3.707l2.285 2.286c1.562-.743 2.434-1.375 3.707-.847h.001c1.27.526 1.436 1.579 2.019 3.219h3.232c.582-1.636.75-2.69 2.027-3.222h.001c1.262-.524 2.12.101 3.698.851l2.285-2.286c-.744-1.563-1.375-2.433-.848-3.706.527-1.271 1.588-1.44 3.221-2.021zm-12 2.384c-2.209 0-4-1.791-4-4s1.791-4 4-4 4 1.791 4 4-1.791 4-4 4z"/>
+                    </svg>
+                </div>
+                <div class="sidemenu-text"> Settings </div>
+            </div>
+            <ul id="appSettingsDropDown" class="dropdown-menu">
+                <li class="dropdown-submenu"><a href="#"> Currency &nbsp; <i aria-hidden="true" class="fa fa-caret-right"></i></a>
+                    <ul id="currencySelectorMenu" class="dropdown-menu">
+                        <li><a tabindex="-1" href="#" curr-code="BTC">BTC</a></li>
+                        <li><a tabindex="-1" href="#" curr-code="mBTC">mBTC <span class="currratetext"> 1,000 / BTC</span> </a></li>
+                        <li><a tabindex="-1" href="#" curr-code="bits">Bits <span class="currratetext"> 1,000,000 / BTC </span> </a></li>
+                        <li><a tabindex="-1" href="#" curr-code="sat">Satoshis <span class="currratetext"> 100,000,000 / BTC </span> </a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        
+        
+        
+        <div class="sidemenu-cell" id="sidemenu-open-button">
+            <div id="sidemenu-opensvg" style="margin-left: 2px;">
+                <svg class="sidemenu-svg" width="24" height="24" viewBox="0 0 24 24"><path fill="grey" d="M5 3l3.057-3 11.943 12-11.943 12-3.057-3 9-9z"/>
+                </svg>
+            </div>
+            <div id="sidemenu-closesvg">
+                <svg class="sidemenu-svg" width="24" height="24" viewBox="0 0 24 24"><path fill="grey" d="M16.67 0l2.83 2.829-9.339 9.175 9.339 9.167-2.83 2.829-12.17-11.996z"/>
+                </svg>
+            </div>
+        
+        </div>
+        
+        
+        <div style="display:none;">
+            
+            <span class="slideMenu_Title"> My Wallets </span>
+            <ul id="sidemenu_wallets" class="tabmenu sr-bar">
+                <li><a class="choice" href="https://blockpath.com/wallets">
+                    Create new Wallet
                 </a></li>
             </ul>
-            %for m in thing.sr_bar():
-                ${m.render()}
-            %endfor
-            <%
-            editmore = 'Edit Subscriptions' if c.user_is_loggedin else 'More Pages'
-            %>
-            ${plain_link(format_html("%s &raquo;", editmore),"/pages/", _sr_path=False, id="sr-more-link")}
-            <br><br>
+            
         </div>
     </nav>
-    <button class="close-button" id="close-button">Close Menu</button>
 </div>

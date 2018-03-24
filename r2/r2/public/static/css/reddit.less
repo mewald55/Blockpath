@@ -433,7 +433,6 @@ ul.flat-vert {text-align: left;}
     list-style-type: none;
     white-space: nowrap;
     display: inline-block;
-    margin-top: 5px;
     vertical-align: bottom;
     align-self: flex-end;
     max-width: 1700px;
@@ -441,15 +440,21 @@ ul.flat-vert {text-align: left;}
 
 .tabmenu li {
     display: inline;
-   // font-weight: bold;
     margin: 0px 3px;
 }
 
 .tabmenu li a {
     padding: 2px 0 0 0;
     border: 1px solid transparent;
-    background-color: #eff7ff;
- }
+    background-color: transparent !important;
+}
+ 
+.tabmenu li > button {
+    padding: 0 0 0 0;
+    border: 1px solid transparent;
+    background-color: transparent !important;
+    width: 100%;
+}
 
 .tabpane-content { border: 1px solid #5f99cf; padding: 4px 4px 4px 4px; }
 
@@ -459,8 +464,8 @@ ul.flat-vert {text-align: left;}
 }
 
 .content .spacer {
-	padding-bottom: 5px;
-	//background-color: #F5F8FA !important;
+    padding-bottom: 5px;
+    //background-color: #F5F8FA !important;
 }
 
 .state-button { display:inline }
@@ -476,10 +481,11 @@ ul.flat-vert {text-align: left;}
  }
 
 .side .side-message {
-	background-color: rgba(203,203,154,0.2);
-	border-radius: 15px;
-	border: 1px solid #cbcb9a;
-	padding: 10px;
+    background-color: rgba(203,203,154,0.2);
+    border-radius: 15px;
+    border: 1px solid #cbcb9a;
+    padding: 10px;
+    margin-top: 30px;
 
     p {
         font-size: 16px;
@@ -4799,14 +4805,8 @@ ul#image-preview-list .description pre {
 .sr-bar a.gold { color: #9a7d2e; font-weight: bold; }
 
 #sr-more-link {
-    color: black;
     background-color: #f0f0f0;
-    position: absolute;
-    right: 0;
-    top: 0;
-    padding: 0 5px 0 15px;
     font-weight: bold;
-    margin: 0;
 }
 
 #sr-more-link:hover {text-decoration: underline;}
@@ -11032,13 +11032,13 @@ body.with-listing-chooser {
 
       #mail.havemail {
         //Blockpath removes these mail images.
-	font-weight: 600;
+        font-weight: 600;
         //background-image: url(../gold/gold-only-mail-havemail.png); /* SPRITE */
       }
 
       #modmail.havemail {
         font-weight: 600;
-	//background-image: url(../gold/gold-only-modmail-havemail.png); /* SPRITE */
+        //background-image: url(../gold/gold-only-modmail-havemail.png); /* SPRITE */
       }
     }
 

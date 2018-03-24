@@ -213,6 +213,7 @@ def menu_style(type):
              linkviewtoolbar = ('linkviewtoolbar',''),
              formtab = ('submitULTypeSlider', 'submitULTypeSlider'),
              flat_vert = ('flatlist', 'flat-vert'),
+             items = ('items',''), #bp custom.
              )
     return d.get(type, default)
 

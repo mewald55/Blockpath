@@ -176,7 +176,7 @@ clean_css:
 
 .PHONY: clean_js
 
-js: $(STATIC_BUILDSTAMP) $(JS_OUTPUTS)
+js: $(STATIC_BUILDSTAMP) $(JS_OUTPUTS) clean_sourcejs
 
 define JS_MODULE_TEMPLATE
 $(JS_MODULE_OUTPUTS_$(1)): $(JS_MODULE_DEPS_$(1)) r2/lib/js.py
@@ -189,6 +189,9 @@ endef
 # apply the module template to each of the modules
 # so they source their deps from js.py and build accordingly
 $(foreach module,$(JS_MODULES),$(eval $(call JS_MODULE_TEMPLATE,$(module))))
+
+clean_sourcejs:
+	rm -rf $(STATIC_BUILD_DIR)/js/*
 
 clean_js:
 	rm -f $(STATIC_BUILD_DIR)/*.js

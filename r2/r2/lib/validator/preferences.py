@@ -105,6 +105,8 @@ BP_PREFS_VALIDATORS = dict(
     pref_bp_nodesoftlimit = VFloat('bp_nodesoftlimit'),
     pref_bp_linksoftlimit = VFloat('bp_linksoftlimit'),
     pref_bp_currency = VLength('pref_bp_currency', 4, 0),
+    pref_bp_linklabel2 = VOneOf('address', 'value'),
+    pref_bp_linklabeldir2 = VOneOf('parallel', 'horizontal')
 )
 
 def set_prefs(user, prefs):

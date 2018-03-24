@@ -39,6 +39,7 @@
     <meta name="google-site-verification" content="vnN6nyQBBdnTzYhvmumOADe3bgCApO6WsMv7b57J-CQ" />
     <link rel="canonical" href="${thing.canonical_link}" />
     <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     ##%if hasattr(thing, 'mobile_link'):
     ##    <link rel="alternate" media="only screen and (max-width: 640px)" href="${thing.mobile_link}" />
     ##%endif
@@ -64,6 +65,7 @@
     ${googletagmanager()}
     ${self.bodyContent()}
     ${self.javascript_bottom()}
+    <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
   </body>
 </html>
 

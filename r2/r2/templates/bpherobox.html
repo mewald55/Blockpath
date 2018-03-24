@@ -13,7 +13,7 @@
         </div>
         <div id="heroboxMainText">
             <h2 id="heroboxTitle" > A multi-address Bitcoin accounting tool with a built-in graphical explorer. </h2>
-            <form action="/search/addr" role="search" class="" onsubmit=" return validateHeroboxSearch(1);" style="margin-top: 14px;">
+            <form action="/search/addr" role="search" class="" onsubmit=" return validateSearchText('heroboxSearch', 1);" style="margin-top: 14px;">
                 <div style="display:inline-block;">
                     <input id="heroboxSearch" name="q" placeholder="Search the Blockchain" type="text">
                     <br>
@@ -24,15 +24,6 @@
                     </div>
                 </div>
                 <button style="width:155px; height: 42px; margin-left: 7px; margin-bottom: 10px; font-size: 21px; vertical-align:top;" class="btn btn-primary"> Explore </button>
-                <script>
-                    function validateHeroboxSearch(useFallbackExample) {
-                        var addSearchText = document.getElementById('heroboxSearch').value;
-                        if (!addSearchText && useFallbackExample){addSearchText='1LTvYhbpur5nZMe3hifMGgq28MMBzRgNdC';}
-                        addSearchText = addSearchText.replace(/\s+/g, '');
-                        document.getElementById('heroboxSearch').value = addSearchText;
-                        return true;
-                    }
-                </script>
             </form>
         </div>
         <div id="heroboxBottomText" onclick="herobox_scrolltocontent();" style="width: 300px; cursor: pointer;margin-left: auto;margin-right: auto;">

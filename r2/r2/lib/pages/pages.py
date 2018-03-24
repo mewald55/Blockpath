@@ -248,6 +248,7 @@ class Reddit(Templated):
     extra_stylesheets  = []
     extra_html         = None
     show_herobox       = False
+    #bpPageType         = None
 
     def __init__(self, space_compress=None, nav_menus=None, loginbox=True,
                  infotext='', infotext_class=None, infotext_show_icon=False,
@@ -257,6 +258,7 @@ class Reddit(Templated):
                  show_wiki_actions=False, extra_js_config=None,
                  show_locationbar=False, auction_announcement=False,
                  show_newsletterbar=False, canonical_link=None,
+                 bpPageType=None,
                  **context):
         Templated.__init__(self, **context)
         self.title = title
@@ -275,6 +277,7 @@ class Reddit(Templated):
         self.debug_footer = DebugFooter()
         self.supplied_page_classes = page_classes or []
         self.show_newsletterbar = show_newsletterbar
+        self.bpPageType = bpPageType
 
         self.auction_announcement = auction_announcement
 
@@ -371,7 +374,7 @@ class Reddit(Templated):
 
         self.srtopbar = None
         if srbar and not is_api():
-            self.srtopbar = SubredditTopBar()
+            self.srtopbar = SubredditTopBar(self.bpPageType)
         
         panes = [content]
         if c.user_is_loggedin and not is_api() and not self.show_wiki_actions:
@@ -1654,6 +1657,7 @@ class LinkInfoPage(Reddit):
     create_reddit_box = False
     extra_page_classes = ['single-page']
     metadata_image_widths = (320, 216)
+    #bpPageType = 'linkview'
 
     def __init__(self, link = None, comment = None, disable_comments=False,
                  link_title = '', subtitle = None, num_duplicates = None,
@@ -1759,7 +1763,10 @@ class LinkInfoPage(Reddit):
                 "embed_inject_template": websafe(embeds.get_inject_template()),
             })
 
-        Reddit.__init__(self, title = title, short_description=short_description, robots=robots, *a, **kw)
+        bpPageType = None
+        if self.link.analysisData:
+            bpPageType = 'linkview'
+        Reddit.__init__(self, title = title, short_description=short_description, robots=robots, bpPageType=bpPageType, *a, **kw)
 
     def _build_og_data(self, link_title, meta_description):
         sr_fragment = "/r/" + c.site.name if not c.default_sr else get_domain()
@@ -1884,6 +1891,8 @@ class LinkInfoPage(Reddit):
         else:
             main_buttons = []
             toolbar = [NavMenu(main_buttons, type='linkviewtoolbar')]
+            #self.bpPageType = 'linkview'
+            #bpPageType = 'linkview'
         if c.user_is_admin:
             from admin_pages import AdminLinkMenu
             toolbar.append(AdminLinkMenu(self.link))
@@ -2804,12 +2813,12 @@ class Popup(Templated):
 
 
 class SubredditTopBar(CachedTemplate):
-
     """The horizontal strip at the top of most pages for navigating
     user-created reddits."""
-    def __init__(self):
+    def __init__(self, bpPageType):
         self._my_reddits = None
         self._pop_reddits = None
+        self.bpPageType = bpPageType
         name = '' if not c.user_is_loggedin else c.user.name
         # poor man's expiration, with random initial time
         t = int(time.time()) / 3600
@@ -2857,18 +2866,14 @@ class SubredditTopBar(CachedTemplate):
                                key = lambda sr: sr._downs,
                                reverse=True)
                         ]
-        return NavMenu(srs,
-                       type='tabmenu', separator = '',
-                       css_class = 'sr-bar')
+        return NavMenu(srs, type='items', separator = '', css_class = '')
 
     def popular_reddits(self, exclude_mine=False):
         exclude = self.my_reddits if exclude_mine else []
         buttons = [SubredditButton(sr) for sr in self.pop_reddits
                                        if sr not in exclude]
 
-        return NavMenu(buttons,
-                       type='tabmenu', separator = '',
-                       css_class = 'sr-bar', _id = 'sr-bar')
+        return NavMenu(buttons, type='items', separator = '', css_class = '')
 
     def special_reddits(self):
         #css_classes = {Random: "random",
@@ -2883,18 +2888,15 @@ class SubredditTopBar(CachedTemplate):
                 reddits.append(Friends)
             if c.user.is_moderator_somewhere:
                 reddits.append(Mod)
-        return NavMenu([SubredditButton(sr)
-                        for sr in reddits],
-                       type = 'tabmenu', separator = '',
-                       css_class = 'sr-bar')
+        return NavMenu([SubredditButton(sr) for sr in reddits], type='items', separator = '', css_class = '')
 
     def sr_bar (self):
-        sep0 = '<span class="slideMenu_Title"> Content Categories </span>'
-        sep1 = '<span class="slideMenu_Title"> Subscribed Pages </span>'
-        sep2 = '<span class="slideMenu_Title"> Popular Pages </span>'
+        #sep0 = '<span class="slideMenu_Title"> Content Categories </span>' #don't need to show "front + all" for now.
+        sep1 = '<li class="sidemenu_title"> Subscribed Pages </li>'
+        sep2 = '<li class="sidemenu_title"> Popular Pages </li>'
         menus = []
-        menus.append(RawString(sep0))
-        menus.append(self.special_reddits())
+        #menus.append(RawString(sep0))
+        #menus.append(self.special_reddits())
         if not c.user_is_loggedin:
             menus.append(RawString(sep2))
             menus.append(self.popular_reddits())
