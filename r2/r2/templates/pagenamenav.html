@@ -67,17 +67,24 @@
 <%def name="accounts()">
     <div id="acct-container" style="display:none;">
         <div id="acct-box" class="dropdown-toggle" data-toggle="dropdown">
+            <div style="display: none;">
+                <button id="acct-searchSave" class="btn">
+                    Save this Search
+                </button>
+            </div>
             <div id="acct-top">
-            
             </div>
             <div id="acct-selectedoption">
-            
+            </div>
+            <div id="acct-saveminibtn" class="acct-saveStatusIcon" style="display:none;" title="Wallet has unsaved changes">
+                <svg class="svg17" fill="#d45252cc" viewBox="0 0 24 24">
+                    <path d="M15.003 3h2.997v5h-2.997v-5zm8.997 1v20h-24v-24h20l4 4zm-19 5h14v-7h-14v7zm16 4h-18v9h18v-9z"/>
+                </svg>
             </div>
             <div id="acct-totalnum">
-            
             </div>
         </div>
-        <ul id="acct-optionsmenu" class="dropdown-menu">
+        <ul id="acct-topoptionsmenu" class="walletsDropDown dropdown-menu ">
         
         </ul>
     </div>

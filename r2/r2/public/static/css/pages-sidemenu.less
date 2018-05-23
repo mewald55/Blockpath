@@ -130,6 +130,9 @@
     .menu-wrap {
         width: 145px;
         overflow: visible;
+        .mdl-tooltip{
+            display:none; //shouldn't need tooltips when the menu is open.
+        }
     }
     .sidemenu-text{
         display: inline-block;
@@ -156,7 +159,7 @@
 }
 
 #sidemenu{
-    overflow-y: visible;
+    overflow-y: auto;
     display: flex;
     flex-direction: column;
     height: 100%;
@@ -167,30 +170,43 @@
     height: 57px;
     //width: 147px;
     cursor: pointer;
+    /*a{
+        display: block;
+        width: 100%;
+    }*/
 }
 
 .sidemenu-svg{
     margin: 16px 13px 0 16px;
+    height: 28px;
+    width: 28px;
 }
 
 .sidemenu-text{
     display: none;
     font-size: 13px;
     line-height: 57px;
+    color: rgb(17, 17, 17);
 }
 
 .sidemenu-cell:hover, .sidemenu-cell.selected{
     background: wheat;
     .sidemenu-svg{
-        fill: darkgreen;
+        fill: rgb(17, 41, 17);
     }
     .sidemenu-text{
-        color: darkgreen;
+        color: rgb(17, 41, 17);
     }
 }
 
 .sidemenu-cell:hover{
     background: wheat;
+}
+
+.sidemenu-sep{
+    width: 100%
+    height: 1px;
+    background: black;
 }
 
 .sidemenu-childmenu{
@@ -216,24 +232,41 @@
 }
 
 #sidemenu-home{
-    border-bottom: 1px solid grey;
     display: none; //shown on small screen only.
 }
+.sidemenu-separator{
+    display: none; //shown on small screen only. //if you use more than one separator, need to improve this.
+}
 #sidemenu-pages{
-    border-bottom: 1px solid grey;
-    margin-bottom: 25px;
     display: none; //not ready for prime time yet.
     text-transform: capitalize; //keep all page names capitalized.
 }
 
+.sidemenu-separator{
+    height: 20px;
+    min-height: 1px;
+    border-top: 1px solid #cfcfcf;
+}
+
+/* If you want the line in the 50% middle...
+.sidemenu-separator::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    height: 1px;
+    background: #cfcfcf;
+}
+*/
+
 #sidemenu .dropdown-menu{
     right: unset;
     left: 100%;
-    top: 0;
+    top: unset;
 }
 
 #appSettings{
-    position: relative;
+    //position: relative; //cant be relative so that the submenu can attach to a higher element to allow for overflow...
     margin-top: auto;
     .dropdown-submenu .dropdown-menu{
         right: unset;
@@ -245,9 +278,21 @@
 
 #currencySelectorMenu{
     width: 280px; //allow room for conversion data to show up when we receive it.
+    max-height: 74vh;
+    overflow: auto;
     a{
         display: flex;
-        justify-content: space-between;
+    }
+}
+
+.walletsDropDown{
+    a{
+        display: flex !important;
+        padding: 6px 20px !important;
+    }
+    .svg-text{
+        display: inline-flex;
+        flex-grow: 1;
     }
 }
 
@@ -305,21 +350,28 @@
         margin-left: 0 !important;
     }
     .dropdown-submenu .dropdown-menu{
-        bottom: 30px !important;
         left: 27px !important;
     }
-    #appSettingsDropDown{
-        left: 30% !important;
+    .dropdown-submenu .dropdown-menu.popup{
+        bottom: 24px !important;
+    }
+    #sidemenu .dropdown-menu{
+        left: 13% !important;
     }
     #sidemenu-home{
+        display: block !important;
+    }
+    .sidemenu-separator{
         display: block !important;
     }
 
 }
 
-
-
-
+@media screen and (min-width: 830px){
+    .listing-page #sidemenu-wrap{
+        display:none; //for now we don't need a sidebar on the homepage on large screen
+    }
+}
 
 
 

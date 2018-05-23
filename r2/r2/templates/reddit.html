@@ -128,6 +128,19 @@
 </%def>
 
 <%def name="bodyContent()">
+  <div style="display:none;">
+    <svg style="display:none;">
+        <symbol id="acct_walletSVG" width="20" height="20" viewBox="0 0 24 24">
+            <path fill="grey" d="M22 6v16h-16v-16h16zm2-2h-20v20h20v-20zm-24-4v20h2v-18h18v-2h-20z"/>
+        </symbol>
+        <symbol id="acct_addSVG" width="20" height="20" viewBox="0 0 24 24">
+            <path fill="grey" d="M22 6v16h-16v-16h16zm2-2h-20v20h20v-20zm-24-4v20h2v-18h18v-2h-20zm18 13h-3v-3h-2v3h-3v2h3v3h2v-3h3v-2z"/>
+        </symbol>
+        <symbol id="acct_importSVG" width="20" height="20" viewBox="0 0 24 24">
+            <path fill="grey" d="M16 11h5l-9 10-9-10h5v-11h8v11zm3 8v3h-14v-3h-2v5h18v-5h-2z"/>
+        </symbol>
+    </svg>
+  </div>
   %if thing.header:
     <%include file="adminbar.html"/>
     <%include file="redditheader.html"/>

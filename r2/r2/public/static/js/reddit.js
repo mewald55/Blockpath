@@ -932,8 +932,27 @@ function showFullScreenQRCode(dom){
     insertQRCode($dom.attr("title"), ref[0], "huge");
 }
 
-
-
+function validateSearchText(id, useFallbackExample) {
+    var elem = document.getElementById(id);
+    var addSearchText = elem.value;
+    if (!addSearchText){
+        if(useFallbackExample){
+            addSearchText='1LTvYhbpur5nZMe3hifMGgq28MMBzRgNdC';
+        }else{
+            Notify("Enter a search term");
+            return false;
+        }
+    }else if(addSearchText.search(/[,]/g)){
+        var searchTermArray = addSearchText.replace(/[^A-Za-z0-9,]+/g,"").split(",");
+        addSearchText = searchTermArray[0];
+        if(searchTermArray.length > 1){
+            sessionStorage.setItem('Blockpath_searchArray', JSON.stringify(searchTermArray.slice(1)) );
+        }
+    }
+    addSearchText = addSearchText.replace(/\s+/g, '');
+    elem.value = addSearchText;
+    return true;
+}
 
 
 /* The ready method */
@@ -1074,8 +1093,30 @@ $(function() {
             }, null, "warning");
         }
         
+        //check for wallet accounts stored locally.
+        if(!$("body").hasClass("search-page")){
+            var $insert = $();
+            for(var i=1; i <= 10; i++){
+                var rawitem = localStorage.getItem('Blockpath_localBackup'+i);
+                if(!rawitem){continue;}
+                var item = JSON.parse(rawitem);
+                if(!item || !item.name){continue;}
+                var encryptedSymbol = item.encrypted ? '<span class="currratetext"><i class="fa fa-lock" aria-hidden="true"></i></span>' : '';
+                $insert = $insert.add( '<li><a href="https://blockpath.com/wallets?'+i+'">'+
+                    '<svg><use xlink:href="#acct_walletSVG"/></svg><div class="svg-text">' + item.name.substring(0,10) + encryptedSymbol + 
+                    '</div></a></li>' );
+            }
+            if($insert){
+                $insert = $insert.add('<li class="bpdivider"></li>');
+                $(".walletsDropDown").prepend($insert);
+            }
+        }
         
-        
+        $('.dropdown-menu .dropdown-submenu > a').on("click", function(e){
+            $(this).next('ul').toggle();
+            e.stopPropagation();
+            e.preventDefault();
+        });
         
         /* ajax ynbutton */
         function toggleThis() { return toggle(this); }
