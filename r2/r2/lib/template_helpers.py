@@ -261,8 +261,9 @@ def js_config(extra_config=None):
         "pref_bp_nodesoftlimit": c.user.pref_bp_nodesoftlimit,
         "pref_bp_linksoftlimit": c.user.pref_bp_linksoftlimit,
         "pref_bp_currency": c.user.pref_bp_currency,
-        "pref_bp_linklabel2": c.user.pref_bp_linklabel2,
-        "pref_bp_linklabeldir2": c.user.pref_bp_linklabeldir2,
+        "pref_bp_currencyatot": c.user.pref_bp_currencyatot,
+        "pref_bp_linklabel": c.user.pref_bp_linklabel,
+        "pref_bp_linklabeldir": c.user.pref_bp_linklabeldir,
         "bp_currencyrates": bp_currencyrates,
         "poisoning_canary": poisoning_canary,
         "poisoning_report_mac": poisoning_report_mac,
@@ -304,6 +305,7 @@ def js_config(extra_config=None):
         "facebook_app_id": g.live_config["facebook_app_id"],
         "feature_new_report_dialog": feature.is_enabled('new_report_dialog'),
         "email_verified": logged and c.user.email and c.user.email_verified,
+        "email": c.user.email
     }
 
     if g.tracker_url:

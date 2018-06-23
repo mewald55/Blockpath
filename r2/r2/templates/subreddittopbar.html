@@ -247,6 +247,17 @@
             </div>
             <span for="sidemenu-discussionview" class="mdl-tooltip mdl-tooltip--right">Discussion</span>
         %endif
+        %if wallet:
+            <div id="sidemenu-integrationView" class="sidemenu-cell" style="display: none;">
+                <div style="display: inline-block;">
+                    <svg class="sidemenu-svg" viewBox="-2 -2 28 28">
+                        <path fill="grey" d="M11 11h-11v-11h11v11zm13 0h-11v-11h11v11zm-13 13h-11v-11h11v11zm13 0h-11v-11h11v11z"/>
+                    </svg>
+                </div>
+                <div class="sidemenu-text"> Integrations </div>
+            </div>
+            <span for="sidemenu-integrationView" class="mdl-tooltip mdl-tooltip--right">Integrations</span>
+        %endif
         %if bptablegraph:
             <div id="sidemenu-createlink" class="sidemenu-cell createLink">
                 <div style="display: inline-block;">
@@ -275,9 +286,9 @@
                     <li class="dropdown-submenu"><a href="#"> Currency &nbsp; <i aria-hidden="true" class="fa fa-caret-right"></i></a>
                         <ul id="currencySelectorMenu" class="dropdown-menu popup">
                             <li><a tabindex="-1" href="#" curr-code="BTC">BTC</a></li>
-                            <li><a tabindex="-1" href="#" curr-code="mBTC">mBTC <span class="currratetext"> 1,000 / BTC</span> </a></li>
-                            <li><a tabindex="-1" href="#" curr-code="bits">Bits <span class="currratetext"> 1,000,000 / BTC </span> </a></li>
-                            <li><a tabindex="-1" href="#" curr-code="sat">Satoshis <span class="currratetext"> 100,000,000 / BTC </span> </a></li>
+                            <li><a tabindex="-1" href="#" curr-code="mBTC">mBTC <span class="dropdown-smalltxt"> 1,000 / BTC</span> </a></li>
+                            <li><a tabindex="-1" href="#" curr-code="bits">Bits <span class="dropdown-smalltxt"> 1,000,000 / BTC </span> </a></li>
+                            <li><a tabindex="-1" href="#" curr-code="sat">Satoshis <span class="dropdown-smalltxt"> 100,000,000 / BTC </span> </a></li>
                         </ul>
                     </li>
                 </ul>

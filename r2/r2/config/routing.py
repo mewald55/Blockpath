@@ -131,8 +131,8 @@ def make_map(config):
     mc('/awards/claim/:code', controller='front', action='claim_award')
     mc('/awards/received', controller='front', action='received_award')
 
-    mc('/i18n', controller='redirect', action='redirect',
-       dest='https://www.reddit.com/r/i18n')
+    #mc('/i18n', controller='redirect', action='redirect',
+    #   dest='https://www.reddit.com/r/i18n')
     mc('/feedback', controller='redirect', action='redirect',
        dest='/contact')
     mc('/contact', controller='front', action='contact_us') #reddit uses frontunstyled
@@ -207,9 +207,9 @@ def make_map(config):
     mc('/u/:username/*rest', controller='redirect', action='user_redirect')
 
     # preserve timereddit URLs from 4/1/2012
-    mc('/t/:timereddit', controller='redirect', action='timereddit_redirect')
-    mc('/t/:timereddit/*rest', controller='redirect',
-       action='timereddit_redirect')
+    #mc('/t/:timereddit', controller='redirect', action='timereddit_redirect')
+    #mc('/t/:timereddit/*rest', controller='redirect',
+    #   action='timereddit_redirect')
 
     # /prefs/friends is also aliased to /api/v1/me/friends
     mc('/prefs/:where', controller='userlistlisting',
@@ -243,6 +243,7 @@ def make_map(config):
     mc('/share/close', controller='front', action='share_close')
 
     # sponsor endpoints
+    """
     mc('/sponsor/report', controller='sponsor', action='report')
     mc('/sponsor/inventory', controller='sponsor', action='promote_inventory')
     mc('/sponsor/lookup_user', controller='sponsor', action="lookup_user")
@@ -274,7 +275,7 @@ def make_map(config):
     mc('/promoted/pay/:link/:campaign', controller='promote', action='pay')
     mc('/promoted/refund/:link/:campaign', controller='promote',
        action='refund')
-
+    """
     mc('/health', controller='health', action='health')
     mc('/health/ads', controller='health', action='promohealth')
     mc('/health/caches', controller='health', action='cachehealth')
@@ -321,8 +322,8 @@ def make_map(config):
        requirements={'page':'contentpolicy|privacypolicy|useragreement'})
     mc('/rules', controller='redirect', action='redirect',
         dest='/help/contentpolicy')
-    mc('/faq', controller='redirect', action='redirect',
-       dest='https://reddit.zendesk.com/')
+    #mc('/faq', controller='redirect', action='redirect',
+    #   dest='https://reddit.zendesk.com/')
 
     #mc('/wiki/create/*page', controller='wiki', action='wiki_create')
     #mc('/wiki/edit/*page', controller='wiki', action='wiki_revise')
@@ -461,13 +462,13 @@ def make_map(config):
     mc('/code', controller='redirect', action='redirect',
        dest='http://github.com/mewald55/BlockPath/')
 
-    mc('/socialite', controller='redirect', action='redirect',
-       dest='https://addons.mozilla.org/firefox/addon/socialite/')
+    #mc('/socialite', controller='redirect', action='redirect',
+    #   dest='https://addons.mozilla.org/firefox/addon/socialite/')
 
     #mc('/mobile', controller='redirect', action='redirect',  dest='https://m.reddit.com/')
 
     # Used for showing ads
-   # mc("/ads/", controller="ad", action="ad") #blockpath removed ads here
+    # mc("/ads/", controller="ad", action="ad") #blockpath removed ads here
 
     mc("/try", controller="forms", action="try_compact")
 

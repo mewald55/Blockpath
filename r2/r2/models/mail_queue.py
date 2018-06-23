@@ -317,6 +317,7 @@ class Email(object):
                 "MESSAGE_NOTIFICATION",
                 "ADS_ALERT",
                 "EDITED_LIVE_PROMO",
+                "BP_NOTIFY_TX",
                 )
 
     # Do not remove anything from this dictionary!  See above comment.
@@ -348,7 +349,8 @@ class Email(object):
         Kind.USER_FRAUD: _("[selfserve] a user has committed fraud"),
         Kind.MESSAGE_NOTIFICATION: _("[Blockpath] message notification"),
         Kind.ADS_ALERT: _("[Blockpath] Ads Alert"),
-        }
+        Kind.BP_NOTIFY_TX: "[Blockpath] Transaction Notification",
+    }
 
     def __init__(self, user, thing, email, from_name, date, ip,
                  kind, msg_hash, body = '', from_addr = '',

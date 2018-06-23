@@ -36,9 +36,6 @@ from Cookie import CookieError
 from urllib import quote
 import urllib2
 import sys
-from paste.registry import RegistryManager, StackedObjectProxy
-
-
 
 
 #TODO hack
@@ -94,9 +91,6 @@ class BaseController(WSGIController):
 
         request.via_cdn = False
         cdn_ip = g.cdn_provider.get_client_ip(request.environ)
-        request.client_ip=''
-
-        request.client_ip = forwarded_for.split(',')[0]
         if cdn_ip:
             request.ip = cdn_ip
             request.via_cdn = True
@@ -104,7 +98,6 @@ class BaseController(WSGIController):
                 forwarded_for and
                 is_local_address(remote_addr)):
             request.ip = forwarded_for.split(',')[-1]
-
         else:
             request.ip = request.environ['REMOTE_ADDR']
 
@@ -114,10 +107,6 @@ class BaseController(WSGIController):
             request.path
         except UnicodeDecodeError:
             abort(400)
-
-
-        if request.client_ip:
-            request.ip = request.client_ip
 
         #if x-dont-decode is set, pylons won't unicode all the parameters
         if request.environ.get('HTTP_X_DONT_DECODE'):
@@ -148,12 +137,8 @@ class BaseController(WSGIController):
         # method (action). Rewrite this to include the HTTP verb which is the
         # real name of the controller method: GET_do_something().
         action = request.environ['pylons.routes_dict'].get('action')
-        #print('Action >>>>>>>>>>>> ')
-        #print(action)
         if action:
             meth = request.method.upper()
-            #print('Method >>>>>>>>>>>> ')
-            #print(meth)
             if meth == 'HEAD':
                 meth = 'GET'
 

@@ -168,8 +168,9 @@ class Account(Thing):
                     pref_bp_nodesoftlimit = 1200,
                     pref_bp_linksoftlimit = 1600,
                     pref_bp_currency = 'BTC',
-                    pref_bp_linklabel2 = 'address',
-                    pref_bp_linklabeldir2 = 'parallel'
+                    pref_bp_currencyatot = 'off',
+                    pref_bp_linklabel = 'address',
+                    pref_bp_linklabeldir = 'parallel'
                 )
                 
     _preference_attrs = tuple(k for k in _defaults.keys()

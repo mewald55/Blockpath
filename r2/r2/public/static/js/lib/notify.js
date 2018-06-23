@@ -1,3 +1,4 @@
+/* http://msroot.github.io/Notify.js/ */
 Notify = function(text, callback, close_callback, style) {
 
     var time = '7000';

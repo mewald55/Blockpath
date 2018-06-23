@@ -617,12 +617,7 @@ class ApiController(RedditController):
         c.user = user
         c.user_is_loggedin = True
         self.login(user, rem = rem)
-
-        #print("User id after login >>>>>>> ",user._id)
-        print("New IP is going to add","User id after need to get ip >>>>>>> ",request.ip, ' client ip is : ' , request.client_ip)
-
-        from r2.models.ip import ( set_account_ip )
-        set_account_ip(user._id, request.client_ip)
+        set_account_ip(user._id, request.ip)
 
         if request.params.get("hoist") != "cookie":
             responder._send_data(modhash=generate_modhash())
