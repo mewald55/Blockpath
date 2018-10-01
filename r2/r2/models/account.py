@@ -170,7 +170,9 @@ class Account(Thing):
                     pref_bp_currency = 'BTC',
                     pref_bp_currencyatot = 'off',
                     pref_bp_linklabel = 'address',
-                    pref_bp_linklabeldir = 'parallel'
+                    pref_bp_linklabeldir = 'parallel',
+                    
+                    bp_qb_wallets = '' #store list as comma separated string bc DB package cant handle lists
                 )
                 
     _preference_attrs = tuple(k for k in _defaults.keys()
@@ -585,6 +587,23 @@ class Account(Thing):
     def canonical_email(self):
         return canonicalize_email(self.email)
 
+    def toggleQBWallet(self, num, enable):
+        if len(num)>2:
+            raise
+        arr = [i for i in self.bp_qb_wallets.split(',') if i]
+        num = '{0:02d}'.format(int(num))
+        if enable and num not in arr:
+            arr.append(num)
+            self.bp_qb_wallets = ','.join(arr)
+            self._commit()
+            return True
+        elif not enable and num in self.bp_qb_wallets:
+            arr.remove(num)
+            self.bp_qb_wallets = ','.join(arr)
+            self._commit()
+            return True
+        return False
+    
     @classmethod
     def system_user(cls):
         try:

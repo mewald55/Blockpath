@@ -285,7 +285,7 @@ class FrontController(RedditController):
         canonical_link = article.make_canonical_link(sr)
 
         # Determine if we should show the embed link for comments
-        c.can_embed = bool(comment) and article.is_embeddable
+        c.can_embed = False and bool(comment) and article.is_embeddable #bp disabled
 
         is_embed = embeds.prepare_embed_request()
         if is_embed and comment:

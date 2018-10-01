@@ -122,8 +122,16 @@
 </%def>
 
 <%def name="javascript_bottom()">
-  <% from r2.lib import js %>
+  <% 
+    from r2.lib import js
+    from r2.lib import hooks
+    extrajs = hooks.get_hook("globaljs").call()[0]
+  %>
   ${unsafe(js.use('reddit'))}
+  %if extrajs:
+    ${unsafe(js.use(extrajs))}
+  %endif
+  
   ${unsafe(c.js_preload.use())}
 </%def>
 

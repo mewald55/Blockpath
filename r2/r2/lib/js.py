@@ -50,7 +50,7 @@ inline_script_tag = '<script type="text/javascript">{content}</script>'
 class Uglify(object):
     def compile(self, data, dest):
         process = subprocess.Popen(
-            ["uglifyjs", "--mangle", "toplevel", "--compress", "drop_console", "--"],
+            ["uglifyjs", "--mangle", "toplevel", "--reserved", "premium,acctManager", "--compress", "drop_console", "--"],
             stdin=subprocess.PIPE,
             stdout=dest,
         )

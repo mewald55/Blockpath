@@ -127,10 +127,10 @@
                         </li>
                     %endif
                     
-                    <li>${plain_link("Profile", "/user/%s/" % c.user.name, _sr_path=False)}</li>
-                    <li>${plain_link("Following", "/r/friends/", _sr_path=False)}</li>
+                    <li style="display:none">${plain_link("Profile", "/user/%s/" % c.user.name, _sr_path=False)}</li>
+                    <li style="display:none">${plain_link("Following", "/r/friends/", _sr_path=False)}</li>
                     <li>${plain_link("Account Activity", "/account-activity", _sr_path=False)}</li>
-                    <li>${plain_link("Preferences", "/prefs/", _sr_path=False)}</li>
+                    <li style="display:none">${plain_link("Preferences", "/prefs/", _sr_path=False)}</li>
                     %if g.auth_provider.is_logout_allowed():
                         <li>
                             ${logout(dest=request.fullpath)}
@@ -247,8 +247,8 @@
             </div>
             <span for="sidemenu-discussionview" class="mdl-tooltip mdl-tooltip--right">Discussion</span>
         %endif
-        %if wallet:
-            <div id="sidemenu-integrationView" class="sidemenu-cell" style="display: none;">
+        %if wallet or bptablegraph:
+            <div id="sidemenu-integrationView" class="sidemenu-cell">
                 <div style="display: inline-block;">
                     <svg class="sidemenu-svg" viewBox="-2 -2 28 28">
                         <path fill="grey" d="M11 11h-11v-11h11v11zm13 0h-11v-11h11v11zm-13 13h-11v-11h11v11zm13 0h-11v-11h11v11z"/>
@@ -284,10 +284,10 @@
                 </div>
                 <ul class="dropdown-menu" >
                     <li class="dropdown-submenu"><a href="#"> Currency &nbsp; <i aria-hidden="true" class="fa fa-caret-right"></i></a>
-                        <ul id="currencySelectorMenu" class="dropdown-menu popup">
+                        <ul id="currencySelectorMenu" class="dropdown-menu popup currencySelectorMenu">
                             <li><a tabindex="-1" href="#" curr-code="BTC">BTC</a></li>
                             <li><a tabindex="-1" href="#" curr-code="mBTC">mBTC <span class="dropdown-smalltxt"> 1,000 / BTC</span> </a></li>
-                            <li><a tabindex="-1" href="#" curr-code="bits">Bits <span class="dropdown-smalltxt"> 1,000,000 / BTC </span> </a></li>
+                            <li><a tabindex="-1" href="#" curr-code="bits">uBTC <span class="dropdown-smalltxt"> 1,000,000 / BTC </span> </a></li>
                             <li><a tabindex="-1" href="#" curr-code="sat">Satoshis <span class="dropdown-smalltxt"> 100,000,000 / BTC </span> </a></li>
                         </ul>
                     </li>
@@ -314,13 +314,13 @@
 
 <%def name="walletDropDownHTML()">
     <ul class="acct-optionsmenu walletsDropDown dropdown-menu">
-        <li><a href="https://blockpath.com/wallets?new"> 
+        <li><a href="https://blockpath.com/wallets/new"> 
             <svg width="20" height="20" viewBox="0 0 24 24">
                 <path fill="grey" d="M22 6v16h-16v-16h16zm2-2h-20v20h20v-20zm-24-4v20h2v-18h18v-2h-20zm18 13h-3v-3h-2v3h-3v2h3v3h2v-3h3v-2z"/>
             </svg>
             <div class='svg-text'> New Blank Wallet </div> </a>
         </li>
-        <li><a href="https://blockpath.com/wallets?import">
+        <li><a href="https://blockpath.com/wallets/import">
             <svg width="20" height="20" viewBox="0 0 24 24">
                 <path fill="grey" d="M16 11h5l-9 10-9-10h5v-11h8v11zm3 8v3h-14v-3h-2v5h18v-5h-2z"/>
             </svg>

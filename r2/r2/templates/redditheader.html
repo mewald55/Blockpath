@@ -164,10 +164,10 @@ ${thing.srtopbar}
                     </li>
                 %endif
                 
-                <li>${plain_link("Profile", "/user/%s/" % c.user.name, _sr_path=False)}</li>
-                <li>${plain_link("Following", "/r/friends/", _sr_path=False)}</li>
+                <li style="display:none">${plain_link("Profile", "/user/%s/" % c.user.name, _sr_path=False)}</li>
+                <li style="display:none">${plain_link("Following", "/r/friends/", _sr_path=False)}</li>
                 <li>${plain_link("Account Activity", "/account-activity", _sr_path=False)}</li>
-                <li>${plain_link("Preferences", "/prefs/", _sr_path=False)}</li>
+                <li style="display:none">${plain_link("Preferences", "/prefs/", _sr_path=False)}</li>
                 <!-- Upgrade option temp disabled.-->
                 %if False and not c.user.gold:
                     <li>

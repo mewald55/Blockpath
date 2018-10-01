@@ -58,7 +58,7 @@
   &#32;
   ${_("comment karma")}
 
-  %if thing.show_private_info:
+  %if False and thing.show_private_info:
     <table id="per-sr-karma"${" class='more-karmas'" if not c.user_is_admin else ""}>
      <thead>
         <tr>
@@ -97,7 +97,7 @@
     % endif
   %endif
 
-  %if thing.user.gold:
+  %if False and thing.user.gold:
     %if thing.show_private_info or thing.user.pref_show_snoovatar:
       <div class="gold-accent snoovatar-link">
         <a href="/user/${thing.user.name}/snoo">
@@ -119,9 +119,8 @@
             ${thing.gold_remaining}
           </span>
           <br>
-          ${_("of reddit gold remaining")}
+          of Blockpath Premium remaining
           <br>
-          <a href="/gold/about">${_("view gold features/benefits")}</a>
         </div>
         %if thing.show_private_info:
           %if hasattr(thing, "paypal_subscr_id"):
@@ -156,7 +155,7 @@
     </div>
   %endif
 
-%if hasattr(thing, "goldlink"):
+%if False and hasattr(thing, "goldlink"):
   <div class="giftgold">
     <a href="${thing.goldlink}" class="access-required"
        data-type="account" data-fullname="${thing.user._fullname}"
@@ -178,7 +177,7 @@
     %endif
 
     <span class="age">
-      ${_("redditor for")}&#32;${thing_timestamp(thing.user)}
+      User for &#32;${thing_timestamp(thing.user)}
     </span>
   </div>
 

@@ -1317,8 +1317,7 @@ class ApiController(RedditController):
 
                 emailer.verify_email(c.user, dest=dest)
                 form.set_inputs(curpass="")
-                form.set_text('.status',
-                     _("you should be getting a verification email shortly."))
+                form.set_text('.status', "You should be getting a verification email shortly. (If not, check your spam folder)")
             else:
                 form.set_text('.status', _('your email has been updated'))
 

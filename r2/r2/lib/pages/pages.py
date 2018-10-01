@@ -2421,6 +2421,7 @@ class ProfilePage(Reddit):
         mod_sr_ids = Subreddit.reverse_moderator_ids(self.user)
         all_mod_srs = Subreddit._byID(mod_sr_ids, data=True,
                                       return_dict=False, stale=True)
+        """
         mod_srs = [sr for sr in all_mod_srs if sr.can_view_in_modlist(c.user)]
         if mod_srs:
             rb.push(SideContentBox(title=_("moderator of"),
@@ -2431,6 +2432,7 @@ class ProfilePage(Reddit):
             seconds_bar = ServerSecondsBar(self.user)
             if seconds_bar.message or seconds_bar.gift_message:
                 rb.push(seconds_bar)
+        """
 
         rb.push(ProfileBar(self.user))
 

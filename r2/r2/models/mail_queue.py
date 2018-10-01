@@ -434,7 +434,7 @@ class Email(object):
         # software's argument parsers, and thus are disallowed by default in
         # Postfix: http://www.postfix.org/postconf.5.html#allow_min_user
         if not fr.startswith('-') and not self.to_addr.startswith('-'):
-            msg = MIMEText(utf8(self.body, reject_newlines=False))
+            msg = MIMEText(utf8(self.body, reject_newlines=False), 'html') #bp made all emails html
             msg.set_charset('utf8')
             msg['To']      = utf8(self.to_addr)
             msg['From']    = utf8(fr)

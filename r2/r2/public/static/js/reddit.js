@@ -1073,51 +1073,6 @@ $(function() {
           $(this).addClass("selected");
         });
         
-        
-        //blockpath donate QR code
-        var donateDiv = $("#donationContainer");
-        if (!!donateDiv.length && r.config.donation_address) {
-            var addr = r.config.donation_address;
-            insertQRCode(addr, document.getElementById("donationQR"), "medium");
-            
-            var donateSplit = addr.substring(0,addr.length/2) + "<br>" + addr.substring(addr.length/2, addr.length);
-            donateDiv.append("<div id='donationText'> If this website was useful for you, consider a donation "+
-                "so we can continue providing this service. <br> <a href='https://blockpath.com/search/addr?q="+
-                addr+" '>" + donateSplit + "</a>  </div>");
-        }
-        
-        //blockpath requires a verified email:
-        if(!!r.config.logged && !r.config.email_verified){
-            Notify("Verify your email to post/comment/vote", function(){
-                window.location.href = "https://blockpath.com/verify";
-            }, null, "warning");
-        }
-        
-        //check for wallet accounts stored locally.
-        if(!$("body").hasClass("search-page")){
-            var $insert = $();
-            for(var i=1; i <= 10; i++){
-                var rawitem = localStorage.getItem('Blockpath_localBackup'+i);
-                if(!rawitem){continue;}
-                var item = JSON.parse(rawitem);
-                if(!item || !item.name){continue;}
-                var encryptedSymbol = item.encrypted ? '<span class="currratetext"><i class="fa fa-lock" aria-hidden="true"></i></span>' : '';
-                $insert = $insert.add( '<li><a href="https://blockpath.com/wallets?'+i+'">'+
-                    '<svg><use xlink:href="#acct_walletSVG"/></svg><div class="svg-text">' + item.name.substring(0,10) + encryptedSymbol + 
-                    '</div></a></li>' );
-            }
-            if($insert){
-                $insert = $insert.add('<li class="bpdivider"></li>');
-                $(".walletsDropDown").prepend($insert);
-            }
-        }
-        
-        $('.dropdown-menu .dropdown-submenu > a').on("click", function(e){
-            $(this).next('ul').toggle();
-            e.stopPropagation();
-            e.preventDefault();
-        });
-        
         /* ajax ynbutton */
         function toggleThis() { return toggle(this); }
         $("body")

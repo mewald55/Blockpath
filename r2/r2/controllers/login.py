@@ -163,7 +163,7 @@ def handle_register(
             _event(error='USERNAME_TAKEN')
             return
 
-        VRatelimit.ratelimit(rate_ip=True, prefix="rate_register_")
+        VRatelimit.ratelimit(rate_ip=True, prefix="rate_register_", seconds=86400)
 
         # anything else we know (email, languages)?
         if email:

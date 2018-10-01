@@ -248,10 +248,10 @@ def js_config(extra_config=None):
         "media_domain": g.media_domain,
         # does the client only want to communicate over HTTPS?
         "https_forced": feature.is_enabled("force_https"),
-        # debugging?
         "debug": g.debug,
         "donation_address": g.live_config["blockpath_donation_addr"] if 'blockpath_donation_addr' in g.live_config else '',
         "bpcritical_notification": g.live_config["bpcritical_notification"] if 'bpcritical_notification' in g.live_config else '',
+        "bp_qb_wallets": [i for i in c.user.bp_qb_wallets.split(',') if i],
         "pref_bp_gravity": c.user.pref_bp_gravity,
         "pref_bp_linkdistance": c.user.pref_bp_linkdistance,
         "pref_bp_chargedistance": c.user.pref_bp_chargedistance,

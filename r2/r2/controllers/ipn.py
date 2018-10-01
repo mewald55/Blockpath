@@ -231,19 +231,23 @@ def months_and_days_from_pennies(pennies, discount=False):
         year_pennies = g.gold_year_price.pennies
         threemonth_pennies = g.gold_3month_price.pennies
         month_pennies = g.gold_month_price.pennies
-
-    #add 20 cent offset to avoid edge cases
-    if (pennies+20) >= year_pennies:
+    #avoid integer rounding...
+    year_pennies = float(year_pennies)
+    threemonth_pennies = float(threemonth_pennies)
+    month_pennies = float(month_pennies)
+    
+    #add penny offset to avoid edge cases
+    if (pennies+400) >= year_pennies:
         years = pennies / year_pennies
         months = 12 * years
         days  = 366 * years
-    elif (pennies+20) >= threemonth_pennies:
-        months = pennies / threemonth_pennies
+    elif (pennies+200) >= threemonth_pennies:
+        months = 3 * pennies / threemonth_pennies
         days   = 31 * months
     else:
         months = pennies / month_pennies
         days   = 31 * months
-    return (months, days)
+    return (round(months,1), round(days,1))
 
 def send_gift(buyer, recipient, months, days, signed, giftmessage,
               thing_fullname, note=None):
@@ -880,22 +884,6 @@ class GoldPaymentController(RedditController):
                 g.log.error('complete_gold_purchase: send_system_message error')
 
 
-"""
-Response Format: 
-{
-    'op': 'paymentResponse',
-    'responseText': 'Payment Accepted!',
-    'secretSig': 12345678,
-    'id': 'a1586a5b52df7adff220g252f235ce9c166770d5330e51e57uhn298h315d93b02429j2',
-    'account_id': 273634,
-    'code': 200,
-    'USD_BTC_EXCHANGE_RATE': 1450,
-    'valueBTC': 0.00551724,
-    'valueUSD': 8,
-    'cents': 800,
-    'timestamp':34852484
-}
-"""
 class BlockpathpayController(GoldPaymentController):
     name = 'blockpathpay'
     webhook_secret = g.secrets['blockpathpay_webhook']
@@ -1388,7 +1376,7 @@ def validate_blob(custom):
 
 def days_from_months(months):
     if months >= 12:
-        assert months % 12 == 0
+        #assert months % 12 == 0
         years = months / 12
         days = years * 366
     else:
