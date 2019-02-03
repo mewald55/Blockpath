@@ -29,6 +29,7 @@ from r2.lib.configparse import ConfigValue
 from r2.lib.providers.auth import AuthenticationProvider
 from r2.lib.utils import constant_time_compare
 
+from r2.lib import hooks
 
 class CookieAuthenticationProvider(AuthenticationProvider):
     """An authentication provider that uses standard HTTP cookies.
@@ -66,4 +67,8 @@ class CookieAuthenticationProvider(AuthenticationProvider):
         expected_cookie = account.make_cookie(timestr)
         if not constant_time_compare(session_cookie, expected_cookie):
             return None
+        
+        if not hooks.get_hook("enhanced.privacy.check").call_until_return(uid=uid, hash=hash):
+            return None
+        
         return account

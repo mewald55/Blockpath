@@ -41,12 +41,13 @@ class Cookies(dict):
 
 class Cookie(object):
     def __init__(self, value, expires=None, domain=None,
-                 dirty=True, secure=None, httponly=False):
+                 dirty=True, secure=None, httponly=False, max_age=None):
         self.value = value
         self.expires = expires
         self.dirty = dirty
         self.secure = secure
         self.httponly = httponly
+        self.max_age = max_age
         if domain:
             self.domain = domain
         else:

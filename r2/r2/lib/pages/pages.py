@@ -1132,6 +1132,7 @@ class RedditFooter(CachedTemplate):
             NavMenu([
                 NamedButton("features", False, dest="/exhibit"),
                 NamedButton("help", False, dest="/helpdocs"),
+                NamedButton("changelog", False, dest="/changelog"),
                 NamedButton("contact", False),
                 NavButton("policies",  sr_path = False, dest = '/help/privacypolicy'),
                 NamedButton("source_code", False, dest="/code")		

@@ -1,3 +1,7 @@
+<%!
+   from pylons import app_globals as g
+%>
+
 <div id="herobox">
 
     <figure id="heroboxBack">
@@ -12,15 +16,48 @@
             The block explorer that does so much more.
         </div>
         <div id="heroboxMainText">
-            <h2 id="heroboxTitle" > A multi-address Bitcoin accounting tool with a built-in graphical explorer. </h2>
+            <h2 id="heroboxTitle" > A Bitcoin accounting tool with apps that make your life easier. </h2>
+            <div id="heroboxApps" class="mdl-grid">
+                <a href="${g.https_endpoint}/apps/qb/openmyqb/0" attr-int="qb" class="mdl-cell mdl-cell--2-col mdl-shadow--2dp">
+                    <div><img src="https://blockpathstatic.website/QB_IntuitLogo_Vert.png" class="heroboxappfullicon"></div>
+                </a>
+                <a href="${g.https_endpoint}/wallets/new?action=xlsx" class="mdl-cell mdl-cell--2-col mdl-shadow--2dp" attr-int="xlsx">
+                    <div><img class="heroboxappicon" src="https://blockpathstatic.website/excelicon.png"></div>
+                    <div class="int-smalltitle">Excel</div>
+                </a>
+                <a href="${g.https_endpoint}/wallets/new?action=email" class="mdl-cell mdl-cell--2-col mdl-shadow--2dp" attr-int="email">
+                    <div><svg class="heroboxappicon"> <use xlink:href="#emailSVG"></use> </svg></div>
+                    <div class="int-smalltitle">Email</div>
+                </a>
+                <a href="${g.https_endpoint}/search/addr?q=1LTvYhbpur5nZMe3hifMGgq28MMBzRgNdC&action=graph" class="mdl-cell mdl-cell--2-col mdl-shadow--2dp" attr-int="xlsx">
+                    <div><svg class="heroboxappicon" height="28" width="28" viewBox="4 -1 53 31">
+                        <line stroke="black" y2="19" x2="38" y1="8" x1="10.5"></line>
+                        <line stroke="black" y2="19" x2="38" y1="6" x1="51.5"></line>
+                        <line stroke="black" y2="19" x2="38" y1="22.5" x1="17.5"></line>
+                        <circle style="fill: #085391;" r="10" cy="19" cx="38"></circle>
+                        <circle style="fill: #085391;" r="5" cy="12" cx="12" transform="translate(-1.5, -4)"></circle>
+                        <circle style="fill: #085391;" r="5" cy="5" cx="50" transform="translate(1.5, 1)"></circle>
+                        <circle style="fill: #085391; opacity: 1;" r="5" cy="20" cx="30" transform="translate(-12.5, 2.5)"></circle>
+                    </svg></div>
+                    <div class="int-smalltitle">Graphical Explorer</div>
+                </a>
+                <a id="herobox-more" href="${g.https_endpoint}/wallets/new?action=app">
+                    <svg width="24" height="24" viewBox="0 0 24 24" style="fill: white;padding: 15px 0 5px 0px;">
+                        <use xlink:href="#plusSVG"></use>
+                    </svg>
+                    <br>
+                    More
+                </a>
+            </div>
             <form action="/search/addr" role="search" class="" onsubmit=" return validateSearchText('heroboxSearch', 1);" style="margin-top: 14px;">
                 <div style="display:inline-block;">
                     <input id="heroboxSearch" name="q" placeholder="Search the Blockchain" type="text">
                     <br>
                     <div id="heroboxExamples" style="padding-bottom:7px; font-size:13px; color: grey; font-weight:800;"> Examples:&nbsp;&nbsp;
-                        <a style="color: #476d93;" href="https://blockpath.com/search/addr?q=1LTvYhbpur5nZMe3hifMGgq28MMBzRgNdC"> Address</a> &nbsp;&nbsp;--&nbsp;&nbsp;
-                        <a style="color: #476d93;" href="https://blockpath.com/search/xpub?q=xpub661MyMwAqRbcFtXgS5sYJABqqG9YLmC4Q1Rdap9gSE8NqtwybGhePY2gZ29ESFjqJoCu1Rupje8YtGqsefD265TMg7usUDFdp6W1EGMcet8"> xPub</a> &nbsp;&nbsp;--&nbsp;&nbsp;
-                        <a style="color: #476d93;" href="https://blockpath.com/search/tx?q=b9691c0089d447c58837087583bfa7fa71df726da1a5f216cedb13d0d9c5eb4d"> Transaction</a>
+                        <a style="color: #476d93;" href="${g.https_endpoint}/search/addr?q=1LTvYhbpur5nZMe3hifMGgq28MMBzRgNdC"> Address</a> &nbsp;&nbsp;--&nbsp;&nbsp;
+                        <a style="color: #476d93;" href="${g.https_endpoint}/search/xpub?q=xpub661MyMwAqRbcFtXgS5sYJABqqG9YLmC4Q1Rdap9gSE8NqtwybGhePY2gZ29ESFjqJoCu1Rupje8YtGqsefD265TMg7usUDFdp6W1EGMcet8"> xPub</a> &nbsp;&nbsp;--&nbsp;&nbsp;
+                        <a style="color: #476d93;" href="${g.https_endpoint}/search/xpub?q=ypub6XiW9nhToS1gjVsFKzgmtWZuqo6V1YY7xaCns37aR3oYhFyAsTehAqV1iW2UCNtgWFQFkz3aNSZZbkfe5d1tD8MzjZuFJQn2XnczsxtjoXr"> yPub</a> &nbsp;&nbsp;--&nbsp;&nbsp;
+                        <a style="color: #476d93;" href="${g.https_endpoint}/search/tx?q=b9691c0089d447c58837087583bfa7fa71df726da1a5f216cedb13d0d9c5eb4d"> Transaction</a>
                     </div>
                 </div>
                 <button style="width:155px; height: 42px; margin-left: 7px; margin-bottom: 10px; font-size: 21px; vertical-align:top;" class="btn btn-primary"> Explore </button>

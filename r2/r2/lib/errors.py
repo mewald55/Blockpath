@@ -83,7 +83,7 @@ error_list = dict((
         ('INVALID_TARGET', _('that target type is not valid')),
         ('INVALID_NSFW_TARGET', _('nsfw ads must target nsfw content')),
         ('INVALID_OS_VERSION', _('that version range is not valid')),
-        ('RATELIMIT', _('you are doing that too much. try again in %(time)s.')),
+        ('RATELIMIT', _('You are doing that too much. Please try again in %(time)s.')),
         ('SUBREDDIT_RATELIMIT', _("you are doing that too much. try again later.")),
         ('EXPIRED', _('your session has expired')),
         ('DRACONIAN', _('you must accept the terms first')),

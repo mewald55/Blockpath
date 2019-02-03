@@ -1776,11 +1776,13 @@ class FormsController(RedditController):
             return self.redirect(dest)
         return RegisterPage(dest=dest).render()
 
+    """
+    #unsafe+unneeded legacy func
     @validate(VUser(),
               VModhash(),
               dest=VDestination())
     def GET_logout(self, dest):
-        return self.redirect(dest)
+        return self.redirect(dest)"""
 
     @validate(VUser(),
               VModhash(),

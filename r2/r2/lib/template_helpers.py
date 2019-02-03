@@ -213,9 +213,7 @@ def js_config(extra_config=None):
         events_collector_key = g.secrets['events_collector_js_key']
         events_collector_secret = g.secrets['events_collector_js_secret']
 
-    bp_currencyrates = g.gencache.get("bp_currencyrates")
-    if not bp_currencyrates:
-        bp_currencyrates = {}
+    bp_currencyrates = hooks.get_hook("fetchcurrencyrates").call()[0]
     
     config = {
         # is the user logged in?

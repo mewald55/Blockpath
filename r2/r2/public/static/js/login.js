@@ -151,7 +151,7 @@ r.login.ui = {
       } else {
         return {
             eventName: $el.attr('class'),
-            description: r._('You need to be logged in to do that.')
+            description: 'Please Log In or Create an Account First'
         };
       }
     },

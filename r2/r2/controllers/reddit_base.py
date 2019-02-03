@@ -987,12 +987,13 @@ class MinimalController(BaseController):
             # Normally you'd prefer `no-store`, but many of reddit's
             # listings are ephemeral, and the content might not even
             # exist anymore if you force a refresh when hitting back.
-            cache_control = (
-                'private',
-                's-maxage=0',
-                'max-age=0',
-                'must-revalidate',
-            )
+            #cache_control = (
+            #    'private',
+            #    's-maxage=0',
+            #    'max-age=0',
+            #    'must-revalidate',
+            #)
+            cache_control = ('no-cache', 'no-store')
             response.headers['Expires'] = '-1'
             response.headers['Cache-Control'] = ', '.join(cache_control)
 
@@ -1012,6 +1013,7 @@ class MinimalController(BaseController):
                                     value=quote(v.value),
                                     domain=v.domain,
                                     expires=v.expires,
+                                    max_age=v.max_age,
                                     secure=v_secure,
                                     httponly=getattr(v, 'httponly', False))
 
@@ -1211,8 +1213,10 @@ class RedditController(OAuth2ResourceController):
         # This can't be handled in post() due to PRG and ErrorController fun.
         user.update_last_visit(c.start_time)
         force_https = feature.is_enabled("force_https", user)
-        c.cookies[g.login_cookie] = Cookie(value=user.make_cookie(),
-                                           expires=NEVER if rem else None,
+        cookie = user.make_cookie()
+        hooks.get_hook("enhanced.privacy.set").call_until_return(cookie=cookie)
+        c.cookies[g.login_cookie] = Cookie(value=cookie,
+                                           max_age=1800,
                                            httponly=True,
                                            secure=force_https)
         # Make sure user-specific cookies get the secure flag set properly
@@ -1220,6 +1224,7 @@ class RedditController(OAuth2ResourceController):
 
     @staticmethod
     def logout():
+        hooks.get_hook("enhanced.privacy.del").call_until_return()
         c.cookies[g.login_cookie] = Cookie(value='', expires=DELETE)
         delete_secure_session_cookie()
 
