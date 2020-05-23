@@ -1544,6 +1544,8 @@ class VPassword(Validator):
         if not (password and len(password) >= MIN_PASSWORD_LENGTH):
             self.set_error(errors.SHORT_PASSWORD, {"chars": MIN_PASSWORD_LENGTH})
             self.set_error(errors.BAD_PASSWORD)
+        elif not re.search('[a-zA-Z]', password): #now require letters in the password.
+            self.set_error(errors.BAD_PASSWORD)
         else:
             return password.encode('utf8')
 
