@@ -164,7 +164,7 @@ class ErrorController(RedditController):
         if 'usable_error_content' in request.environ:
             return request.environ['usable_error_content']
         return pages.RedditError(_("page not found"),
-                                 ("The page you requested does not exist. This might have occurred because BlockPath does not use all of the features the Reddit codebase has... We are working on closing these open-ends!")).render()
+                                 ("The page you requested does not exist. We are working on closing these open-ends!")).render()
 
     def send429(self):
         retry_after = request.environ.get("retry_after")

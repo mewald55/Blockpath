@@ -70,123 +70,122 @@ ${thing.srtopbar}
     %for toolbar in thing.toolbars:
       ${toolbar}
     %endfor
-  </div>
 
-  <div id="header-bottom-right">
-    <span id="top-right-wallet-btn" style="margin-right: 16px; line-height: 49px; position: relative;"> 
-        <button style="border-color: #abb4a9; background: rgba(255, 255, 255,0.4);" class="btn btn-sm dropdown-toggle" data-toggle="dropdown">
-            My Wallets&nbsp;<span class="caret" style=""></span> 
-        </button>
-        ${walletDropDownHTML()}
-    </span>
-    
-    %if not c.user_is_loggedin:
-        %if thing.enable_login_cover and not g.read_only_mode:
-            <%
-                login_url = add_sr(g.https_endpoint + "/login", sr_path=False)
-            %>
-            <span id="loggedOutUserBigScreen" class="user">
-                ${plain_link("Sign Up or Login", login_url, _sr_path=False, _class='login-required btn btn-primary btn-sm')}
-            </span>
-        %endif
-    %else:
-        %if feature.is_enabled('beta_opt_in') and c.user.pref_beta:
-            <div class="beta-hint help help-hoverable">
-              <a class="beta-link" href="/r/${g.beta_sr}">beta</a>
-              <div id="beta-help" class="hover-bubble help-bubble anchor-top">
-                <div class="help-section">
-                  <p>${_("You're in beta mode! Thanks for helping to test reddit.")}</p>
-                  <p>
-                  ${text_with_links(_("Please give feedback at %(beta_link)s, or %(learn_more_link)s."),
-                      beta_link = dict(link_text="/r/" + g.beta_sr, path="/r/" + g.beta_sr),
-                      learn_more_link = dict(link_text=_("learn more on the wiki"), path="/r/" + g.beta_sr + "/wiki")
-                    )}
-                  </p>
+    <div id="header-bottom-right">
+        <span id="top-right-wallet-btn" style="margin-right: 16px; line-height: 49px; position: relative;"> 
+            <button style="border-color: #abb4a9; background: rgba(255, 255, 255,0.4);" class="btn btn-sm dropdown-toggle" data-toggle="dropdown">
+                My Wallets&nbsp;<span class="caret" style=""></span> 
+            </button>
+            ${walletDropDownHTML()}
+        </span>
+
+        %if not c.user_is_loggedin:
+            %if thing.enable_login_cover and not g.read_only_mode:
+                <%
+                    login_url = add_sr(g.https_endpoint + "/login", sr_path=False)
+                %>
+                <span id="loggedOutUserBigScreen" class="user">
+                    ${plain_link("Sign Up or Login", login_url, _sr_path=False, _class='login-required btn btn-primary btn-sm')}
+                </span>
+            %endif
+        %else:
+            %if feature.is_enabled('beta_opt_in') and c.user.pref_beta:
+                <div class="beta-hint help help-hoverable">
+                  <a class="beta-link" href="/r/${g.beta_sr}">beta</a>
+                  <div id="beta-help" class="hover-bubble help-bubble anchor-top">
+                    <div class="help-section">
+                      <p>${_("You're in beta mode! Thanks for helping to test reddit.")}</p>
+                      <p>
+                      ${text_with_links(_("Please give feedback at %(beta_link)s, or %(learn_more_link)s."),
+                          beta_link = dict(link_text="/r/" + g.beta_sr, path="/r/" + g.beta_sr),
+                          learn_more_link = dict(link_text=_("learn more on the wiki"), path="/r/" + g.beta_sr + "/wiki")
+                        )}
+                      </p>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-        %endif
-        <span class="user" style="line-height: 49px;">
-            <div class="dropdown">
-              <button id="userDropButton" class="btn btn-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown">
-                  ${c.user.name} &nbsp;
-                  
-                  ##hiding karma numbers for now
-                  ##&nbsp;(<span class="userkarma" title="${_("link karma")}">${format_number(display_link_karma(c.user.link_karma))}</span>)
-                  
-                  %if c.user.inbox_count > 0:
-                    (<span> ${ format_number(c.user.inbox_count) } </span>)
-                  %endif
-                  <span class="caret"></span>
-              </button>
-              <svg id="userDropSVG" class="dropdown-toggle" style="display: none" type="button" data-toggle="dropdown" width="32" height="32" viewBox="0 0 24 24"><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm0 22c-3.123 0-5.914-1.441-7.749-3.69.259-.588.783-.995 1.867-1.246 2.244-.518 4.459-.981 3.393-2.945-3.155-5.82-.899-9.119 2.489-9.119 3.322 0 5.634 3.177 2.489 9.119-1.035 1.952 1.1 2.416 3.393 2.945 1.082.25 1.61.655 1.871 1.241-1.836 2.253-4.628 3.695-7.753 3.695z"/></svg>
+            %endif
+            <span class="user" style="line-height: 49px;">
+                <div class="dropdown">
+                  <button id="userDropButton" class="btn btn-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown">
+                      ${c.user.name} &nbsp;
+                      
+                      ##hiding karma numbers for now
+                      ##&nbsp;(<span class="userkarma" title="${_("link karma")}">${format_number(display_link_karma(c.user.link_karma))}</span>)
+                      
+                      %if c.user.inbox_count > 0:
+                        (<span> ${ format_number(c.user.inbox_count) } </span>)
+                      %endif
+                      <span class="caret"></span>
+                  </button>
+                  <svg id="userDropSVG" class="dropdown-toggle" style="display: none" type="button" data-toggle="dropdown" width="32" height="32" viewBox="0 0 24 24"><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm0 22c-3.123 0-5.914-1.441-7.749-3.69.259-.588.783-.995 1.867-1.246 2.244-.518 4.459-.981 3.393-2.945-3.155-5.82-.899-9.119 2.489-9.119 3.322 0 5.634 3.177 2.489 9.119-1.035 1.952 1.1 2.416 3.393 2.945 1.082.25 1.61.655 1.871 1.241-1.836 2.253-4.628 3.695-7.753 3.695z"/></svg>
 
-              <ul id="user-menu" class="dropdown-menu ">
-                %if c.user.name in g.admins:
-                    <li>
-                        %if c.user_is_admin:
-                            ${plain_link("Turn Admin Off", "%s/adminoff?dest=%s" % (g.https_endpoint, request.fullpath), _sr_path=False)}
-                        %else:
-                            ${plain_link("Turn Admin On", "%s/adminon?dest=%s" % (g.https_endpoint, request.fullpath), _sr_path=False)}
-                        %endif
-                    </li>
-                %endif
-                <li>
-                    <!-- Blockpath removed the mail images below in CSS-->
-                    %if c.have_messages:
-                        ${plain_link("Messages", path="/message/unread/", title=_("new mail!"), _class="havemail", _sr_path=False, _id="mail")}
-                        %if c.user.inbox_count > 0:
-                            ${plain_link(c.user.inbox_count, path="/message/unread/", _class="message-count", _sr_path=False)}
-                        %endif
-                    %else:
-                        ${plain_link("Messages", path="/message/inbox/", title=_("no new mail"), _class="nohavemail", _sr_path=False, _id="mail")} 
+                  <ul id="user-menu" class="dropdown-menu ">
+                    %if c.user.name in g.admins:
+                        <li>
+                            %if c.user_is_admin:
+                                ${plain_link("Turn Admin Off", "%s/adminoff?dest=%s" % (g.https_endpoint, request.fullpath), _sr_path=False)}
+                            %else:
+                                ${plain_link("Turn Admin On", "%s/adminon?dest=%s" % (g.https_endpoint, request.fullpath), _sr_path=False)}
+                            %endif
+                        </li>
                     %endif
-                </li>
-                  
-                %if c.user.is_moderator_somewhere:
                     <li>
-                        <%
-                            if c.have_mod_messages:
-                              mail_img_class = 'havemail'
-                              mail_img_title = "new mod mail!"
-                              mail_path = "/message/moderator/"
-                            else:
-                              mail_img_class = 'nohavemail'
-                              mail_img_title = "no new mod mail"
-                              mail_path = "/message/moderator/"
-                    
-                            css_class = "%s access-required" % mail_img_class
-                            data_attrs = {'event-action': 'pageview', 'event-detail': 'modmail'}
-                        %>
-                        ${plain_link("Mod Messages", path=mail_path,
-                            title = mail_img_title, _sr_path = False,
-                            _id = "modmail", _class=css_class, data=data_attrs)}
+                        <!-- Blockpath removed the mail images below in CSS-->
+                        %if c.have_messages:
+                            ${plain_link("Messages", path="/message/unread/", title=_("new mail!"), _class="havemail", _sr_path=False, _id="mail")}
+                            %if c.user.inbox_count > 0:
+                                ${plain_link(c.user.inbox_count, path="/message/unread/", _class="message-count", _sr_path=False)}
+                            %endif
+                        %else:
+                            ${plain_link("Messages", path="/message/inbox/", title=_("no new mail"), _class="nohavemail", _sr_path=False, _id="mail")} 
+                        %endif
                     </li>
-                %endif
-                
-                <li style="display:none">${plain_link("Profile", "/user/%s/" % c.user.name, _sr_path=False)}</li>
-                <li style="display:none">${plain_link("Following", "/r/friends/", _sr_path=False)}</li>
-                <li>${plain_link("Account Activity", "/account-activity", _sr_path=False)}</li>
-                <li style="display:none">${plain_link("Preferences", "/prefs/", _sr_path=False)}</li>
-                <!-- Upgrade option temp disabled.-->
-                %if False and not c.user.gold:
+                      
+                    %if c.user.is_moderator_somewhere:
+                        <li>
+                            <%
+                                if c.have_mod_messages:
+                                  mail_img_class = 'havemail'
+                                  mail_img_title = "new mod mail!"
+                                  mail_path = "/message/moderator/"
+                                else:
+                                  mail_img_class = 'nohavemail'
+                                  mail_img_title = "no new mod mail"
+                                  mail_path = "/message/moderator/"
+                        
+                                css_class = "%s access-required" % mail_img_class
+                                data_attrs = {'event-action': 'pageview', 'event-detail': 'modmail'}
+                            %>
+                            ${plain_link("Mod Messages", path=mail_path,
+                                title = mail_img_title, _sr_path = False,
+                                _id = "modmail", _class=css_class, data=data_attrs)}
+                        </li>
+                    %endif
+                    
+                    <li style="display:none">${plain_link("Profile", "/user/%s/" % c.user.name, _sr_path=False)}</li>
+                    <li style="display:none">${plain_link("Following", "/r/friends/", _sr_path=False)}</li>
+                    <li>${plain_link("Account Activity", "/account-activity", _sr_path=False)}</li>
+                    <li style="display:none">${plain_link("Preferences", "/prefs/", _sr_path=False)}</li>
                     <li>
-                        <a onclick="openPaymentContainer();">
-                            Upgrade
+                        <a onclick="paymentManager.openPaymentContainer();">
+                            %if not c.user.gold:
+                                Upgrade
+                            %else:
+                                Top-Up Premium
+                            %endif  
                         </a>
                     </li>
-                %endif
-                %if g.auth_provider.is_logout_allowed():
-                    <li>
-                        ${logout(dest=request.fullpath)}
-                    </li>
-                %endif
-              </ul>
-            </div>
-        </span>
-    %endif
-    
-    
+                    %if g.auth_provider.is_logout_allowed():
+                        <li>
+                            ${logout(dest="/")}
+                        </li>
+                    %endif
+                  </ul>
+                </div>
+            </span>
+        %endif
+    </div>
   </div>
 </div>
 

@@ -583,7 +583,7 @@ class HotController(ListingWithPromos):
 
 class NewController(ListingWithPromos):
     where = 'new'
-    title_text = _('newest submissions')
+    title_text = 'Blockpath - Crypto Accounting Tools'  #_('newest submissions')
     extra_page_classes = ListingController.extra_page_classes + ['new-page']
     show_chooser = False #blockpath disabled.
     next_suggestions_cls = ListingSuggestions
@@ -598,7 +598,12 @@ class NewController(ListingWithPromos):
 
     def query(self):
         return c.site.get_links('new', 'all')
-
+    
+    def content(self):
+        content = super(NewController, self).content()
+        self.show_herobox = isinstance(c.site, DefaultSR)
+        return content
+    
     @csrf_exempt
     def POST_listing(self, **env):
         # Redirect to GET mode in case of any legacy requests

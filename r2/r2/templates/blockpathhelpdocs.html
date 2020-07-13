@@ -1,14 +1,11 @@
 <%!
 from r2.lib.template_helpers import static
 %>
-<div style="position: relative;margin: 0 auto;padding-left: 100px;padding-bottom: 82px;width: 67em;font-size: 11pt;background: antiquewhite; box-shadow: 0px 30px 40px rgba(0,0,0,.5);">
+<div style="position: relative;margin: 0 auto;padding-left: 100px;padding-bottom: 82px;width: 67em;font-size: 11pt;">
     <div class="privacySection" style="margin-top:0; padding-top: 28px;">
         <div style="font-size:25px; font-weight:700;">Blockpath Help Documents: </div>
-        <div style="font-size: 20px;">Updated:  October 9, 2017</div>
+        <div style="font-size: 20px;">Updated:  February 25, 2019</div>
         
-    </div>
-    <div class="privacySection">
-        This document is still a work in progress.
     </div>
     <!--
     <div class="privacySection">
@@ -57,8 +54,8 @@ from r2.lib.template_helpers import static
                         </ul>
                     <br>
                     <h3> Exploring </h3>
-                    You can access Blockpath's novel exploration and accounting tool by searching for an address/transaction, or by clicking a user created post from the homepage,
-                    and then using the "Table View" and "Graph View" tabs at the top of the screen.
+                    You can access Blockpath's exploration and accounting tool by searching for an address/transaction, or by clicking a user created post from the homepage,
+                    and then using the "Overview" and "Graph" tabs on the left toolbar.
                     <br>
                     The explorer tool features a graphical explorer that lays out addresses and transactions on a network graph.
                     <br> Addresses and transactions can be added and removed from this analysis, making it useful as an accounting tool.
@@ -90,7 +87,7 @@ from r2.lib.template_helpers import static
                 Ways to add data:
                 <ul>
                     <li>Paste a TX or Address into the text field in the summary section of the table tab.</li>
-                    <li> On the graph page, right click on a node and select the first option to load all transactions for that node.</li>
+                    <li>On the graph page, double click on a node, or right click on a node and select the first option to load all transactions for that node.</li>
                     <li>Or you can start a new analysis by searching for a new TX or address using the search bar at the top of the page.</li>
                 </ul>
             </div>
@@ -153,7 +150,7 @@ from r2.lib.template_helpers import static
     
     
     <div class="privacySection">
-        <h2> Using the Table </h2>
+        <h2> Using the Overview Page </h2>
         The table contains all the transactions that are currently loaded into your analysis. Adding or removing transactions here will alter the data in the graph and summary sections.
         <br><i> Quick tips for using the table are found in the help tab when you are viewing the table. </i>
         <br>
@@ -165,7 +162,7 @@ from r2.lib.template_helpers import static
                 <li> Editing tags will not change them for other users until a new post is created with this data.</li>
             </ul>
         </div>
-        <div class="privacyBullet">
+        <div style="display:none;" class="privacyBullet">
             <h3>Filter Bar</h3>
             The filter bar only shows transactions that meet your criteria. 
             If multiple filters are selected, they operate using "AND" logic only. (Ex: Input Addr: 123 AND Value 0-1BTC)
@@ -181,7 +178,7 @@ from r2.lib.template_helpers import static
         
     </div>
     
-    <div class="privacySection">
+    <div style="display:none;" class="privacySection">
         <h2> Summary Section </h2>
         <h3> What does the summary show?</h3>
         The summary is the section at the top of the table tab that displays statistics about the analysis you are viewing. 
@@ -213,9 +210,10 @@ from r2.lib.template_helpers import static
             You can create a new page by clicking the "Create Page" button on the right sidebar of the homepage.
         
     </div>
-    <!--
+    
     <div class="privacySection">
-        <h2> Blockpath Pro </h2>
+        <h2> Blockpath Premium </h2>
+        <!--
         <h3> How to use date range selector</h3>
         The date range selector allows you to view the life-time history of various values of each address you have loaded.
         Data Types:
@@ -230,6 +228,9 @@ from r2.lib.template_helpers import static
         This chart helps you understand the activity of all address's you are viewing over a time period, and select the time range that you are most interested in.
         Slide the vertical bars in this chart left or right to select the time period you are interested in viewing. 
         <br>
+        -->
+        We are constantly adding more apps, integrations, and tools into the our Premium offerings. 
+        These tools receive development and support priority.
         <h3> How to Upgrade </h3>
         To upgrade, sign in and click the upgrade button in the user dropdown menu at the top right of page.
         In the pop-up dialog, click the blurred QR code to generate a new payment address. Send bitcoin to the address that appears by scanning the QR code with your wallet,
@@ -250,9 +251,9 @@ from r2.lib.template_helpers import static
         If your transaction has less than the suggested mining fee, it will simply be accepted after 1 confirmation.
         If your transaction does not have 3 confirmations after 48 hours, we may reverse the payment and deduct the credits from your account.
         <br>
-        Problems with your payment? Our apologies, we are still tuning our payments system... Go to the "Contact Us" page and send us a message, we will get it fixed for you.
+        Problems with your payment? Our apologies!... Go to the "Contact Us" page and send us a message, we will get it fixed for you.
     </div>
-    -->
+    
     
     
     

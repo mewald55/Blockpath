@@ -318,6 +318,11 @@ class Email(object):
                 "ADS_ALERT",
                 "EDITED_LIVE_PROMO",
                 "BP_NOTIFY_TX",
+                "BP_GOLDWELCOME",
+                "BP_GOLDEXPIRESOON",
+                "BP_GOLDEXPIRED",
+                "BP_QBDISCONNECT",
+                "BP_ALERT",
                 )
 
     # Do not remove anything from this dictionary!  See above comment.
@@ -350,6 +355,11 @@ class Email(object):
         Kind.MESSAGE_NOTIFICATION: _("[Blockpath] message notification"),
         Kind.ADS_ALERT: _("[Blockpath] Ads Alert"),
         Kind.BP_NOTIFY_TX: "[Blockpath] Transaction Notification",
+        Kind.BP_GOLDWELCOME: "Welcome to Blockpath!",
+        Kind.BP_GOLDEXPIRESOON: "NOTICE: Your Blockpath Premium Will Expire Soon!",
+        Kind.BP_GOLDEXPIRED: "EXPIRED: Your Blockpath Premium has Ended!",
+        Kind.BP_QBDISCONNECT: "Blockpath QuickBooks Sync Disconnected - Talk to Us!",
+        Kind.BP_ALERT: "Blockpath Alert",
     }
 
     def __init__(self, user, thing, email, from_name, date, ip,

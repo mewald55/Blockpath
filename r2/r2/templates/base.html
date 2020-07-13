@@ -47,6 +47,13 @@
     ${self.robots()}
     ${self.pagemeta()}
     ${self.stylesheet()}
+    <script type="text/javascript">
+        if(/MSIE \d|Trident.*rv:/.test(navigator.userAgent)){
+            document.write('<script async=false defer=false src="https://cdnjs.cloudflare.com/ajax/libs/bluebird/3.5.3/bluebird.min.js"><\/script>');
+            document.write('<script async=false defer=false src="https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/7.0.0/polyfill.min.js"><\/script>');
+        }
+    </script>
+
     ${self.javascript()}
     ${js_setup(getattr(thing, "extra_js_config", None))}
 

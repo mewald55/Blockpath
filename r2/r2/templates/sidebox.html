@@ -24,7 +24,7 @@
 
 <div class="sidebox ${thing.css_class}${' disabled' if thing.disabled else ''}">
     ${plain_link(thing.title, thing.link, _sr_path=thing.sr_path,
-                 _class='login-required btn btn-info access-required' if thing.show_cover else 'btn btn-info',
+                 _class='login-required btn btn-default btn-block access-required' if thing.show_cover else 'btn btn-default btn-block',
                  target=thing.target, data=thing.data_attrs)}
 
   %if false:

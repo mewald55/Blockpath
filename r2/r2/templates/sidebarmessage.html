@@ -28,8 +28,13 @@
 
 <div id="blockpathintro" ${classes('side-message', thing.extra_class)}>
     <div id="introPic" style="background-position-y: 145px; height: 70px; width:100%; background-size: cover; background-image: url('https://blockpathstatic.website/images/exhibit/exhibitGraph.png');"> </div>
-    <div style="font-size: 20px; text-align: center; margin: 10px 5px;"> Welcome to Blockpath </div>
+    <div style="font-size: 20px; text-align: center; margin: 10px 5px;font-family: Raleway, Helvetica, sans-serif;"> Welcome to Blockpath </div>
     <hr class="linkButtonsHR">
     ${unsafe(safemarkdown(thing.message))}
-    <a style="font-size: 12px;" href="/exhibit"> What is Blockpath? </a>
+    <br>
+    <div style="margin: auto;">
+        <a href="/features" class=" btn btn-default btn-block">Feature List</a>
+        <br>
+        <a href="/changelog" class=" btn btn-default btn-block">Update Log</a>
+    </div>
 </div>

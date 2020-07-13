@@ -6,28 +6,35 @@
 
     <figure id="heroboxBack">
         <video autoplay="" loop="" poster="https://blockpathstatic.website/images/BlockpathHeroVideo1Poster.jpg">
-            ## If mobile, don't load video, because mobile browsers will not autoplay, so it would just waste bandwidth...
             <source src=${'https://blockpathstatic.website/images/BlockpathHeroVideo1.webm type=video/webm' if not thing.isMobile else ''}>
         </video>
     </figure>
     
     <div id="heroboxFront">
         <div id="heroboxHeaderText">
-            The block explorer that does so much more.
+            <a style="color:white;" href="${g.https_endpoint}/accounting">Bitcoin Accounting Simplified </a>
         </div>
         <div id="heroboxMainText">
-            <h2 id="heroboxTitle" > A Bitcoin accounting tool with apps that make your life easier. </h2>
+            <h2 id="heroboxTitle" class="hideonsmallscreen"> Integrations and tools that automate your work </h2>
             <div id="heroboxApps" class="mdl-grid">
-                <a href="${g.https_endpoint}/apps/qb/openmyqb/0" attr-int="qb" class="mdl-cell mdl-cell--2-col mdl-shadow--2dp">
+                <a href="${g.https_endpoint}/apps/qb/features" class="mdl-cell mdl-cell--2-col mdl-shadow--2dp">
                     <div><img src="https://blockpathstatic.website/QB_IntuitLogo_Vert.png" class="heroboxappfullicon"></div>
                 </a>
-                <a href="${g.https_endpoint}/wallets/new?action=xlsx" class="mdl-cell mdl-cell--2-col mdl-shadow--2dp" attr-int="xlsx">
+                <a class="mdl-cell mdl-cell--2-col mdl-shadow--2dp" href="${g.https_endpoint}/taxprep">
+                    <div><svg class="heroboxappicon" viewBox="0 0 24 24">
+                        <use xlink:href="#taxBuildingSVG"></use>
+                    </svg></div>
+                    <div class="int-smalltitle">Tax Prep</div>
+                </a>
+                <a href="${g.https_endpoint}/accounting" class="mdl-cell mdl-cell--2-col mdl-shadow--2dp">
+                    <div><svg class="heroboxappicon" viewBox="0 0 24 24">
+                        <path fill="#085391" d="M18 11c2.757 0 5 2.243 5 5s-2.243 5-5 5-5-2.243-5-5 2.243-5 5-5zm0-1c-3.313 0-6 2.687-6 6s2.687 6 6 6 6-2.687 6-6-2.687-6-6-6zm.5 8.474v.526h-.5v-.499c-.518-.009-1.053-.132-1.5-.363l.228-.822c.478.186 1.114.383 1.612.27.574-.13.692-.721.057-1.005-.465-.217-1.889-.402-1.889-1.622 0-.681.52-1.292 1.492-1.425v-.534h.5v.509c.362.01.768.073 1.221.21l-.181.824c-.384-.135-.808-.257-1.222-.232-.744.043-.81.688-.29.958.856.402 1.972.7 1.972 1.773.001.858-.672 1.315-1.5 1.432zm-7.911-5.474h-2.589v-2h3.765c-.484.602-.881 1.274-1.176 2zm-.589 3h-2v-2h2.264c-.166.641-.264 1.309-.264 2zm2.727-6h-4.727v-2h7v.589c-.839.341-1.604.822-2.273 1.411zm2.273-6h-7v-2h7v2zm0 3h-7v-2h7v2zm-4.411 12h-2.589v-2h2.069c.088.698.264 1.369.52 2zm-10.589-11h7v2h-7v-2zm0 3h7v2h-7v-2zm12.727 11h-4.727v-2h3.082c.438.753.994 1.428 1.645 2zm-12.727-5h7v2h-7v-2zm0 3h7v2h-7v-2zm0-6h7v2h-7v-2z"/>
+                    </svg></div>
+                    <div class="int-smalltitle">Accounting Suite</div>
+                </a>
+                <a href="${g.https_endpoint}/wallets/new?action=xlsx" class="mdl-cell mdl-cell--2-col mdl-shadow--2dp hideonsmallscreen" attr-int="xlsx">
                     <div><img class="heroboxappicon" src="https://blockpathstatic.website/excelicon.png"></div>
                     <div class="int-smalltitle">Excel</div>
-                </a>
-                <a href="${g.https_endpoint}/wallets/new?action=email" class="mdl-cell mdl-cell--2-col mdl-shadow--2dp" attr-int="email">
-                    <div><svg class="heroboxappicon"> <use xlink:href="#emailSVG"></use> </svg></div>
-                    <div class="int-smalltitle">Email</div>
                 </a>
                 <a href="${g.https_endpoint}/search/addr?q=1LTvYhbpur5nZMe3hifMGgq28MMBzRgNdC&action=graph" class="mdl-cell mdl-cell--2-col mdl-shadow--2dp" attr-int="xlsx">
                     <div><svg class="heroboxappicon" height="28" width="28" viewBox="4 -1 53 31">
@@ -41,7 +48,7 @@
                     </svg></div>
                     <div class="int-smalltitle">Graphical Explorer</div>
                 </a>
-                <a id="herobox-more" href="${g.https_endpoint}/wallets/new?action=app">
+                <a id="herobox-more" class="hideonsmallscreen" href="${g.https_endpoint}/wallets/new?action=app">
                     <svg width="24" height="24" viewBox="0 0 24 24" style="fill: white;padding: 15px 0 5px 0px;">
                         <use xlink:href="#plusSVG"></use>
                     </svg>
@@ -50,14 +57,14 @@
                 </a>
             </div>
             <form action="/search/addr" role="search" class="" onsubmit=" return validateSearchText('heroboxSearch', 1);" style="margin-top: 14px;">
-                <div style="display:inline-block;">
+                <div>
                     <input id="heroboxSearch" name="q" placeholder="Search the Blockchain" type="text">
                     <br>
-                    <div id="heroboxExamples" style="padding-bottom:7px; font-size:13px; color: grey; font-weight:800;"> Examples:&nbsp;&nbsp;
-                        <a style="color: #476d93;" href="${g.https_endpoint}/search/addr?q=1LTvYhbpur5nZMe3hifMGgq28MMBzRgNdC"> Address</a> &nbsp;&nbsp;--&nbsp;&nbsp;
-                        <a style="color: #476d93;" href="${g.https_endpoint}/search/xpub?q=xpub661MyMwAqRbcFtXgS5sYJABqqG9YLmC4Q1Rdap9gSE8NqtwybGhePY2gZ29ESFjqJoCu1Rupje8YtGqsefD265TMg7usUDFdp6W1EGMcet8"> xPub</a> &nbsp;&nbsp;--&nbsp;&nbsp;
-                        <a style="color: #476d93;" href="${g.https_endpoint}/search/xpub?q=ypub6XiW9nhToS1gjVsFKzgmtWZuqo6V1YY7xaCns37aR3oYhFyAsTehAqV1iW2UCNtgWFQFkz3aNSZZbkfe5d1tD8MzjZuFJQn2XnczsxtjoXr"> yPub</a> &nbsp;&nbsp;--&nbsp;&nbsp;
-                        <a style="color: #476d93;" href="${g.https_endpoint}/search/tx?q=b9691c0089d447c58837087583bfa7fa71df726da1a5f216cedb13d0d9c5eb4d"> Transaction</a>
+                    <div id="heroboxExamples" style="padding-bottom:7px; font-size:13px; color: white; font-weight:800;"> Examples: 
+                        <a style="color: #337ab7;" href="${g.https_endpoint}/search/addr?q=1LTvYhbpur5nZMe3hifMGgq28MMBzRgNdC"> Address</a>  --  
+                        <a style="color: #337ab7;" href="${g.https_endpoint}/search/xpub?q=xpub661MyMwAqRbcFtXgS5sYJABqqG9YLmC4Q1Rdap9gSE8NqtwybGhePY2gZ29ESFjqJoCu1Rupje8YtGqsefD265TMg7usUDFdp6W1EGMcet8"> xPub</a>  --  
+                        <a style="color: #337ab7;" href="${g.https_endpoint}/search/xpub?q=ypub6XiW9nhToS1gjVsFKzgmtWZuqo6V1YY7xaCns37aR3oYhFyAsTehAqV1iW2UCNtgWFQFkz3aNSZZbkfe5d1tD8MzjZuFJQn2XnczsxtjoXr"> yPub</a>  --  
+                        <a style="color: #337ab7;" href="${g.https_endpoint}/search/tx?q=b9691c0089d447c58837087583bfa7fa71df726da1a5f216cedb13d0d9c5eb4d"> Transaction</a>
                     </div>
                 </div>
                 <button style="width:155px; height: 42px; margin-left: 7px; margin-bottom: 10px; font-size: 21px; vertical-align:top;" class="btn btn-primary"> Explore </button>

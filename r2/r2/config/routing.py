@@ -133,9 +133,8 @@ def make_map(config):
 
     #mc('/i18n', controller='redirect', action='redirect',
     #   dest='https://www.reddit.com/r/i18n')
-    mc('/feedback', controller='redirect', action='redirect',
-       dest='/contact')
-    mc('/contact', controller='front', action='contact_us') #reddit uses frontunstyled
+    mc('/feedback', controller='redirect', action='redirect',dest='/contact')
+    #mc('/contact', controller='front', action='contact_us') #reddit uses frontunstyled
     mc('/helpdocs', controller='front', action='blockpathhelpdocs')
     
     #mc('/jobs', controller='redirect', action='redirect', dest='https://jobs.lever.co/reddit')
@@ -171,7 +170,7 @@ def make_map(config):
 
     mc('/user/:username/:where/:show', controller='user', action='listing')
     
-    mc('/explore', controller='front', action='explore')
+    #mc('/explore', controller='front', action='explore')
     mc('/api/recommend/feedback', controller='api', action='rec_feedback')
 
     mc("/newsletter", controller="newsletter", action="newsletter")
@@ -280,8 +279,10 @@ def make_map(config):
     mc('/health/ads', controller='health', action='promohealth')
     mc('/health/caches', controller='health', action='cachehealth')
 
-    mc('/', controller='hot', action='listing')
-
+    #mc('/', controller='hot', action='listing')
+    
+    mc('/', action='listing', controller='new') #bps default sort will be new now.
+    
     mc('/:controller', action='listing',
        requirements=dict(controller="hot|new|rising|randomrising")) #blockpath removed ads here
     mc('/saved', controller='user', action='saved_redirect')
@@ -374,10 +375,8 @@ def make_map(config):
     mc('/api/distinguish/:how', controller='api', action="distinguish")
     #mc('/api/spendcreddits', controller='ipn', action="spendcreddits")
     #mc('/api/stripecharge/gold', controller='stripe', action='goldcharge')
-    mc('/api/modify_subscription', controller='stripe',
-       action='modify_subscription')
-    mc('/api/cancel_subscription', controller='stripe',
-       action='cancel_subscription')
+    #mc('/api/modify_subscription', controller='stripe', action='modify_subscription')
+    #mc('/api/cancel_subscription', controller='stripe', action='cancel_subscription')
     #mc('/api/stripewebhook/gold/:secret', controller='stripe', action='goldwebhook')
     mc('/api/blockpathpay/gold/:secret', controller='blockpathpay', action='goldwebhook')
     #mc('/api/coinbasewebhook/gold/:secret', controller='coinbase', action='goldwebhook')
