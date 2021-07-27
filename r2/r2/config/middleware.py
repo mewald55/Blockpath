@@ -254,7 +254,10 @@ class DomainListingMiddleware(object):
     def __call__(self, environ, start_response):
         if not environ.has_key('subreddit'):
             path = environ['PATH_INFO']
-            domain, rest = path_info_split(path)
+            try: 
+                domain, rest = path_info_split(path)
+            except:
+                domain, rest = ('', '') #users/robots spamming false domains are redirected to homepage.
             if domain == "domain" and rest:
                 domain, rest = path_info_split(rest)
                 environ['domain'] = domain

@@ -892,68 +892,6 @@ function big_mod_toggle(el, press_action, unpress_action) {
     return false
 }
 
-/*****   Blockpath functions    ****/
-
-function insertQRCode(item, dom, size){
-    var px = 100;
-    var dark = "#000033";
-    if(size=="small"){
-        px = 30;
-        dark = "#94b8b8";
-    }else if(size=="medium"){
-        px = 90;
-        dark = "#262626";
-    }else if(size=="huge"){
-        px=310;
-    }
-    dom.style.minWidth = px+"px";
-    new QRCode(dom, {
-        text: item,
-        width: px,
-        height: px,
-        colorDark: dark,
-        colorLight: "#ffffff",
-        correctLevel: QRCode.CorrectLevel.H
-    });
-    setTimeout(function(){dom.classList.add("opacityFadeIn");},2);
-    
-    if(size!="huge"){
-        dom.addEventListener("click", function(){showFullScreenQRCode(this);});
-    }
-}
-
-function showFullScreenQRCode(dom){
-    if($("#fullscreenQRCode").length){
-        $("#fullscreenQRCode").remove(); //clear out old address.
-    }
-    var $dom = $(dom);
-    $dom.after('<div id="fullscreenQRCode" class="bpqr dropdown-menu"></div>');
-    var ref = $("#fullscreenQRCode");
-    insertQRCode($dom.attr("title"), ref[0], "huge");
-}
-
-function validateSearchText(id, useFallbackExample) {
-    var elem = document.getElementById(id);
-    var addSearchText = elem.value;
-    if (!addSearchText){
-        if(useFallbackExample){
-            addSearchText='1LTvYhbpur5nZMe3hifMGgq28MMBzRgNdC';
-        }else{
-            Notify("Enter a search term");
-            return false;
-        }
-    }else if(addSearchText.search(/[,]/g)){
-        var searchTermArray = addSearchText.replace(/[^A-Za-z0-9,]+/g,"").split(",");
-        addSearchText = searchTermArray[0];
-        if(searchTermArray.length > 1){
-            sessionStorage.setItem('Blockpath_searchArray', JSON.stringify(searchTermArray.slice(1)) );
-        }
-    }
-    addSearchText = addSearchText.replace(/\s+/g, '');
-    elem.value = addSearchText;
-    return true;
-}
-
 
 /* The ready method */
 $(function() {

@@ -98,6 +98,18 @@
           <td><em>${_( "you see:")}</em></td>
         </tr>
         <tr>
+            <td>$TRANSACTIONHASH <br> Example: $3329...b86f9a</td>
+            <td>A dynamic preview box with the transaction's details</td>
+        </tr>
+        <tr>
+            <td>$ADDRESS <br> Example: $1DhKh8DFr...WQuJGwEbp</td>
+            <td>A dynamic preview box with the address's details</td>
+        </tr>
+        <tr>
+            <td>1.5 BTC</td>
+            <td>1.5 BTC <span class="priceBox"><div class="greendot"></div><span class="priceBox_cur">USD </span> $150,000</span></td>
+        </tr>
+        <tr>
           <td>*${_( "italics")}*</td>
           <td><em>${_( "italics")}</em></td>
         </tr>

@@ -32,10 +32,13 @@
 <%namespace file="utils.html" import="plain_link, thing_timestamp, text_with_links, _mdf"/>
 <%namespace file="printablebuttons.html" import="ynbutton, state_button" />
 
+%if False:
+    <!--onclick='$(".moreSideBarInfo").slideToggle("slow");' -->
+%endif
 <div class="titlebox">
-  <h1 class="hover redditname" onclick='$(".moreSideBarInfo").slideToggle("slow");'>
+  <h1 class="hover redditname">
     ${unsafe(thing.sr.name)}
-    <span class="caret"></span>
+    <!--<span class="caret"></span>-->
   </h1>
 
   %if thing.quarantine:
@@ -54,14 +57,16 @@
     </div>
   %endif
 
-  ${SubscribeButton(thing.sr)}
-  %if not thing.sr.hide_num_users_info:
-  <span class="subscribers">${unsafe(Score.readers(thing.subscribers))}</span>
+  %if c.user_is_loggedin:
+    ${SubscribeButton(thing.sr)}
+    %if not thing.sr.hide_num_users_info:
+    <span class="subscribers">${unsafe(Score.readers(thing.subscribers))}</span>
 
-    %if thing.active_visitors and thing.active_visitors.logged_in:
-  <p class="users-online ${'fuzzed' if thing.active_visitors.logged_in.is_fuzzed else ''}" title="${_('logged-in users viewing this subreddit in the past 15 minutes')}">
-    ${unsafe(Score.users_here_now(thing.active_visitors.logged_in.count, prepend='~' if thing.active_visitors.logged_in.is_fuzzed else ''))}
-  </p>
+        %if thing.active_visitors and thing.active_visitors.logged_in:
+    <p class="users-online ${'fuzzed' if thing.active_visitors.logged_in.is_fuzzed else ''}" title="${_('logged-in users viewing this subreddit in the past 15 minutes')}">
+        ${unsafe(Score.users_here_now(thing.active_visitors.logged_in.count, prepend='~' if thing.active_visitors.logged_in.is_fuzzed else ''))}
+    </p>
+        %endif
     %endif
   %endif
 
