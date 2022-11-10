@@ -49,17 +49,47 @@ inline_script_tag = '<script type="text/javascript">{content}</script>'
 
 class Uglify(object):
     def compile(self, data, dest):
+        command = "terser"
+        #command = "/home/ubuntu/node_modules/uglify-js/bin/uglifyjs" #uglifyjs 3!
+        #command = "uglifyjs"
         process = subprocess.Popen(
-            ["uglifyjs", "--mangle", "toplevel", "--reserved", "premium,acctManager", "--compress", "drop_console", "--"],
+            #cmdline: #/home/ubuntu/node_modules/uglify-js/bin/uglifyjs --mangle toplevel=true,reserved=['premium','acctManager'] --compress drop_console --
+            [command, '--mangle', 'toplevel=true, reserved=[premium,acctManager,$]', '--compress', 'drop_console', '--'],
             stdin=subprocess.PIPE,
             stdout=dest,
         )
-
         process.communicate(input=data)
-
         if process.returncode != 0:
-            raise subprocess.CalledProcessError(process.returncode, "uglifyjs")
+            raise subprocess.CalledProcessError(process.returncode, command)
 
+class Closure(object):
+    def compile(self, data, dest):
+        import requests, urllib
+        params = urllib.urlencode({
+            'js_code': data,
+            #('compilation_level', 'ADVANCED_OPTIMIZATIONS'),
+            'output_format': 'json',
+            'output_info': 'compiled_code',
+            'js_externs': 'var premium; var acctManager; var r={}; var $;' #globally preserved params.
+        })
+        print "pinging google"
+        #print "passing"+data[0:50]
+        r = requests.post("https://closure-compiler.appspot.com/compile", params, headers={"Content-type":"application/x-www-form-urlencoded"}, timeout=300)
+        #print 'response' + r.text[0:50]
+        data = r.json()
+        hasError = False
+        if 'warnings' in data:
+            for warn in data['warnings']:
+                hasError = True
+                print warn['warning']
+        if 'errors' in data:
+            for warn in data['errors']:
+                hasError = True
+                print warn['error']
+        if hasError:
+            raise subprocess.CalledProcessError()
+        print 'success' + data['compiledCode'][0:50] #todo
+        dest.write(data['compiledCode'])
 
 class Source(object):
     """An abstract collection of JavaScript code."""
@@ -126,6 +156,7 @@ class Module(Source):
         self.name = name
         self.should_compile = kwargs.get('should_compile', True)
         self.wrap = kwargs.get('wrap')
+        self.compiler = kwargs.get('compiler', 'uglify')
         self.sources = []
         filter_module = kwargs.get('filter_module')
         if isinstance(filter_module, Module):
@@ -139,6 +170,9 @@ class Module(Source):
                     source = os.path.join(kwargs['prefix'], source)
                 source = self.get_default_source(source)
             self.sources.append(source)
+
+    def get_compiler(self):
+        return self.compiler
 
     def get_default_source(self, source):
         return FileSource(source)
@@ -816,8 +850,12 @@ def enumerate_outputs(*names):
 
 @build_command
 def build_module(name):
-    minifier = Uglify()
-    module[name].build(minifier)
+    mod = module[name]
+    if mod.get_compiler() == 'closure':
+        minifier = Closure()
+    else:
+        minifier = Uglify()
+    mod.build(minifier)
 
 
 if __name__ == "__main__":

@@ -78,7 +78,7 @@
     <form class="${_class or ''}" onsubmit="${onsubmit or ''}" 
           action="${action or ''}" ${_id and "id='" + _id + "'" or ""} method="${method}"
           >
-      %if c.user_is_loggedin:
+      %if c.user_is_loggedin and method.upper() == "POST":
          <input type="hidden" name="uh" value="${c.modhash}">
       %endif
       %for key, value in params.iteritems():
@@ -734,19 +734,29 @@
             %endif
         
         %elif thing.analysisSummary["postType"] == "addresses":
-            %if len(thing.analysisSummary["addresses"]) == 1:
+            <% 
+                keyname = "addresses" if ("addresses" in thing.analysisSummary) else "items"
+            %>
+            %if keyname in thing.analysisSummary and len(thing.analysisSummary[keyname]) == 1:
                 <svg  width="70" height="70" viewBox="-260 -100 1500 1500">
                     <path fill="grey" d="M512 0c-176.732 0-320 143.268-320 320 0 320 320 704 320 704s320-384 320-704c0-176.732-143.27-320-320-320zM512 512c-106.040 0-192-85.96-192-192s85.96-192 192-192 192 85.96 192 192-85.96 192-192 192z"></path>
                 </svg>
-            %elif len(thing.analysisSummary["addresses"]) > 1:
+            %elif keyname in thing.analysisSummary and len(thing.analysisSummary[keyname]) > 1:
                 <svg  width="70" height="70" viewBox="0 0 1024 1024">
                     <path transform="translate(186,0)scale(0.7)" fill="grey" d="M512 0c-176.732 0-320 143.268-320 320 0 320 320 704 320 704s320-384 320-704c0-176.732-143.27-320-320-320zM512 512c-106.040 0-192-85.96-192-192s85.96-192 192-192 192 85.96 192 192-85.96 192-192 192z"></path>
                     <path transform="translate(600,500)scale(0.45)" fill="grey" d="M512 0c-176.732 0-320 143.268-320 320 0 320 320 704 320 704s320-384 320-704c0-176.732-143.27-320-320-320zM512 512c-106.040 0-192-85.96-192-192s85.96-192 192-192 192 85.96 192 192-85.96 192-192 192z"></path>
                     <path transform="translate(0,500)scale(0.45)" fill="grey" d="M512 0c-176.732 0-320 143.268-320 320 0 320 320 704 320 704s320-384 320-704c0-176.732-143.27-320-320-320zM512 512c-106.040 0-192-85.96-192-192s85.96-192 192-192 192 85.96 192 192-85.96 192-192 192z"></path>
                 </svg>
             %endif
+        %elif thing.analysisSummary["postType"] == "biggroup":
+            <svg  width="70" height="70" viewBox="-13 -13 60 60">
+                <use width="35" height="35" href="#acct_walletSVG"></use>
+            </svg>
         %endif
-  
+  %elif thing.subreddit.name == "Blockpath":
+        <span class="thumbnail_bp"> </span>
+  %elif thing.subreddit.name == "QuickBooks":
+        <img src="https://blockpathstatic.website/quickbooks.png" style=" margin: 6px 6px 6px 13px;" width="35" height="35">
   %elif thing.thumbnail and not thing.thumbnail_sprited:
     <%
         if hasattr(thing, 'thumbnail_size'):

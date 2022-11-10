@@ -190,6 +190,7 @@ class DataThing(object):
             cache.add_multi(things_by_id, prefix=prefix, time=cls._cache_ttl)
         except MemcachedError as e:
             g.log.warning("write_things_to_cache error: %s", e)
+            g.log.warning("things_by_id %s :: prefix %s :: cache %s ", things_by_id, prefix, cache)
 
     def get_read_modify_write_lock(self):
         """Return the lock to be used when doing a read-modify-write.

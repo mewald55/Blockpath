@@ -2,15 +2,15 @@
    from pylons import app_globals as g
 %>
 
-<div id="herobox">
+<div class="herobox">
 
-    <figure id="heroboxBack">
+    <figure class="heroboxBack">
         <video autoplay="" loop="" poster="https://blockpathstatic.website/images/BlockpathHeroVideo1Poster.jpg">
             <source src=${'https://blockpathstatic.website/images/BlockpathHeroVideo1.webm type=video/webm' if not thing.isMobile else ''}>
         </video>
     </figure>
     
-    <div id="heroboxFront">
+    <div class="heroboxFront">
         <div id="heroboxHeaderText">
             <a style="color:white;" href="${g.https_endpoint}/accounting">Bitcoin Accounting Simplified </a>
         </div>
@@ -70,23 +70,54 @@
                 <button style="width:155px; height: 42px; margin-left: 7px; margin-bottom: 10px; font-size: 21px; vertical-align:top;" class="btn btn-primary"> Explore </button>
             </form>
         </div>
-        <div id="heroboxBottomText" onclick="herobox_scrolltocontent();" style="width: 300px; cursor: pointer;margin-left: auto;margin-right: auto;">
-            See what others are finding
-            <div>
-                <svg width="24" height="24" viewBox="0 0 24 24">
-                    <g transform="rotate(90,12,12)">
-                        <path fill="white" d="M6.028 0v6.425l5.549 5.575-5.549 5.575v6.425l11.944-12z"></path>
-                    </g>
-                </svg>
-            </div>
-            <script>
-                function herobox_scrolltocontent(){
-                    window.scrollTo(0, document.getElementById('herobox').clientHeight - 70);
-                }
-            </script>
+        <div class="heroboxBottomText" style="width: 300px; margin-left: auto;margin-right: auto;">
+
         </div>
     </div>
+</div>
 
+
+<div class="herobox heroboxshort">
+    <div class="heroboxBack"></div>
+    <div class="heroboxFront">
+        <div class="heroboxBottomText">
+            <div style="padding-bottom: 25px;font-size: 28px;">Top Wallets We're Tracking</div>
+            <div id="heroboxlinks">
+                <div class="heroboxWalletList">
+                    <div class="heroboxWalletTitle"><a href='https://blockpath.com/pages/MiningPools/'>Mining Pools</a></div>
+                    <a href="https://blockpath.com/pages/MiningPools/comments/by/slushpool_all_bitcoin_addresses_complete_wallet/">SlushPool</a><br>
+                    <a href="https://blockpath.com/pages/MiningPools/comments/5v/poolin_all_bitcoin_addresses_complete_wallet/">Poolin</a><br>
+                    <a href="https://blockpath.com/pages/MiningPools/comments/60/antpool_all_bitcoin_addresses_complete_wallet/">AntPool</a><br>
+                    <a href="https://blockpath.com/pages/MiningPools/comments/ci/viabtc_all_bitcoin_addresses_complete_wallet/">ViaBTC</a><br>
+                    <a href="https://blockpath.com/pages/MiningPools/">View All (23)</a>  
+                </div>
+                <div class="heroboxWalletList">
+                    <div class="heroboxWalletTitle"><a href='https://blockpath.com/pages/Exchanges/'>Exchanges</a>
+                    </div>
+                    <a href="https://blockpath.com/pages/Exchanges/comments/7d/bitfinex_all_bitcoin_addresses_complete_wallet/">Bitfinex</a> <br>
+                    <a href="https://blockpath.com/pages/Exchanges/comments/5j/bittrex_all_bitcoin_addresses_complete_wallet/">Bittrex</a> <br>
+                    <a href="https://blockpath.com/pages/Exchanges/comments/5h/huobi_all_bitcoin_addresses_complete_wallet/">Huobi</a> <br>
+                    <a href="https://blockpath.com/pages/Exchanges/comments/cg/coinbase_all_bitcoin_addresses_complete_wallet/">Coinbase</a> <br>
+                    <a href="https://blockpath.com/pages/Exchanges/">View All (62)</a>
+                </div>
+                <div class="heroboxWalletList">
+                    <div class="heroboxWalletTitle"> <a href='https://blockpath.com/pages/PaymentProcessors/'>Payment Processors </a></div>
+                    <a href="https://blockpath.com/pages/PaymentProcessors/comments/6x/bitpay_all_bitcoin_addresses_complete_wallet/">BitPay </a><br>
+                    <a href="https://blockpath.com/pages/PaymentProcessors/comments/5i/xapo_all_bitcoin_addresses_complete_wallet_balance/">Xapo </a><br>
+                    <a href="https://blockpath.com/pages/PaymentProcessors/comments/8g/coinpaymentsnet_all_bitcoin_addresses_complete/">CoinPayments.net </a> <br>
+                    <a href="https://blockpath.com/pages/PaymentProcessors/">View All (11)</a>
+                </div>
+                <div class="heroboxWalletList">
+                    <div class="heroboxWalletTitle"><a href=''>Other Categories</a></div>
+                    <a href='https://blockpath.com/pages/Gambling/'> Gambling (32) </a><br>
+                    <a href='https://blockpath.com/pages/services'> Services (25)</a> <br>
+                    <a href='https://blockpath.com/pages/Stolen'> Stolen / Hacks (11) </a> <br>
+                    <a href='https://blockpath.com/pages/Defunct'> Defunct (122) </a> <br>
+                    <a href='https://blockpath.com/pages/darknet'> Darknet (19)</a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <div style="width: 70%;height: 50px;margin: auto; display:none;">

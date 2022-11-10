@@ -54,7 +54,7 @@ def _system_email(email, plaintext_body, kind, reply_to="",
         user = None
     elif user is None and c.user_is_loggedin:
         user = c.user
-
+    g.log.error("Sending Email: %s"%email)
     Email.handler.add_to_queue(user,
         email, g.domain, from_address, kind,
         body=plaintext_body, reply_to=reply_to, thing=thing,

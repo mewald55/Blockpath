@@ -305,8 +305,8 @@ ul.flat-vert {text-align: left;}
 }
 
 #header-bottom-right .dropdown-menu {
-    right: 0px;
-    left: unset;
+    right: unset;
+    left: -56px; //comprimise for the two dropdown menus in mobile/desktop logged in/out. its a mess.
     top: unset;
 }
 
@@ -467,7 +467,7 @@ ul.flat-vert {text-align: left;}
 /* side box menus */
 
 .side {
-
+    font-family: Raleway, Helvetica, sans-serif;
 }
 
 .side .spacer {
@@ -475,16 +475,15 @@ ul.flat-vert {text-align: left;}
  }
 
 .side .side-message {
-    background-color: rgba(203,203,154,0.2);
+    background-image: linear-gradient(#e4efd8, #edf2e7);
     border-radius: 15px;
-    border: 1px solid #cbcb9a;
+    border: 1px solid #dce7d0;
     padding: 10px;
     margin-top: 30px;
 
     p {
-        font-size: 16px;
-        margin: 0;
-
+        font-size: 15px;
+        padding: 2px 9px;
         strong {
             display: block;
             font-weight: normal;
@@ -7793,8 +7792,7 @@ dd { margin-left: 20px;  }
 
 .sidecontentbox .content {
     margin: 0;
-    padding: 5px;
-    /*border: 1px solid gray; blockpath moves this border up a node level*/
+    padding: 5px 10px;
     font-size: larger;
     list-style: none;
 }

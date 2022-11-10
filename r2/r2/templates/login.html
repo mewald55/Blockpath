@@ -130,6 +130,9 @@
         </label>
       </div>
       %endif
+      %if register:
+        ${thing.captcha}
+      %endif
       <div class="c-clearfix c-submit-group">
         <span class="c-form-throbber"></span>
         <button type="submit" class="c-btn c-btn-primary c-pull-right" tabindex="${tabindex}">

@@ -214,7 +214,8 @@ def js_config(extra_config=None):
         events_collector_secret = g.secrets['events_collector_js_secret']
 
     bp_currencyrates = hooks.get_hook("fetchcurrencyrates").call()[0]
-    
+    trialUsed = hooks.get_hook("fetch_bphardcache").call(userid=c.user._id, key='trialUsed')[0] if c.user_is_loggedin else False
+    trialUsed = bool(int(trialUsed)+int(g.config['trial_time_limit']) < time.time()) if trialUsed else False
     config = {
         # is the user logged in?
         "logged": logged,
@@ -249,6 +250,7 @@ def js_config(extra_config=None):
         "debug": g.debug,
         "donation_address": g.live_config["blockpath_donation_addr"] if 'blockpath_donation_addr' in g.live_config else '',
         "bpcritical_notification": g.live_config["bpcritical_notification"] if 'bpcritical_notification' in g.live_config else '',
+        'bp_apikey': hooks.get_hook("fetch_bphardcache").call(userid=0, key='bp_apikey')[0],
         "bp_qb_wallets": [i for i in c.user.bp_qb_wallets.split(',') if i],
         "pref_bp_gravity": c.user.pref_bp_gravity,
         "pref_bp_linkdistance": c.user.pref_bp_linkdistance,
@@ -263,6 +265,8 @@ def js_config(extra_config=None):
         "pref_bp_linklabel": c.user.pref_bp_linklabel,
         "pref_bp_linklabeldir": c.user.pref_bp_linklabeldir,
         "bp_currencyrates": bp_currencyrates,
+        "trial_used": trialUsed,
+        "trial_time_limit": g.config['trial_time_limit'], #not used yet.
         "poisoning_canary": poisoning_canary,
         "poisoning_report_mac": poisoning_report_mac,
         "cache_policy": cache_policy,
